@@ -62,8 +62,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <Image src="/images/bunny-logo.avif" alt="" pixelated={true} wrapperClassName="w-full h-full" />
             </div>
 
-            <ul className="flex flex-col gap-6 w-full max-w-[280px] z-10">
+            <ul className="flex flex-col gap-5 w-full max-w-[280px] z-10">
+              {/* LISTA DE NAVEGACIÓN ACTUALIZADA */}
               {[
+                { label: 'INICIO', href: '/' }, // <--- Nuevo botón para volver al Home
                 { label: 'MÚSICA', href: '/music' },
                 { label: 'QUIZ', href: '/quiz', sparkles: true },
                 { label: 'TIENDA', href: '/shop' },
@@ -82,7 +84,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           tag="span" 
                           text={item.label} 
                           size="32|40" 
-                          className="text-black group-hover:text-pink-500 transition-colors" 
+                          className={`text-black group-hover:text-pink-500 transition-colors ${item.label === 'INICIO' ? 'font-black' : ''}`} 
                         />
                         {item.sparkles && <span className="text-xl">✨</span>}
                       </div>
@@ -93,13 +95,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </ul>
           </div>
 
-          {/* FOOTER - ICONOS Y IDIOMA CON ANIMACIONES COMPLETAS */}
+          {/* FOOTER - ICONOS Y IDIOMA */}
           <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-[2px] border-black/10 z-10">
             <motion.div variants={itemVariants} className="flex gap-4">
               {['📷', '🎵', '𝕏', 'f'].map((icon, i) => (
                 <motion.div 
                   key={i} 
-                  whileHover={{ scale: 1.1, backgroundColor: "#fce4ec" }} // Cambio sutil a rosa en hover
+                  whileHover={{ scale: 1.1, backgroundColor: "#fce4ec" }}
                   whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                   className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center text-xl shadow-[4px_4px_0px_#000] cursor-pointer transition-colors"
                 >
