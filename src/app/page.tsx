@@ -1,5 +1,5 @@
-import SectionLayout from "../components/sectionlayout"; 
-import Jersey from "../components/atoms/texts/jersey";
+import SectionLayout from "../components/Sectionlayout"; 
+import Jersey from "../components/atoms/texts/Jersey";
 
 export default function Home() {
   return (
