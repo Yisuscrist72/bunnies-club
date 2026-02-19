@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Jersey from "../atoms/texts/Jersey";
+import { IconInstagram, IconSpotify, IconX, IconFacebook } from "../atoms/icons/SocialIcons";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -61,15 +62,20 @@ export default function Footer() {
             <div className="flex flex-col gap-4 items-start md:items-end">
               <Jersey tag="h4" text="CONEXIONES_EXTERNAS" size="20|24" className="text-black font-bold underline decoration-pink-500 underline-offset-8" />
               <div className="flex gap-4">
-                {["📷", "🎵", "𝕏", "f"].map((icon, i) => (
+                {[
+                  <IconInstagram key="ig" className="w-6 h-6" />, 
+                  <IconSpotify key="spotify" className="w-6 h-6" />, 
+                  <IconX key="x" className="w-6 h-6" />, 
+                  <IconFacebook key="fb" className="w-6 h-6" />
+                ].map((icon, i) => (
                   <motion.div
                     key={i}
                     whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
                     whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                     transition={{ duration: 0.1 }}
-                    className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer"
+                    className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer text-black"
                   >
-                    <span className="text-2xl">{icon}</span>
+                    {icon}
                   </motion.div>
                 ))}
               </div>

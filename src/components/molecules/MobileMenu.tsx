@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import Jersey from '../atoms/texts/Jersey'; 
 import Image from '../atoms/Image';
+import { IconInstagram, IconSpotify, IconX, IconFacebook } from '../atoms/icons/SocialIcons';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -63,9 +64,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </div>
 
             <ul className="flex flex-col gap-5 w-full max-w-[280px] z-10">
-              {/* LISTA DE NAVEGACIÓN ACTUALIZADA */}
               {[
-                { label: 'INICIO', href: '/' }, // <--- Nuevo botón para volver al Home
+                { label: 'INICIO', href: '/' }, 
                 { label: 'MÚSICA', href: '/music' },
                 { label: 'QUIZ', href: '/quiz', sparkles: true },
                 { label: 'TIENDA', href: '/shop' },
@@ -98,14 +98,19 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* FOOTER - ICONOS Y IDIOMA */}
           <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-[2px] border-black/10 z-10">
             <motion.div variants={itemVariants} className="flex gap-4">
-              {['📷', '🎵', '𝕏', 'f'].map((icon, i) => (
+              {[
+                <IconInstagram key="ig" className="w-5 h-5" />, 
+                <IconSpotify key="spotify" className="w-5 h-5" />, 
+                <IconX key="x" className="w-5 h-5" />, 
+                <IconFacebook key="fb" className="w-5 h-5" />
+              ].map((icon, i) => (
                 <motion.div 
                   key={i} 
                   whileHover={{ scale: 1.1, backgroundColor: "#fce4ec" }}
                   whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-                  className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center text-xl shadow-[4px_4px_0px_#000] cursor-pointer transition-colors"
+                  className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer transition-colors text-black"
                 >
-                  <span className="text-black">{icon}</span>
+                  {icon}
                 </motion.div>
               ))}
             </motion.div>

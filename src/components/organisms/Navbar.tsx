@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Jersey from "../atoms/texts/Jersey";
 import Image from "../atoms/Image";
 import MobileMenu from "../molecules/MobileMenu";
+import { IconInstagram, IconSpotify, IconX, IconFacebook } from "../atoms/icons/SocialIcons";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Navbar() {
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ x: 2, y: 2, boxShadow: "0px 0px 0px #000000" }}
-          transition={{ duration: 0.1 }} // Transición rápida
+          transition={{ duration: 0.1 }}
           className="md:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-[#E0F0FF] px-4 py-1.5 rounded-full shadow-[3px_3px_0px_#000000] z-[90]"
           onClick={() => setIsMenuOpen(true)}
         >
@@ -39,7 +40,7 @@ export default function Navbar() {
           {/* LOGO */}
           <motion.div 
             whileHover={{ scale: 1.05, rotate: -2 }}
-            transition={{ duration: 0.2 }} // El logo puede ser un pelín más suave
+            transition={{ duration: 0.2 }}
             className="flex-shrink-0 relative z-[60] w-20 h-10 md:w-32 md:h-12 cursor-pointer"
           >
             <Image
@@ -57,7 +58,7 @@ export default function Navbar() {
               <motion.li 
                 key={item} 
                 whileHover={{ y: -2, scale: 1.05 }}
-                transition={{ duration: 0.1 }} // Reacción instantánea
+                transition={{ duration: 0.1 }}
               >
                 <Link
                   href={`/${item.toLowerCase() === "música" ? "music" : item.toLowerCase()}`}
@@ -75,29 +76,29 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ICONOS SOCIALES: Ajustados para ser más ligeros */}
+          {/* ICONOS SOCIALES */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             {[
-              { ico: "📷", bg: "bg-pink-300", hov: "hover:bg-pink-400" },
-              { ico: "🎵", bg: "bg-green-400", hov: "hover:bg-green-500", round: "rounded-full" },
-              { ico: "𝕏", bg: "bg-[#BEE5FD]", hov: "hover:bg-blue-300" },
-              { ico: "f", bg: "bg-blue-500", hov: "hover:bg-blue-600", round: "rounded-full", txt: "text-white" }
+              { ico: <IconInstagram className="w-4 h-4" />, bg: "bg-pink-300", hov: "hover:bg-pink-400" },
+              { ico: <IconSpotify className="w-4 h-4" />, bg: "bg-green-400", hov: "hover:bg-green-500", round: "rounded-full" },
+              { ico: <IconX className="w-4 h-4" />, bg: "bg-[#BEE5FD]", hov: "hover:bg-blue-300" },
+              { ico: <IconFacebook className="w-4 h-4" />, bg: "bg-blue-500", hov: "hover:bg-blue-600", round: "rounded-full", txt: "text-white" }
             ].map((soc, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -4 }} // Un pelín más de subida para que se note la ligereza
+                whileHover={{ y: -4 }}
                 whileTap={{ x: 2, y: 2, boxShadow: "0px 0px 0px #000000" }}
-                transition={{ type: "tween", ease: "easeOut", duration: 0.1 }} // Tween corto = más ligero
-                className={`w-8 h-8 lg:w-10 lg:h-10 ${soc.bg} border-[3px] border-black ${soc.round || 'rounded-md'} flex items-center justify-center cursor-pointer ${soc.hov} text-xs shadow-[2px_2px_0px_#000000] ${soc.txt || ''}`}
+                transition={{ type: "tween", ease: "easeOut", duration: 0.1 }}
+                className={`w-8 h-8 lg:w-10 lg:h-10 ${soc.bg} border-[3px] border-black ${soc.round || 'rounded-md'} flex items-center justify-center cursor-pointer ${soc.hov} shadow-[2px_2px_0px_#000000] ${soc.txt || 'text-black'}`}
               >
                 {soc.ico}
               </motion.div>
             ))}
           </div>
 
-          {/* BOTÓN IDIOMA: Reacción rápida */}
+          {/* BOTÓN IDIOMA */}
           <motion.button 
-            whileHover={{ scale: 1.05 }} // Un poco más de escala para feedback claro
+            whileHover={{ scale: 1.05 }}
             whileTap={{ x: 2, y: 2, boxShadow: "0px 0px 0px #000000" }}
             transition={{ type: "tween", ease: "easeOut", duration: 0.1 }}
             className="hidden md:block text-black border-[3px] border-black bg-gradient-to-r from-[#cae8fb] to-[#f4d1e2] px-4 lg:px-6 py-1 rounded-full shadow-[2px_2px_0px_#000000]"
