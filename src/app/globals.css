@@ -2,15 +2,15 @@
 
 @theme {
   /* 1. COLORES BASE */
-  --color-v2k-blue: #C9E9F6;
-  --color-v2k-pink: #F4D8ED;
-  --color-v2k-pink-hot: #FF69B4;
-  --color-v2k-yellow: #F9F1C3;
-  --color-v2k-accent: #CDE8FF; /* <-- Al estar en @theme, Tailwind YA SABE crear bg-v2k-accent */
+  --color-v2k-blue: #c9e9f6;
+  --color-v2k-pink: #f4d8ed;
+  --color-v2k-pink-hot: #ff69b4;
+  --color-v2k-yellow: #f9f1c3;
+  --color-v2k-accent: #cde8ff; /* <-- Al estar en @theme, Tailwind YA SABE crear bg-v2k-accent */
 
   /* 2. COLORES NAVBAR */
-  --color-nav-mobile: #E0F0FF;
-  --color-nav-bg: #BEE5FD;
+  --color-nav-mobile: #e0f0ff;
+  --color-nav-bg: #bee5fd;
   --color-insta: #f9a8d4;
   --color-spotify: #4ade80;
   --color-fb: #3b82f6;
@@ -25,22 +25,24 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-space), sans-serif;
-  background: linear-gradient(to bottom, #C9E9F6 0%, #F4D8ED 47%, #F9F1C3 100%) no-repeat fixed;
+  background: linear-gradient(to bottom, #c9e9f6 0%, #f4d8ed 47%, #f9f1c3 100%)
+    no-repeat fixed;
   background-size: cover;
 }
 
 /* --- UTILIDADES --- */
 
 @utility btn-y2k {
-  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
-         shadow-[4px_4px_0px_#000] transition-all 
-         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none 
-         hover:bg-nav-bg cursor-pointer inline-block text-black font-bold;
+  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full shadow-[4px_4px_0px_#000] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-nav-bg cursor-pointer inline-block text-black font-bold;
 }
 
 @utility sticker-title {
   @apply text-v2k-pink-hot leading-none tracking-tighter text-center font-jersey;
-  text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+  text-shadow:
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000,
+    3px 3px 0 #000;
   filter: drop-shadow(8px 8px 0px #000);
 }
 
@@ -48,13 +50,26 @@ body {
   @apply border-4 border-black shadow-[6px_6px_0px_#000] rounded-xl bg-white overflow-hidden;
 }
 
-@utility shadow-nav-btn { @apply shadow-[3px_3px_0px_#000000]; }
-@utility shadow-nav-small { @apply shadow-[2px_2px_0px_#000000]; }
-@utility shadow-footer-brutal { @apply shadow-[4px_4px_0px_#000000]; }
-
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-190%); }
+@utility shadow-nav-btn {
+  @apply shadow-[3px_3px_0px_#000000];
+}
+@utility shadow-nav-small {
+  @apply shadow-[2px_2px_0px_#000000];
+}
+@utility shadow-footer-brutal {
+  @apply shadow-[4px_4px_0px_#000000];
 }
 
-.animate-marquee { display: flex; animation: marquee 120s linear infinite; }
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-190%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 120s linear infinite;
+}
