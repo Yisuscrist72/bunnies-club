@@ -1,10 +1,19 @@
+/* ==========================================================
+   CONFIGURACIÓN GLOBAL DE ESTILOS - BUNNIES CLUB
+   Inspiración: Estética Y2K, Neo-Brutalismo y NewJeans.
+   ========================================================== */
+
+/* Punto de entrada para Tailwind CSS v4 */
 @import "tailwindcss";
 
+/* 1. VARIABLES RAÍZ (:root)
+   Definición de la paleta de colores oficial y tokens de diseño.
+   Centralizar estos valores facilita el mantenimiento global. */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   
-  /* Colores NewJeans */
+  /* Colores temáticos extraídos de la estética de NewJeans */
   --v2k-blue: #C9E9F6;
   --v2k-pink: #F4D8ED;
   --v2k-pink-hot: #FF69B4;
@@ -12,6 +21,9 @@
   --v2k-accent: #CDE8FF;
 }
 
+/* 2. CONFIGURACIÓN DEL TEMA (@theme)
+   Mapeo de variables CSS a tokens de Tailwind.
+   Aquí registramos colores, fuentes y breakpoints personalizados. */
 @theme {
   --color-v2k-blue: var(--v2k-blue);
   --color-v2k-pink: var(--v2k-pink);
@@ -28,6 +40,8 @@
   --breakpoint-8xl: 1488px;
 }
 
+/* 3. CAPA BASE (@layer base)
+   Ajustes globales de elementos HTML para mejorar la experiencia de usuario. */
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -35,13 +49,16 @@
   }
 }
 
+/* 4. ESTILOS DEL CUERPO (Body)
+   Configuración del lienzo principal y el fondo degradado de Figma.
+   El uso de 'fixed' asegura que el fondo sea persistente durante el scroll. */
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
   color: var(--foreground);
   font-family: var(--font-space), sans-serif;
-  /* Fondo Degradado de Figma */
+  
   background: linear-gradient(
     to bottom,
     #C9E9F6 0%,
@@ -53,17 +70,23 @@ body {
   background-size: cover;
 }
 
-/* --- UTILIDADES Y2K --- */
+/* 5. UTILIDADES Y2K (@utility)
+   Clases personalizadas para aplicar el estilo visual Neo-Brutalista.
+   Define bordes gruesos, sombras sólidas y efectos de texto "Sticker". */
+
+/* Tarjetas con bordes marcados y sombra sólida */
 @utility y2k-card {
   @apply border-4 border-black shadow-[6px_6px_4px_#000] rounded-xl bg-white overflow-hidden;
 }
 
+/* Títulos con contorno negro y sombra proyectada profunda */
 @utility sticker-title {
   @apply text-v2k-pink-hot leading-none tracking-tighter text-center font-jersey;
   text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
   filter: drop-shadow(8px 8px 0px #000);
 }
 
+/* Botones retro con efecto de interacción y sombras sólidas */
 @utility btn-y2k {
   @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
          shadow-[4px_4px_3px_#000] transition-all 
@@ -71,7 +94,10 @@ body {
          hover:bg-[#BEE5FD] cursor-pointer inline-block text-black font-bold;
 }
 
-/* --- ANIMACIONES --- */
+/* 6. SISTEMA DE ANIMACIONES
+   Definición de transiciones y efectos de movimiento retro.
+   Incluye el efecto 'marquee' (marquesina) típico de los años 2000. */
+
 .onHover { transition: all 0.5s ease-in-out; }
 
 @keyframes marquee {
