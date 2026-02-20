@@ -1,35 +1,59 @@
 /* ==========================================================
    CONFIGURACIÓN GLOBAL DE ESTILOS - BUNNIES CLUB
-   Inspiración: Estética Y2K, Neo-Brutalismo y NewJeans.
+   Estética: Y2K Core / Neo-Brutalismo / NewJeans Identity
    ========================================================== */
 
-/* Punto de entrada para Tailwind CSS v4 */
 @import "tailwindcss";
 
-/* 1. VARIABLES RAÍZ (:root)
-   Definición de la paleta de colores oficial y tokens de diseño.
-   Centralizar estos valores facilita el mantenimiento global. */
+/* 1. VARIABLES RAÍZ (:root) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   
-  /* Colores temáticos extraídos de la estética de NewJeans */
+  /* Paleta NewJeans */
   --v2k-blue: #C9E9F6;
   --v2k-pink: #F4D8ED;
   --v2k-pink-hot: #FF69B4;
   --v2k-yellow: #F9F1C3;
   --v2k-accent: #CDE8FF;
+
+  /* Colores extraídos del Navbar y Footer */
+  --nav-mobile-bg: #E0F0FF;
+  --nav-desktop-bg: #BEE5FD;
+  --nav-insta: #f9a8d4;
+  --nav-insta-hov: #f472b6;
+  --nav-spotify: #4ade80;
+  --nav-spotify-hov: #22c55e;
+  --nav-fb: #3b82f6;
+  --nav-fb-hov: #2563eb;
+  
+  /* Gradiente Idioma */
+  --lang-from: #cae8fb;
+  --lang-to: #f4d1e2;
+
+  /* Estados */
+  --status-online: #22c55e;
 }
 
-/* 2. CONFIGURACIÓN DEL TEMA (@theme)
-   Mapeo de variables CSS a tokens de Tailwind.
-   Aquí registramos colores, fuentes y breakpoints personalizados. */
+/* 2. CONFIGURACIÓN DEL TEMA (@theme) */
 @theme {
   --color-v2k-blue: var(--v2k-blue);
   --color-v2k-pink: var(--v2k-pink);
   --color-v2k-pink-hot: var(--v2k-pink-hot);
   --color-v2k-yellow: var(--v2k-yellow);
   --color-v2k-accent: var(--v2k-accent);
+
+  --color-nav-mobile: var(--nav-mobile-bg);
+  --color-nav-bg: var(--nav-desktop-bg);
+  --color-insta: var(--nav-insta);
+  --color-insta-hov: var(--nav-insta-hov);
+  --color-spotify: var(--nav-spotify);
+  --color-spotify-hov: var(--nav-spotify-hov);
+  --color-fb: var(--nav-fb);
+  --color-fb-hov: var(--nav-fb-hov);
+  --color-lang-from: var(--lang-from);
+  --color-lang-to: var(--lang-to);
+  --color-status-online: var(--status-online);
 
   --font-jersey: var(--font-jersey);
   --font-space: var(--font-space);
@@ -40,8 +64,7 @@
   --breakpoint-8xl: 1488px;
 }
 
-/* 3. CAPA BASE (@layer base)
-   Ajustes globales de elementos HTML para mejorar la experiencia de usuario. */
+/* 3. CAPA BASE */
 @layer base {
   button:not(:disabled),
   [role="button"]:not(:disabled) {
@@ -49,9 +72,6 @@
   }
 }
 
-/* 4. ESTILOS DEL CUERPO (Body)
-   Configuración del lienzo principal y el fondo degradado de Figma.
-   El uso de 'fixed' asegura que el fondo sea persistente durante el scroll. */
 body {
   margin: 0;
   padding: 0;
@@ -70,23 +90,18 @@ body {
   background-size: cover;
 }
 
-/* 5. UTILIDADES Y2K (@utility)
-   Clases personalizadas para aplicar el estilo visual Neo-Brutalista.
-   Define bordes gruesos, sombras sólidas y efectos de texto "Sticker". */
+/* 4. UTILIDADES Y2K & UI (@utility) */
 
-/* Tarjetas con bordes marcados y sombra sólida */
 @utility y2k-card {
   @apply border-4 border-black shadow-[6px_6px_4px_#000] rounded-xl bg-white overflow-hidden;
 }
 
-/* Títulos con contorno negro y sombra proyectada profunda */
 @utility sticker-title {
   @apply text-v2k-pink-hot leading-none tracking-tighter text-center font-jersey;
   text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
   filter: drop-shadow(8px 8px 0px #000);
 }
 
-/* Botones retro con efecto de interacción y sombras sólidas */
 @utility btn-y2k {
   @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
          shadow-[4px_4px_3px_#000] transition-all 
@@ -94,10 +109,11 @@ body {
          hover:bg-[#BEE5FD] cursor-pointer inline-block text-black font-bold;
 }
 
-/* 6. SISTEMA DE ANIMACIONES
-   Definición de transiciones y efectos de movimiento retro.
-   Incluye el efecto 'marquee' (marquesina) típico de los años 2000. */
+@utility shadow-nav-btn { @apply shadow-[3px_3px_0px_#000000]; }
+@utility shadow-nav-small { @apply shadow-[2px_2px_0px_#000000]; }
+@utility shadow-footer-brutal { @apply shadow-[4px_4px_0px_#000000]; }
 
+/* 5. SISTEMA DE ANIMACIONES */
 .onHover { transition: all 0.5s ease-in-out; }
 
 @keyframes marquee {

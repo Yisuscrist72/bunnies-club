@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Jersey from "../atoms/texts/Jersey";
+import SpaceText from "../atoms/texts/SpaceText"; // Importamos la nueva fuente
 import { IconInstagram, IconSpotify, IconX, IconFacebook } from "../atoms/icons/SocialIcons";
 
 export default function Footer() {
@@ -10,9 +11,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-auto z-40 relative overflow-hidden">
+    /* AÑADIDO: mt-20 md:mt-32 para separar el Footer del HomeDashboard */
+    <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-40 relative overflow-hidden">
       
-      {/* MARCA DE AGUA CENTRADA */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
         <span className="font-jersey text-[8rem] md:text-[14rem] leading-none text-black whitespace-nowrap font-bold tracking-tighter">
           BUNNIES CLUB
@@ -22,43 +23,39 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           
-          {/* COLUMNA 1: EXPLICACIÓN DEL PROYECTO (ABOUT) */}
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-black animate-pulse" />
+              {/* EL TÍTULO SE QUEDA EN JERSEY */}
               <Jersey tag="span" text="BUNNIES_CLUB.SYS" size="32|40" className="text-black font-bold" />
             </div>
             
             <div className="flex flex-col gap-5">
-              <Jersey 
-                tag="p" 
+              {/* --- SOLO CAMBIAMOS ESTOS TEXTOS DESCRIPTIVOS A SPACETEXT --- */}
+              <SpaceText 
                 text="ESTE NODO ES EL PUNTO DE ENCUENTRO DEFINITIVO PARA LA COMUNIDAD GLOBAL DE NEWJEANS." 
                 size="18|22" 
-                className="text-black font-bold leading-tight"
+                className="text-black font-bold leading-tight uppercase"
               />
               
               <div className="flex flex-col gap-4">
-                <Jersey 
-                  tag="p" 
+                <SpaceText 
                   text="BUNNIES CLUB HA SIDO DISEÑADO COMO UNA INTERFAZ DE NAVEGACIÓN TEMPORAL QUE CONECTA EL ESTILO VISUAL DE LOS AÑOS 2000 CON EL SONIDO REVOLUCIONARIO DEL PRESENTE. AQUÍ, CADA USUARIO SE CONVIERTE EN UN NODO ACTIVO DE LA RED." 
                   size="16|16" 
                   className="text-black font-medium leading-relaxed"
                 />
                 
-                <Jersey 
-                  tag="p" 
+                <SpaceText 
                   text="NUESTRO SISTEMA PERMITE ACCEDER A BASES DE DATOS DE MÚSICA, DESAFÍOS DE CONOCIMIENTO (QUIZZES), UNA TIENDA DE ARTEFACTOS EXCLUSIVOS Y UN FORO DE DISCUSIÓN DONDE LA SINCRONIZACIÓN ENTRE BUNNIES ES TOTAL. ESTÁS NAVEGANDO EN LA VERSIÓN 1.0 DEL PROTOCOLO DE FANS." 
-                  size="14|14" 
+                  size="12|12" 
                   className="text-black/80 max-w-[600px] leading-snug"
                 />
               </div>
+              {/* ------------------------------------------------------- */}
             </div>
           </div>
 
-          {/* COLUMNA 2: REDES Y ESTADO DEL SISTEMA */}
           <div className="flex flex-col gap-10 items-start md:items-end justify-start">
-            
-            {/* REDES SOCIALES */}
             <div className="flex flex-col gap-4 items-start md:items-end">
               <Jersey tag="h4" text="CONEXIONES_EXTERNAS" size="20|24" className="text-black font-bold underline decoration-pink-500 underline-offset-8" />
               <div className="flex gap-4">
@@ -81,7 +78,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* INFO TÉCNICA Y BOTÓN */}
             <div className="flex flex-col items-start md:items-end gap-5 w-full">
                <div className="flex flex-col items-start md:items-end border-l-4 md:border-l-0 md:border-r-4 border-black pl-4 md:pl-0 md:pr-4 py-1">
                   <div className="flex items-center gap-2">
@@ -106,15 +102,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* BARRA DE COPYRIGHT Y LEGALES */}
         <div className="pt-8 border-t-[3px] border-black flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <Jersey 
-              tag="p" 
-              text="© 2026 NEWJEANS FANS CLUB. MADE BY JESÚS." 
-              size="14|14" 
-              className="text-black font-bold tracking-tight"
-            />
+            <Jersey tag="p" text="© 2026 NEWJEANS FANS CLUB. MADE BY JESÚS." size="14|14" className="text-black font-bold tracking-tight" />
             <Jersey tag="p" text="TODOS LOS DERECHOS RESERVADOS_V1.0" size="12|12" className="text-black/50" />
           </div>
           
