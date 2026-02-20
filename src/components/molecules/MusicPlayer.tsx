@@ -68,15 +68,13 @@ export default function MusicPlayer() {
       {/* 4. BARRA DE VOLUMEN NEO-BRUTALISTA */}
       <div className="flex items-center gap-3 w-full mt-2 px-4">
         <span className="text-sm">🔈</span>
-        <input
-          type="range"
-          min="0"
-          max="100"
+        <input 
+          type="range" 
+          min="0" 
+          max="100" 
           value={volume}
           onChange={(e) => setVolume(Number(e.target.value))}
-          className="w-full h-3 bg-white border-[2px] border-black appearance-none cursor-pointer
-                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-6 
-                     [&::-webkit-slider-thumb]:bg-v2k-pink-hot [&::-webkit-slider-thumb]:border-[2px] [&::-webkit-slider-thumb]:border-black"
+          className="w-full h-3 bg-white border-[2px] border-black appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:bg-v2k-pink-hot [&::-webkit-slider-thumb]:border-[2px] [&::-webkit-slider-thumb]:border-black"
         />
         <span className="text-sm">🔊</span>
       </div>
