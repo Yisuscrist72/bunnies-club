@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/src/components/organisms/Navbar";
@@ -9,27 +10,22 @@ const jersey10 = localFont({
   variable: "--font-jersey",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+});
+
 export const metadata: Metadata = {
   title: "Bunnies Club",
   description: "Retro Y2K Community Platform",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={jersey10.variable}>
-      {/* El flex flex-col min-h-screen asegura que el footer siempre quede abajo */}
+    <html lang="es" className={`${jersey10.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased flex flex-col min-h-screen">
         <Navbar />
-        
-        {/* Aquí en medio es donde se inyectará el SectionLayout y tus páginas */}
-        <div className="flex-grow">
-          {children}
-        </div>
-
+        <div className="grow">{children}</div>
         <Footer />
       </body>
     </html>
