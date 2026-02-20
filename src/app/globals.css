@@ -1,30 +1,52 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  /* La variable que viene de layout.tsx debe llamarse igual aquí */
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  /* Colores de tu Figma */
+  --color-v2k-blue: #C9E9F6;
+  --color-v2k-pink: #F4D8ED;
+  --color-v2k-pink-hot: #FF69B4;
+  --color-v2k-yellow: #F9F1C3;
+  --color-v2k-accent: #CDE8FF;
   
-  --font-jersey: var(--font-jersey); 
+  --font-jersey: var(--font-jersey);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* --- ESTILOS BASE --- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  /* Cambia Arial por tu variable de fuente */
-  font-family: var(--font-jersey), ui-sans-serif, system-ui;
+  @apply antialiased min-h-screen;
+  /* Degradado vertical: Azul (22%) -> Rosa (47%) -> Amarillo (94%) */
+  background: linear-gradient(
+    to bottom,
+    #C9E9F6 0%,
+    #C9E9F6 22%,
+    #F4D8ED 47%,
+    #F9F1C3 94%,
+    #F9F1C3 100%
+  );
+}
+
+/* --- UTILIDADES Y2K --- */
+@utility y2k-card {
+  @apply border-4 border-black shadow-[6px_6px_0px_#000] rounded-xl bg-white overflow-hidden;
+}
+
+@utility sticker-title {
+  @apply text-v2k-pink-hot leading-none tracking-tighter text-center font-jersey;
+  text-shadow: 
+    -3px -3px 0 #000,  
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000;
+  filter: drop-shadow(8px 8px 0px #000);
+}
+
+@utility btn-y2k {
+  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
+         shadow-[4px_4px_0px_#000] transition-all 
+         active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0px_#000] 
+         hover:bg-[#BEE5FD] cursor-pointer inline-block text-black;
+}
+
+@utility y2k-window-shadow {
+  @apply shadow-[8px_8px_0px_rgba(0,0,0,0.8)];
 }
