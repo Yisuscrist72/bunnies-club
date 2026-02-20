@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  /* 1. COLORES BASE (Asegúrate de que estos nombres no cambien) */
+  /* 1. COLORES BASE */
   --color-v2k-blue: #C9E9F6;
   --color-v2k-pink: #F4D8ED;
   --color-v2k-pink-hot: #FF69B4;
   --color-v2k-yellow: #F9F1C3;
-  --color-v2k-accent: #CDE8FF; /* Este es el color del botón del pop-up */
+  --color-v2k-accent: #CDE8FF; /* <-- Al estar en @theme, Tailwind YA SABE crear bg-v2k-accent */
 
   /* 2. COLORES NAVBAR */
   --color-nav-mobile: #E0F0FF;
@@ -31,12 +31,11 @@ body {
 
 /* --- UTILIDADES --- */
 
-/* BOTÓN DEL POPUP Y GENERAL */
 @utility btn-y2k {
   @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
          shadow-[4px_4px_0px_#000] transition-all 
          active:translate-x-0.5 active:translate-y-0.5 active:shadow-none 
-         hover:bg-[#BEE5FD] cursor-pointer inline-block text-black font-bold;
+         hover:bg-nav-bg cursor-pointer inline-block text-black font-bold;
 }
 
 @utility sticker-title {
@@ -57,4 +56,5 @@ body {
   0% { transform: translateX(0); }
   100% { transform: translateX(-190%); }
 }
+
 .animate-marquee { display: flex; animation: marquee 120s linear infinite; }
