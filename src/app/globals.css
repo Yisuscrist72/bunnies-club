@@ -1,99 +1,42 @@
-/* ==========================================================
-   CONFIGURACIÓN GLOBAL DE ESTILOS - BUNNIES CLUB
-   Estética: Y2K Core / Neo-Brutalismo / NewJeans Identity
-   ========================================================== */
-
 @import "tailwindcss";
 
-/* 1. VARIABLES RAÍZ (:root) */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  
-  /* Paleta NewJeans */
-  --v2k-blue: #C9E9F6;
-  --v2k-pink: #F4D8ED;
-  --v2k-pink-hot: #FF69B4;
-  --v2k-yellow: #F9F1C3;
-  --v2k-accent: #CDE8FF;
-
-  /* Colores extraídos del Navbar y Footer */
-  --nav-mobile-bg: #E0F0FF;
-  --nav-desktop-bg: #BEE5FD;
-  --nav-insta: #f9a8d4;
-  --nav-insta-hov: #f472b6;
-  --nav-spotify: #4ade80;
-  --nav-spotify-hov: #22c55e;
-  --nav-fb: #3b82f6;
-  --nav-fb-hov: #2563eb;
-  
-  /* Gradiente Idioma */
-  --lang-from: #cae8fb;
-  --lang-to: #f4d1e2;
-
-  /* Estados */
-  --status-online: #22c55e;
-}
-
-/* 2. CONFIGURACIÓN DEL TEMA (@theme) */
 @theme {
-  --color-v2k-blue: var(--v2k-blue);
-  --color-v2k-pink: var(--v2k-pink);
-  --color-v2k-pink-hot: var(--v2k-pink-hot);
-  --color-v2k-yellow: var(--v2k-yellow);
-  --color-v2k-accent: var(--v2k-accent);
+  /* 1. COLORES BASE (Asegúrate de que estos nombres no cambien) */
+  --color-v2k-blue: #C9E9F6;
+  --color-v2k-pink: #F4D8ED;
+  --color-v2k-pink-hot: #FF69B4;
+  --color-v2k-yellow: #F9F1C3;
+  --color-v2k-accent: #CDE8FF; /* Este es el color del botón del pop-up */
 
-  --color-nav-mobile: var(--nav-mobile-bg);
-  --color-nav-bg: var(--nav-desktop-bg);
-  --color-insta: var(--nav-insta);
-  --color-insta-hov: var(--nav-insta-hov);
-  --color-spotify: var(--nav-spotify);
-  --color-spotify-hov: var(--nav-spotify-hov);
-  --color-fb: var(--nav-fb);
-  --color-fb-hov: var(--nav-fb-hov);
-  --color-lang-from: var(--lang-from);
-  --color-lang-to: var(--lang-to);
-  --color-status-online: var(--status-online);
+  /* 2. COLORES NAVBAR */
+  --color-nav-mobile: #E0F0FF;
+  --color-nav-bg: #BEE5FD;
+  --color-insta: #f9a8d4;
+  --color-spotify: #4ade80;
+  --color-fb: #3b82f6;
+  --color-lang-from: #cae8fb;
+  --color-lang-to: #f4d1e2;
 
   --font-jersey: var(--font-jersey);
   --font-space: var(--font-space);
-
-  --container-8xl: 1440px;
-  --container-9xl: 2560px;
-  --breakpoint-xs: 425px;
-  --breakpoint-8xl: 1488px;
-}
-
-/* 3. CAPA BASE */
-@layer base {
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
-  }
 }
 
 body {
   margin: 0;
-  padding: 0;
   min-height: 100vh;
-  color: var(--foreground);
   font-family: var(--font-space), sans-serif;
-  
-  background: linear-gradient(
-    to bottom,
-    #C9E9F6 0%,
-    #C9E9F6 22%,
-    #F4D8ED 47%,
-    #F9F1C3 94%,
-    #F9F1C3 100%
-  ) no-repeat fixed;
+  background: linear-gradient(to bottom, #C9E9F6 0%, #F4D8ED 47%, #F9F1C3 100%) no-repeat fixed;
   background-size: cover;
 }
 
-/* 4. UTILIDADES Y2K & UI (@utility) */
+/* --- UTILIDADES --- */
 
-@utility y2k-card {
-  @apply border-4 border-black shadow-[6px_6px_4px_#000] rounded-xl bg-white overflow-hidden;
+/* BOTÓN DEL POPUP Y GENERAL */
+@utility btn-y2k {
+  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
+         shadow-[4px_4px_0px_#000] transition-all 
+         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none 
+         hover:bg-[#BEE5FD] cursor-pointer inline-block text-black font-bold;
 }
 
 @utility sticker-title {
@@ -102,26 +45,16 @@ body {
   filter: drop-shadow(8px 8px 0px #000);
 }
 
-@utility btn-y2k {
-  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full 
-         shadow-[4px_4px_3px_#000] transition-all 
-         active:translate-x-0.5 active:translate-y-0.5 active:shadow-none 
-         hover:bg-[#BEE5FD] cursor-pointer inline-block text-black font-bold;
+@utility y2k-card {
+  @apply border-4 border-black shadow-[6px_6px_0px_#000] rounded-xl bg-white overflow-hidden;
 }
 
 @utility shadow-nav-btn { @apply shadow-[3px_3px_0px_#000000]; }
 @utility shadow-nav-small { @apply shadow-[2px_2px_0px_#000000]; }
 @utility shadow-footer-brutal { @apply shadow-[4px_4px_0px_#000000]; }
 
-/* 5. SISTEMA DE ANIMACIONES */
-.onHover { transition: all 0.5s ease-in-out; }
-
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-190%); }
 }
-
-.animate-marquee {
-  display: flex;
-  animation: marquee 120s linear infinite;
-}
+.animate-marquee { display: flex; animation: marquee 120s linear infinite; }
