@@ -8,7 +8,7 @@ import {
   IconX,
 } from "../atoms/icons/SocialIcons";
 import Jersey from "../atoms/texts/Jersey";
-import SpaceText from "../atoms/texts/SpaceText"; // Importamos la nueva fuente
+import SpaceText from "../atoms/texts/SpaceText";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -16,8 +16,12 @@ export default function Footer() {
   };
 
   return (
-    /* AÑADIDO: mt-20 md:mt-32 para separar el Footer del HomeDashboard */
-    <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-40 relative overflow-hidden">
+    /* AJUSTE DE CAPAS: 
+       Se usa z-0 para que cualquier modal o pop-up (z-50+) pase por encima.
+       Se mantiene relative para que el posicionamiento de los elementos internos sea correcto.
+    */
+    <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-0 relative overflow-hidden">
+      {/* Fondo decorativo con logo BUNNIES CLUB */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
         <span className="font-jersey text-[8rem] md:text-[14rem] leading-none text-black whitespace-nowrap font-bold tracking-tighter">
           BUNNIES CLUB
@@ -29,7 +33,6 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-black animate-pulse" />
-              {/* EL TÍTULO SE QUEDA EN JERSEY */}
               <Jersey
                 tag="span"
                 text="BUNNIES_CLUB.SYS"
@@ -39,7 +42,6 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col gap-5">
-              {/* --- SOLO CAMBIAMOS ESTOS TEXTOS DESCRIPTIVOS A SPACETEXT --- */}
               <SpaceText
                 text="ESTE NODO ES EL PUNTO DE ENCUENTRO DEFINITIVO PARA LA COMUNIDAD GLOBAL DE NEWJEANS."
                 size="18|22"
@@ -59,7 +61,6 @@ export default function Footer() {
                   className="text-black/80 max-w-[600px] leading-snug"
                 />
               </div>
-              {/* ------------------------------------------------------- */}
             </div>
           </div>
 
