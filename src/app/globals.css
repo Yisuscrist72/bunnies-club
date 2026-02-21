@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* 1. COLORES BASE */
+  /* --- 1. COLORES BASE (SISTEMA Y V2K) --- */
   --color-v2k-blue: #c9e9f6;
   --color-v2k-pink: #f4d8ed;
   --color-v2k-pink-hot: #ff69b4;
   --color-v2k-yellow: #f9f1c3;
-  --color-v2k-accent: #cde8ff; /* <-- Al estar en @theme, Tailwind YA SABE crear bg-v2k-accent */
+  --color-v2k-accent: #cde8ff;
 
-  /* 2. COLORES NAVBAR */
+  /* Colores de Sistema (Variables globales solicitadas) */
+  --color-sys-bg-soft: #f3f4f6;
+  --color-sys-overlay: rgba(0, 0, 0, 0.8);
+  --color-sys-gray-win: #e5e7eb;
+  --color-sys-preview: #bfdbfe;
+
+  /* --- 2. COLORES NAVBAR Y COMPONENTES --- */
   --color-nav-mobile: #e0f0ff;
   --color-nav-bg: #bee5fd;
   --color-insta: #f9a8d4;
@@ -17,9 +23,20 @@
   --color-lang-from: #cae8fb;
   --color-lang-to: #f4d1e2;
 
+  /* --- 3. FUENTES --- */
   --font-jersey: var(--font-jersey);
   --font-space: var(--font-space);
+
+  /* --- 4. SOMBRAS Y2K --- */
+  --shadow-v2k-lg: 8px 8px 0px #000000;
+  --shadow-v2k-md: 6px 6px 0px #000000;
+  --shadow-v2k-sm: 4px 4px 0px #000000;
+  --shadow-v2k-xs: 3px 3px 0px #000000;
+  --shadow-nav-btn: 3px 3px 0px #000000;
+  --shadow-nav-small: 2px 2px 0px #000000;
 }
+
+/* --- ESTILOS BASE --- */
 
 body {
   margin: 0;
@@ -30,10 +47,19 @@ body {
   background-size: cover;
 }
 
-/* --- UTILIDADES --- */
+/* Custom Scrollbar para el estilo Retro */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- UTILIDADES REUTILIZABLES --- */
 
 @utility btn-y2k {
-  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full shadow-[4px_4px_0px_#000] transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-nav-bg cursor-pointer inline-block text-black font-bold;
+  @apply bg-v2k-accent border-[3px] border-black px-8 py-3 rounded-full shadow-v2k-sm transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none hover:bg-nav-bg cursor-pointer inline-block text-black font-bold;
 }
 
 @utility sticker-title {
@@ -47,18 +73,10 @@ body {
 }
 
 @utility y2k-card {
-  @apply border-4 border-black shadow-[6px_6px_0px_#000] rounded-xl bg-white overflow-hidden;
+  @apply border-4 border-black shadow-v2k-md rounded-xl bg-white overflow-hidden;
 }
 
-@utility shadow-nav-btn {
-  @apply shadow-[3px_3px_0px_#000000];
-}
-@utility shadow-nav-small {
-  @apply shadow-[2px_2px_0px_#000000];
-}
-@utility shadow-footer-brutal {
-  @apply shadow-[4px_4px_0px_#000000];
-}
+/* --- ANIMACIONES --- */
 
 @keyframes marquee {
   0% {
@@ -72,4 +90,10 @@ body {
 .animate-marquee {
   display: flex;
   animation: marquee 120s linear infinite;
+}
+
+/* Clase para forzar aceleración GPU en Swipers/Modales */
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
 }

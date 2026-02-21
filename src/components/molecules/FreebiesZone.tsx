@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SpaceText from "../atoms/texts/SpaceText";
 import Window from "../atoms/Window";
-import Image from "../atoms/Image"; 
+import ResourceSwiperCard from "../atoms/ResourceSwiperCard";
 import { db } from "../../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import JSZip from "jszip";
@@ -26,14 +26,12 @@ export default function FreebiesZone() {
   const [width, setWidth] = useState(0);
   const [isDraggingCarousel, setIsDraggingCarousel] = useState(false);
 
-  // Bloqueo de scroll global
   useEffect(() => {
     const isModalOpen = !!(activeFolder || previewItem);
     document.body.style.overflow = isModalOpen ? "hidden" : "unset";
     return () => { document.body.style.overflow = "unset"; };
   }, [activeFolder, previewItem]);
 
-  // Cálculo de límites optimizado
   useEffect(() => {
     if (constraintsRef.current && items.length > 0) {
       setWidth(constraintsRef.current.scrollWidth - constraintsRef.current.offsetWidth + 60);
@@ -53,7 +51,10 @@ export default function FreebiesZone() {
         const dbType = typeMap[activeFolder] || activeFolder;
         const q = query(collection(db, "freebies_resources"), where("type", "==", dbType));
         const querySnapshot = await getDocs(q);
-        const fetchedData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as FreebieItem[];
+        const fetchedData = querySnapshot.docs.map(doc => ({ 
+          id: doc.id, 
+          ...doc.data() 
+        })) as FreebieItem[];
         setItems(fetchedData);
       } catch (error) {
         console.error("Error Firebase:", error);
@@ -109,10 +110,10 @@ export default function FreebiesZone() {
       
       <Window title="C:\Freebies" className="w-full max-w-4xl shadow-none border-2 border-black">
         <div className="flex flex-wrap justify-center md:justify-between gap-4 md:gap-6 px-4 py-6">
-          {["Wallpapers", "Icons", "Schedules"].map((item) => (
-            <button key={item} type="button" onClick={() => setActiveFolder(item.toLowerCase())} className="flex flex-col items-center gap-2 group bg-transparent border-none p-0 cursor-pointer">
+          {["Wallpapers", "Icons", "Schedules"].map((folder) => (
+            <button key={folder} type="button" onClick={() => setActiveFolder(folder.toLowerCase())} className="flex flex-col items-center gap-2 group bg-transparent border-none p-0 cursor-pointer">
               <motion.span whileHover={{ scale: 1.1 }} className="text-4xl md:text-5xl">📁</motion.span>
-              <SpaceText tag="span" text={item} size="14|14" className="font-bold text-black" />
+              <SpaceText tag="span" text={folder} size="14|14" className="font-bold text-black" />
             </button>
           ))}
         </div>
@@ -121,24 +122,20 @@ export default function FreebiesZone() {
       <AnimatePresence>
         {activeFolder && (
           <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
             className="fixed inset-0 flex items-center justify-center z-[500] p-2 md:p-4 bg-black/80"
           >
             <div className="w-full max-w-6xl overflow-hidden">
-              <Window 
-                title={`C:\\Freebies\\${activeFolder}`} 
-                className="h-auto max-h-[85vh] md:max-h-[90vh] relative flex flex-col overflow-hidden bg-white border-2 border-black shadow-none"
-              >
+              <Window title={`C:\\Freebies\\${activeFolder}`} className="h-auto max-h-[85vh] md:max-h-[90vh] relative flex flex-col overflow-hidden bg-white border-2 border-black shadow-none">
                 <button type="button" onClick={() => { setActiveFolder(null); setItems([]); }} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-20 hover:bg-red-400">X</button>
                 
-                <div className="p-4 md:p-8 bg-white m-1 mt-8 flex flex-col overflow-hidden h-full">
+                {/* AJUSTADO: mt-4 y p-4 para reducir espacio superior */}
+                <div className="p-4 md:p-6 bg-white m-1 mt-4 flex flex-col overflow-hidden h-full">
                   <SpaceText tag="h3" text={`${activeFolder} ZONE`} size="18|22" className="font-bold text-black mb-4 uppercase text-center flex-shrink-0" />
                   
                   {!loading && items.length > 0 && (
-                     <div className="mb-4 md:mb-6 flex justify-center flex-shrink-0">
-                        <button type="button" onClick={handleDownloadAllZip} disabled={isDownloadingAll} className="px-4 md:px-6 py-2 border-2 border-black shadow-[3px_3px_0px_black] bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                     <div className="mb-4 flex justify-center flex-shrink-0">
+                        <button type="button" onClick={handleDownloadAllZip} disabled={isDownloadingAll} className="px-4 md:px-6 py-2 border-2 border-black bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all">
                             {isDownloadingAll ? "ZIPPING..." : "DOWNLOAD ALL ZIP 📦"}
                         </button>
                      </div>
@@ -152,33 +149,19 @@ export default function FreebiesZone() {
                         ref={constraintsRef}
                         drag="x"
                         dragConstraints={{ right: 0, left: -width }}
-                        dragElastic={0} 
+                        dragElastic={0}
                         dragMomentum={true}
                         onDragStart={() => setIsDraggingCarousel(true)}
                         onDragEnd={() => setTimeout(() => setIsDraggingCarousel(false), 50)}
-                        className="flex gap-6 md:gap-12 h-full items-center px-6 md:px-24 transform-gpu"
+                        className="flex gap-4 md:gap-12 h-full items-center px-6 md:px-24 transform-gpu"
                       >
                         {items.map((item) => (
-                          <div key={item.id} className="flex-shrink-0 w-52 md:w-80 flex flex-col items-center gap-4">
-                            <motion.button 
-                              type="button"
-                              onClick={() => { if (!isDraggingCarousel) setPreviewItem(item); }} 
-                              /* RECUPERADO: Borde negro y sombra retro (shadow-[6px_6px_0px_black]) */
-                              className="w-full aspect-[4/5] bg-gray-100 border-2 border-black overflow-hidden relative cursor-pointer p-0 group shadow-[6px_6px_0px_black] md:shadow-[8px_8px_0px_black]"
-                            >
-                              <Image 
-                                src={item.imageURL} 
-                                alt={item.title} 
-                                fill 
-                                className="object-cover pointer-events-none" 
-                                priority={false}
-                              />
-                            </motion.button>
-                            {/* RECUPERADO: Estilo del texto con su respectivo borde y sombra */}
-                            <p className="font-mono text-[10px] md:text-xs text-center font-bold text-black bg-white border-2 border-black px-2 md:px-4 py-1 shadow-[3px_3px_0px_black] md:shadow-[4px_4px_0px_black] uppercase truncate w-full select-none">
-                              {item.title}
-                            </p>
-                          </div>
+                          <ResourceSwiperCard 
+                            key={item.id} 
+                            title={item.title} 
+                            imageURL={item.imageURL} 
+                            onClick={() => { if (!isDraggingCarousel) setPreviewItem(item); }} 
+                          />
                         ))}
                       </motion.div>
                     )}
@@ -193,15 +176,14 @@ export default function FreebiesZone() {
       <AnimatePresence>
         {previewItem && (
           <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }} 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
             className="fixed inset-0 flex items-center justify-center z-[600] p-2 md:p-4 bg-black"
           >
              <div className="w-full max-w-5xl">
                <Window title={`Preview: ${previewItem.title}`} className="relative bg-gray-100 my-4 md:my-8 border-2 border-black shadow-none">
                   <button type="button" onClick={() => setPreviewItem(null)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold">X</button>
-                  <div className="p-4 mt-8 flex flex-col items-center gap-4 w-full">
+                  {/* AJUSTADO: mt-4 para centrar mejor el preview */}
+                  <div className="p-4 mt-4 flex flex-col items-center gap-4 w-full">
                       <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black]">
                           <img src={previewItem.imageURL} alt={previewItem.title} className="w-auto h-auto max-w-full max-h-[60vh] md:max-h-[70vh] object-contain" />
                       </div>
