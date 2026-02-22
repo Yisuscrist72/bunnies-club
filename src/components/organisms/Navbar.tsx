@@ -17,6 +17,8 @@ const TRANSITION_FAST = { duration: 0.1 };
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // ESTADO NUEVO: Para saber si la Freebies Zone tiene un modal abierto
+  const [isFreebiesModalOpen, setIsFreebiesModalOpen] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
@@ -25,10 +27,17 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
+  // NUEVO EFFECT: Escucha cuando se abre o cierra una ventana de la Freebies Zone
+  useEffect(() => {
+    const handleModalEvent = (e: any) => setIsFreebiesModalOpen(e.detail);
+    window.addEventListener("toggleFreebiesModal", handleModalEvent);
+    return () => window.removeEventListener("toggleFreebiesModal", handleModalEvent);
+  }, []);
+
   return (
     <>
-      {/* 1. BOTÓN FLOTANTE MÓVIL */}
-      {!isMenuOpen && (
+      {/* 1. BOTÓN FLOTANTE MÓVIL (Se oculta si el menú está abierto o si hay un modal de Freebies) */}
+      {!isMenuOpen && !isFreebiesModalOpen && (
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={WHILE_TAP}
@@ -41,11 +50,9 @@ export default function Navbar() {
       )}
 
       {/* 2. NAVBAR COMPLETO DESKTOP */}
-      {/* SOLUCIÓN: Se ha eliminado completamente el z-index de la etiqueta nav */}
       <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
           
-          {/* LOGO */}
           <motion.div
             whileHover={{ scale: 1.05, rotate: -2 }}
             transition={{ duration: 0.2 }}
@@ -60,7 +67,6 @@ export default function Navbar() {
             />
           </motion.div>
 
-          {/* ENLACES CENTRALES */}
           <ul className="hidden md:flex items-center gap-6 lg:gap-10 text-black tracking-widest mt-1">
             {["MÚSICA", "QUIZ", "TIENDA", "FORO"].map((item) => (
               <motion.li
@@ -88,7 +94,6 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ICONOS SOCIALES */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             {[
               {
@@ -127,7 +132,6 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* BOTÓN IDIOMA */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={WHILE_TAP}

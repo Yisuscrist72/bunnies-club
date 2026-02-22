@@ -27,10 +27,18 @@ export default function FreebiesZone() {
   const [width, setWidth] = useState(0);
   const [isDraggingCarousel, setIsDraggingCarousel] = useState(false);
 
+  // NUEVO: Efecto modificado para avisar al Navbar cuando se abre un modal
   useEffect(() => {
     const isModalOpen = !!(activeFolder || previewItem);
     document.body.style.overflow = isModalOpen ? "hidden" : "unset";
-    return () => { document.body.style.overflow = "unset"; };
+    
+    // Dispara el evento para ocultar el botón del Navbar
+    window.dispatchEvent(new CustomEvent("toggleFreebiesModal", { detail: isModalOpen }));
+
+    return () => { 
+      document.body.style.overflow = "unset"; 
+      window.dispatchEvent(new CustomEvent("toggleFreebiesModal", { detail: false }));
+    };
   }, [activeFolder, previewItem]);
 
   useEffect(() => {
@@ -66,7 +74,6 @@ export default function FreebiesZone() {
     fetchItems();
   }, [activeFolder]);
 
-  // Alertas eliminadas, descarga limpia y silenciosa
   const handleDownloadSingle = useCallback(async (item: FreebieItem) => {
     const targetUrl = item.downloadURL || item.imageURL;
     
