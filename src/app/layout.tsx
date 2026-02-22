@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google"; // Fuente para lectura clara
+import { Space_Grotesk } from "next/font/google"; 
 import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/src/components/organisms/Footer";
 import Navbar from "@/src/components/organisms/Navbar";
 
-// Fuente Jersey: Estética retro/pixel para títulos
+// 1. Importamos el proveedor de audio del contexto que creamos
+import { AudioProvider } from "@/src/context/AudioContext";
+
 const jersey10 = localFont({
   src: "../../public/fonts/Jersey10-Regular.ttf",
   variable: "--font-jersey",
 });
 
-// Fuente Space Grotesk: Estética tech-moderna para UI y contenido
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space",
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${jersey10.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased flex flex-col min-h-screen bg-transparent">
-        <Navbar />
-        {/* El div 'grow' empuja el footer al final de la página */}
-        <main className="grow flex flex-col">{children}</main>
-        <Footer />
+        {/* 2. Envolvemos todo el contenido dentro del AudioProvider */}
+        <AudioProvider>
+          <Navbar />
+          <main className="grow flex flex-col">{children}</main>
+          <Footer />
+        </AudioProvider>
       </body>
     </html>
   );
