@@ -43,7 +43,7 @@ export default function FreebiesZone() {
 
   // 2. CALCULAR ANCHO PARA EL DRAG DE FRAMER MOTION
   useEffect(() => {
-    if (constraintsRef.current && items.length > 0) {
+    if (constraintsRef.current) {
       setWidth(constraintsRef.current.scrollWidth - constraintsRef.current.offsetWidth + 60);
     }
   }, [items, activeFolder]);
@@ -100,6 +100,37 @@ export default function FreebiesZone() {
     }
   }, []);
 
+  const handleDownloadAllZip = useCallback(async () => {
+    if (items.length === 0) return;
+    setIsDownloadingAll(true);
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder(activeFolder || "Freebies");
+      const downloadPromises = items.map(async (item, index) => {
+        const targetUrl = item.downloadURL || item.imageURL;
+        const response = await fetch(targetUrl);
+        if (response.ok) {
+          const blob = await response.blob();
+          const extension = targetUrl.split('.').pop()?.split('?')[0] || "jpg";
+          const filename = `${(item.title || `file-${index}`).replace(/\s+/g, '_')}.${extension}`;
+          folder?.file(filename, blob);
+        }
+      });
+      await Promise.all(downloadPromises);
+      const zipContent = await zip.generateAsync({ type: "blob" });
+      const url = window.URL.createObjectURL(zipContent);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `BunniesClub_${activeFolder}.zip`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("ZIP error:", error);
+    } finally {
+      setIsDownloadingAll(false);
+    }
+  }, [items, activeFolder]);
+
   return (
     <div className="flex flex-col gap-2 items-center w-full px-4 relative">
       <SpaceText tag="h2" text="FREEBIES ZONE" size="18|22" className="font-bold uppercase tracking-widest text-black text-center" />
@@ -126,8 +157,17 @@ export default function FreebiesZone() {
                 <button type="button" onClick={() => { setActiveFolder(null); setItems([]); }} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-20 hover:bg-red-400">X</button>
                 
                 <div className="p-4 md:p-6 bg-white m-1 mt-4 flex flex-col overflow-hidden h-full">
-                  <SpaceText tag="h3" text={`${activeFolder} ZONE`} size="18|22" className="font-bold text-black mb-4 uppercase text-center" />
+                  <SpaceText tag="h3" text={`${activeFolder} ZONE`} size="18|22" className="font-bold text-black mb-4 uppercase text-center flex-shrink-0" />
                   
+                  {/* BOTÓN ZIP (SOLO SE MUESTRA SI HAY ARCHIVOS) */}
+                  {!loading && items.length > 0 && (
+                     <div className="mb-4 flex justify-center flex-shrink-0">
+                        <button type="button" onClick={handleDownloadAllZip} disabled={isDownloadingAll} className="px-4 md:px-6 py-2 border-2 border-black bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase">
+                            {isDownloadingAll ? "ZIPPING..." : "DOWNLOAD ALL ZIP 📦"}
+                        </button>
+                     </div>
+                  )}
+
                   <div className="overflow-hidden flex-grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
                     {loading ? (
                       <p className="text-center font-mono text-gray-500 animate-pulse mt-10 w-full text-xs">Cargando...</p>
@@ -138,6 +178,7 @@ export default function FreebiesZone() {
                         dragConstraints={{ right: 0, left: -width }}
                         className="flex gap-4 md:gap-12 h-full items-center px-6 md:px-24"
                       >
+                        {/* 1. TARJETAS DE RECURSOS (SI HAY EN FIREBASE) */}
                         {items.map((item) => (
                           <ResourceSwiperCard 
                             key={item.id} 
@@ -147,14 +188,28 @@ export default function FreebiesZone() {
                           />
                         ))}
 
-                        {/* BOTÓN COLABORACIÓN COMUNIDAD (GOOGLE FORM) */}
+                        {/* 2. TARJETA DE "CARPETA VACÍA": SI NO HAY ARCHIVOS */}
+                        {!loading && items.length === 0 && (
+                          <div className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex flex-col items-center justify-center pointer-events-none">
+                            <div className="border-2 border-black bg-gray-100 p-4 shadow-[4px_4px_0px_black] flex flex-col items-center justify-center gap-3 text-center h-[80%] w-full">
+                               <span className="text-6xl md:text-7xl animate-pulse">🐰🪧</span>
+                               <SpaceText tag="h4" text="EMPTY FOLDER" size="16|16" className="font-bold text-red-500 uppercase mt-2" />
+                               <p className="font-mono text-[10px] md:text-xs text-gray-600 px-2 leading-tight">
+                                 Aún no hay archivos aquí... <br/><br/>
+                                 ¡Sé el primero en crear uno y envíalo usando el buzón de la derecha! ✨
+                               </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* 3. BOTÓN COLABORACIÓN COMUNIDAD (GOOGLE FORM) */}
                         <motion.button 
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSeJnV2XDPYFemEwkjNxNu8ANTHmJ_P9XQoi-mN-nyMKqef3pQ/viewform?usp=publish-editor', '_blank')}
                           className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex items-center justify-center cursor-pointer group"
                         >
-                          <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 grayscale group-hover:grayscale-0 group-hover:border-v2k-pink-hot transition-all duration-300 bg-white/50 shadow-inner">
+                          <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 grayscale group-hover:grayscale-0 group-hover:border-v2k-pink-hot transition-all duration-300 bg-white/50 shadow-inner w-full">
                             <span className="text-4xl md:text-5xl group-hover:animate-bounce">📮</span>
                             <div className="text-center">
                               <SpaceText tag="span" text="COMMUNITY HUB" size="14|14" className="font-bold text-gray-600 block uppercase group-hover:text-black" />
