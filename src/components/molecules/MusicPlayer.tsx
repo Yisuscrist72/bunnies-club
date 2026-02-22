@@ -17,10 +17,8 @@ export default function MusicPlayer() {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
-  // Niveles para el visualizador
   const volLevels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-  // Función para ajustar volumen con botones (más fácil en mobile)
   const adjustVolume = (amount: number) => {
     const newVol = Math.min(100, Math.max(0, volume + amount));
     changeVolume(newVol);
@@ -48,15 +46,16 @@ export default function MusicPlayer() {
         )}
       </div>
 
-      {/* VENTANA DEL REPRODUCTOR */}
+      {/* VENTANA DEL REPRODUCTOR CON TIEMPO DE ANIMACIÓN AUMENTADO */}
       <AnimatePresence mode="wait">
         {(isOpen || (typeof window !== 'undefined' && window.innerWidth >= 1024)) && (
           <motion.div
             key="player"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.1 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            // HEMOS AUMENTADO EL TIEMPO AQUÍ (duration: 0.4)
+            transition={{ duration: 0.4, ease: "easeOut" }} 
             className={`
               bg-[#BEE5FD] border-[3px] border-black p-3 shadow-[6px_6px_0px_#000] 
               w-full max-w-[280px] flex flex-col gap-3 z-[110]
@@ -76,7 +75,7 @@ export default function MusicPlayer() {
               </button>
             </div>
 
-            {/* AREA CENTRAL (DISCO E INFO) */}
+            {/* AREA CENTRAL */}
             <div className="flex items-center gap-4">
               <motion.div
                 animate={{ rotate: isPlaying ? 360 : 0 }}
@@ -109,7 +108,7 @@ export default function MusicPlayer() {
               </div>
             </div>
 
-            {/* CONTROLES DE REPRODUCCIÓN */}
+            {/* CONTROLES */}
             <div className="flex justify-between items-center bg-black/5 p-1 border border-black/10">
               <button type="button" onClick={playPrev} className="w-10 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">⏮</button>
               <button type="button" onClick={togglePlay} className="w-12 h-10 bg-black border-2 border-black shadow-[2px_2px_0px_#ff80b5] flex items-center justify-center text-white active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
@@ -118,7 +117,7 @@ export default function MusicPlayer() {
               <button type="button" onClick={playNext} className="w-10 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">⏭</button>
             </div>
 
-            {/* CONTROL DE VOLUMEN OPTIMIZADO PARA DEDO */}
+            {/* VOLUMEN INCREMENTAL */}
             <div className="bg-black/5 p-2 border border-black/10 flex flex-col gap-2">
               <div className="flex justify-between items-center">
                 <span className="text-[10px] font-black uppercase tracking-tighter">Volume: {volume}%</span>
@@ -131,22 +130,9 @@ export default function MusicPlayer() {
                   ))}
                 </div>
               </div>
-              
               <div className="flex gap-2">
-                <button 
-                  type="button" 
-                  onClick={() => adjustVolume(-10)}
-                  className="flex-1 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-lg active:shadow-none active:translate-y-0.5 transition-all"
-                >
-                  -
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => adjustVolume(10)}
-                  className="flex-1 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-lg active:shadow-none active:translate-y-0.5 transition-all"
-                >
-                  +
-                </button>
+                <button type="button" onClick={() => adjustVolume(-10)} className="flex-1 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-lg active:shadow-none transition-all">-</button>
+                <button type="button" onClick={() => adjustVolume(10)} className="flex-1 h-10 bg-white border-2 border-black shadow-[2px_2px_0px_#000] font-bold text-lg active:shadow-none transition-all">+</button>
               </div>
             </div>
           </motion.div>
