@@ -12,7 +12,6 @@ import {
 import Jersey from "../atoms/texts/Jersey";
 import MobileMenu from "../molecules/MobileMenu";
 
-// Definimos las animaciones constantes para no repetir código
 const WHILE_TAP = { x: 2, y: 2, boxShadow: "0px 0px 0px #000000" };
 const TRANSITION_FAST = { duration: 0.1 };
 
@@ -34,7 +33,7 @@ export default function Navbar() {
           whileHover={{ scale: 1.1 }}
           whileTap={WHILE_TAP}
           transition={TRANSITION_FAST}
-          className="md:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-nav-mobile px-4 py-1.5 rounded-full shadow-nav-btn z-[90]"
+          className="md:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-nav-mobile px-4 py-1.5 rounded-full shadow-nav-btn z-40"
           onClick={() => setIsMenuOpen(true)}
         >
           <Jersey tag="span" text="MENU" size="16|16" />
@@ -42,13 +41,15 @@ export default function Navbar() {
       )}
 
       {/* 2. NAVBAR COMPLETO DESKTOP */}
-      <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative z-40">
+      {/* SOLUCIÓN: Se ha eliminado completamente el z-index de la etiqueta nav */}
+      <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
-          {/* LOGO (Tamaños respetados al 100%) */}
+          
+          {/* LOGO */}
           <motion.div
             whileHover={{ scale: 1.05, rotate: -2 }}
             transition={{ duration: 0.2 }}
-            className="flex-shrink-0 relative z-[60] w-20 h-10 md:w-32 md:h-12 cursor-pointer"
+            className="flex-shrink-0 relative w-20 h-10 md:w-32 md:h-12 cursor-pointer"
           >
             <Image
               src="/images/bunny-logo.avif"
@@ -113,9 +114,9 @@ export default function Navbar() {
                 round: "rounded-full",
                 txt: "text-white",
               },
-            ].map((soc) => (
+            ].map((soc, index) => (
               <motion.div
-                key={soc.bg}
+                key={index}
                 whileHover={{ y: -4 }}
                 whileTap={WHILE_TAP}
                 transition={{ type: "tween", ease: "easeOut", duration: 0.1 }}

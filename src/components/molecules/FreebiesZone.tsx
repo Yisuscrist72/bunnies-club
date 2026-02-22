@@ -12,6 +12,7 @@ interface FreebieItem {
   id: string;
   title: string;
   imageURL: string;
+  downloadURL?: string; 
   type: string;
 }
 
@@ -46,7 +47,7 @@ export default function FreebiesZone() {
         const typeMap: Record<string, string> = {
           wallpapers: "wallpaper",
           icons: "icon",
-          schedules: "schedule"
+          calendars: "calendar"
         };
         const dbType = typeMap[activeFolder] || activeFolder;
         const q = query(collection(db, "freebies_resources"), where("type", "==", dbType));
@@ -65,15 +66,34 @@ export default function FreebiesZone() {
     fetchItems();
   }, [activeFolder]);
 
+  // Alertas eliminadas, descarga limpia y silenciosa
   const handleDownloadSingle = useCallback(async (item: FreebieItem) => {
-    const response = await fetch(item.imageURL);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = item.title || "Freebie";
-    link.click();
-    window.URL.revokeObjectURL(url);
+    const targetUrl = item.downloadURL || item.imageURL;
+    
+    try {
+      const response = await fetch(targetUrl);
+      
+      if (!response.ok) {
+        console.error(`Error 404: El archivo no existe en la ruta: ${targetUrl}`);
+        return; 
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      
+      const extension = targetUrl.split('.').pop()?.split('?')[0] || "pdf";
+      link.download = `${item.title.replace(/\s+/g, '_')}.${extension}`;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+      console.error("Error de red al descargar:", error);
+    }
   }, []);
 
   const handleDownloadAllZip = useCallback(async () => {
@@ -83,11 +103,17 @@ export default function FreebiesZone() {
       const zip = new JSZip();
       const folder = zip.folder(activeFolder || "Freebies");
       const downloadPromises = items.map(async (item, index) => {
-        const response = await fetch(item.imageURL);
-        const blob = await response.blob();
-        const extension = blob.type.split('/')[1] || "jpg";
-        const filename = `${(item.title || `file-${index}`).replace(/\s+/g, '_')}.${extension}`;
-        folder?.file(filename, blob);
+        const targetUrl = item.downloadURL || item.imageURL;
+        const response = await fetch(targetUrl);
+        
+        if (response.ok) {
+          const blob = await response.blob();
+          const extension = targetUrl.split('.').pop()?.split('?')[0] || "jpg";
+          const filename = `${(item.title || `file-${index}`).replace(/\s+/g, '_')}.${extension}`;
+          folder?.file(filename, blob);
+        } else {
+          console.error(`Error 404 empacando: ${targetUrl}`);
+        }
       });
       await Promise.all(downloadPromises);
       const zipContent = await zip.generateAsync({ type: "blob" });
@@ -110,7 +136,7 @@ export default function FreebiesZone() {
       
       <Window title="C:\Freebies" className="w-full max-w-4xl shadow-none border-2 border-black">
         <div className="flex flex-wrap justify-center md:justify-between gap-4 md:gap-6 px-4 py-6">
-          {["Wallpapers", "Icons", "Schedules"].map((folder) => (
+          {["Wallpapers", "Icons", "Calendars"].map((folder) => (
             <button key={folder} type="button" onClick={() => setActiveFolder(folder.toLowerCase())} className="flex flex-col items-center gap-2 group bg-transparent border-none p-0 cursor-pointer">
               <motion.span whileHover={{ scale: 1.1 }} className="text-4xl md:text-5xl">📁</motion.span>
               <SpaceText tag="span" text={folder} size="14|14" className="font-bold text-black" />
@@ -129,7 +155,6 @@ export default function FreebiesZone() {
               <Window title={`C:\\Freebies\\${activeFolder}`} className="h-auto max-h-[85vh] md:max-h-[90vh] relative flex flex-col overflow-hidden bg-white border-2 border-black shadow-none">
                 <button type="button" onClick={() => { setActiveFolder(null); setItems([]); }} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-20 hover:bg-red-400">X</button>
                 
-                {/* AJUSTADO: mt-4 y p-4 para reducir espacio superior */}
                 <div className="p-4 md:p-6 bg-white m-1 mt-4 flex flex-col overflow-hidden h-full">
                   <SpaceText tag="h3" text={`${activeFolder} ZONE`} size="18|22" className="font-bold text-black mb-4 uppercase text-center flex-shrink-0" />
                   
@@ -182,7 +207,6 @@ export default function FreebiesZone() {
              <div className="w-full max-w-5xl">
                <Window title={`Preview: ${previewItem.title}`} className="relative bg-gray-100 my-4 md:my-8 border-2 border-black shadow-none">
                   <button type="button" onClick={() => setPreviewItem(null)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold">X</button>
-                  {/* AJUSTADO: mt-4 para centrar mejor el preview */}
                   <div className="p-4 mt-4 flex flex-col items-center gap-4 w-full">
                       <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black]">
                           <img src={previewItem.imageURL} alt={previewItem.title} className="w-auto h-auto max-w-full max-h-[60vh] md:max-h-[70vh] object-contain" />
