@@ -27,12 +27,12 @@ export default function FreebiesZone() {
   const [width, setWidth] = useState(0);
   const [isDraggingCarousel, setIsDraggingCarousel] = useState(false);
 
-  // NUEVO: Efecto modificado para avisar al Navbar cuando se abre un modal
+  // Efecto para bloquear el scroll de la página y avisar al Navbar
   useEffect(() => {
     const isModalOpen = !!(activeFolder || previewItem);
     document.body.style.overflow = isModalOpen ? "hidden" : "unset";
     
-    // Dispara el evento para ocultar el botón del Navbar
+    // Dispara el evento para ocultar el botón del Navbar en móvil
     window.dispatchEvent(new CustomEvent("toggleFreebiesModal", { detail: isModalOpen }));
 
     return () => { 
@@ -74,6 +74,7 @@ export default function FreebiesZone() {
     fetchItems();
   }, [activeFolder]);
 
+  // Función de descarga segura (compatible con PDFs locales e imágenes)
   const handleDownloadSingle = useCallback(async (item: FreebieItem) => {
     const targetUrl = item.downloadURL || item.imageURL;
     
@@ -209,17 +210,24 @@ export default function FreebiesZone() {
         {previewItem && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
-            className="fixed inset-0 flex items-center justify-center z-[600] p-2 md:p-4 bg-black"
+            className="fixed inset-0 flex items-center justify-center z-[600] p-4 bg-black"
           >
              <div className="w-full max-w-5xl">
-               <Window title={`Preview: ${previewItem.title}`} className="relative bg-gray-100 my-4 md:my-8 border-2 border-black shadow-none">
-                  <button type="button" onClick={() => setPreviewItem(null)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold">X</button>
-                  <div className="p-4 mt-4 flex flex-col items-center gap-4 w-full">
-                      <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black]">
-                          <img src={previewItem.imageURL} alt={previewItem.title} className="w-auto h-auto max-w-full max-h-[60vh] md:max-h-[70vh] object-contain" />
+               <Window 
+                 title={`Preview: ${previewItem.title}`} 
+                 className="relative bg-gray-100 border-2 border-black shadow-none max-h-[90vh] flex flex-col overflow-hidden"
+               >
+                  <button type="button" onClick={() => setPreviewItem(null)} className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-10 hover:bg-red-400">X</button>
+                  
+                  <div className="p-4 mt-8 flex flex-col items-center gap-4 w-full overflow-y-auto flex-grow">
+                      <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0">
+                          <img src={previewItem.imageURL} alt={previewItem.title} className="w-auto h-auto max-w-full max-h-[45vh] md:max-h-[70vh] object-contain" />
                       </div>
-                      <SpaceText tag="h4" text={previewItem.title} size="18|22" className="font-bold text-black mt-2 text-center" />
-                      <button type="button" onClick={() => handleDownloadSingle(previewItem)} className="px-4 md:px-6 py-2 bg-blue-200 border-2 border-black text-xs md:text-sm font-bold shadow-[4px_4px_0px_black] active:translate-x-0.5 active:translate-y-0.5 transition-all">⬇️ DESCARGAR ARCHIVO</button>
+                      <SpaceText tag="h4" text={previewItem.title} size="18|22" className="font-bold text-black mt-2 text-center shrink-0" />
+                      
+                      <button type="button" onClick={() => handleDownloadSingle(previewItem)} className="px-4 md:px-6 py-2 bg-blue-200 border-2 border-black text-xs md:text-sm font-bold shadow-[4px_4px_0px_black] active:translate-x-0.5 active:translate-y-0.5 transition-all shrink-0 mb-4">
+                        ⬇️ DESCARGAR ARCHIVO
+                      </button>
                   </div>
                </Window>
              </div>
