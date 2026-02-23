@@ -90,6 +90,7 @@ export default function PhotocardEditorPage() {
         side={side}
         setSide={setSide}
         title={template?.title || "EDITOR_V2K"}
+        setSelectedId={setSelectedId}
       />
       <main className="relative z-10 w-full flex-1 flex flex-col lg:flex-row p-4 lg:p-6 gap-6 items-center lg:items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
         <EditorTools
@@ -99,13 +100,13 @@ export default function PhotocardEditorPage() {
           selectedElement={selectedElement}
         />
         <EditorCanvas
+         
           side={side}
           imageURL={template?.imageURL}
           elements={activeElements}
           updateElement={updateElement}
           selectedId={selectedId}
-          setSelectedId={setSelectedId}
-        />
+          setSelectedId={setSelectedId} backColor={""}        />
       </main>
     </div>
   );
