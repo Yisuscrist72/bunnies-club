@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import SpaceText from "../atoms/texts/SpaceText";
-import FreebiesZone from "../molecules/FreebiesZone"; // <-- ¡Aquí importamos el nuevo componente!
+import FreebiesZone from "../molecules/FreebiesZone";
 import MusicPlayer from "../molecules/MusicPlayer";
 
-// Constante interna para el Photocard (Opcional: puedes sacarlo a su propio archivo igual que los Freebies)
+// Constante interna para el Photocard
 const PhotocardModule = () => (
   <div className="flex flex-col gap-2 items-center w-full">
     <SpaceText
@@ -13,7 +13,8 @@ const PhotocardModule = () => (
       size="18|22"
       className="font-bold uppercase tracking-widest text-black"
     />
-    <Link href="/decorator" className="w-full group">
+    {/* ¡AQUÍ ESTÁ LA RUTA ACTUALIZADA! */}
+    <Link href="/photocard-editor" className="w-full group">
       <div className="w-full bg-gradient-to-br from-v2k-blue to-v2k-pink y2k-card p-3 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all">
         <div className="bg-white border border-black h-48 flex">
           <div className="w-1/2 border-r border-black flex items-center justify-center bg-gray-100 opacity-20 text-4xl">
@@ -54,7 +55,6 @@ export default function HomeDashboard() {
         <MusicPlayer />
       </div>
 
-      {/* Usamos el nuevo componente extraído */}
       <FreebiesZone />
     </section>
   );
