@@ -17,7 +17,7 @@ export default function ComingSoonBanner() {
 
       <div className="bg-white border-[3px] border-black px-8 py-5 text-center shadow-v2k-sm z-10 -rotate-1 max-w-lg w-full">
         <div className="text-4xl mb-3 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-          🚧 🔒 🚧
+          🔒
         </div>
         <Jersey
           tag="h3"
