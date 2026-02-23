@@ -5,8 +5,14 @@
   --color-v2k-blue: #c9e9f6;
   --color-v2k-pink: #f4d8ed;
   --color-v2k-pink-hot: #ff69b4;
+  --color-v2k-pink-light: #FFB6C1; /* Botón de cerrar ventana */
   --color-v2k-yellow: #f9f1c3;
+  --color-v2k-yellow-soft: #FFFCE0; /* Fondos de modales y alertas */
   --color-v2k-accent: #cde8ff;
+  --color-v2k-green-soft: #B2F2BB; /* Botón de confirmar */
+  --color-v2k-green-hover: #8ce99a; /* Hover botón confirmar */
+  --color-v2k-red-soft: #FFD1DC; /* Botón cancelar */
+  --color-v2k-red-hover: #FFB7CE; /* Hover botón cancelar */
 
   /* Colores de Sistema (Variables globales solicitadas) */
   --color-sys-bg-soft: #f3f4f6;
@@ -68,32 +74,6 @@ body {
     -3px -3px 0 #000,
     3px -3px 0 #000,
     -3px 3px 0 #000,
-    3px 3px 0 #000;
-  filter: drop-shadow(8px 8px 0px #000);
-}
-
-@utility y2k-card {
-  @apply border-4 border-black shadow-v2k-md rounded-xl bg-white overflow-hidden;
-}
-
-/* --- ANIMACIONES --- */
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-190%);
-  }
-}
-
-.animate-marquee {
-  display: flex;
-  animation: marquee 120s linear infinite;
-}
-
-/* Clase para forzar aceleración GPU en Swipers/Modales */
-.transform-gpu {
-  transform: translateZ(0);
-  will-change: transform;
+    3px 3px 0 #000,
+    4px 4px 0px #000000;
 }

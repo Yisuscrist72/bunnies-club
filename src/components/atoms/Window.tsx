@@ -17,10 +17,10 @@ export default function Window({
 }: WindowProps) {
   return (
     <div
-      className={`bg-[#FFFCE0] border-[3px] border-black shadow-[4px_4px_0px_#000] overflow-hidden ${className}`}
+      className={`bg-v2k-yellow-soft border-[3px] border-black shadow-[4px_4px_0px_#000] overflow-hidden ${className}`}
     >
       {/* Barra de Título */}
-      <div className="bg-[#CDE8FF] border-b-[3px] border-black px-2 py-1 flex justify-between items-center">
+      <div className="bg-v2k-accent border-b-[3px] border-black px-2 py-1 flex justify-between items-center">
         <Jersey
           tag="span"
           text={title}
@@ -32,7 +32,7 @@ export default function Window({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="w-5 h-5 bg-[#FFB6C1] border-[2px] border-black flex items-center justify-center font-bold leading-none cursor-pointer"
+            className="w-5 h-5 bg-v2k-pink-light border-[2px] border-black flex items-center justify-center font-bold leading-none cursor-pointer"
           >
             X
           </motion.button>

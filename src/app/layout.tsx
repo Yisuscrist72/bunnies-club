@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import Footer from "@/src/components/organisms/Footer";
-import Navbar from "@/src/components/organisms/Navbar";
-import { AudioProvider } from "@/src/context/AudioContext";
+import Footer from "@/components/organisms/Footer";
+import Navbar from "@/components/organisms/Navbar";
+import { AudioProvider } from "@/context/AudioContext";
 
 const jersey10 = localFont({
 	src: "../../public/fonts/Jersey10-Regular.ttf",
