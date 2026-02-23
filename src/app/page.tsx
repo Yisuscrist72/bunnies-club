@@ -18,7 +18,7 @@ export default function Home() {
       <main className="flex-grow p-4 md:p-8 flex flex-col items-center">
         <div className="w-full max-w-[1200px] flex flex-col gap-10 relative z-10 mt-4 min-h-screen">
           <HeroSection />
-            <HomeDashboard />
+          <HomeDashboard />
         </div>
       </main>
     </>
