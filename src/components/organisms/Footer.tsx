@@ -101,12 +101,6 @@ export default function Footer() {
                 </div>
                 <Jersey
                   tag="span"
-                  text="LOCALIZACIÓN: NODO_CENTRAL_NJ"
-                  size="12|12"
-                  className="text-black opacity-60"
-                />
-                <Jersey
-                  tag="span"
                   text="ÚLTIMA_ACTUALIZACIÓN: 2026.02.19"
                   size="12|12"
                   className="text-black opacity-60"
@@ -129,7 +123,6 @@ export default function Footer() {
                     <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
                 </motion.button>
 
-                {/* SECCIÓN DE CONTACTO CON SPACETEXT PARA MAYOR LEGIBILIDAD */}
                 <div className="flex flex-col items-start md:items-end gap-1.5">
                     <SpaceText 
                         text="CONTACTANOS:" 
@@ -153,13 +146,13 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <Jersey
               tag="p"
-              text="© 2026 NEWJEANS FANS CLUB. MADE BY JESÚS."
+              text="© 2026 BUNNIES CLUB. DEVELOPED BY YISUSCRIST72."
               size="14|14"
               className="text-black font-bold tracking-tight"
             />
             <Jersey
               tag="p"
-              text="TODOS LOS DERECHOS RESERVADOS_V1.0"
+              text="SYSTEM_STABLE_V1.0.1"
               size="12|12"
               className="text-black/50"
             />
