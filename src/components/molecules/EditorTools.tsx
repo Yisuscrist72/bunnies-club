@@ -11,7 +11,8 @@ import {
   Microphone, Butterfly, Flower, Ghost,
   HandPeace, Palette, Alien, Rainbow,
   Trash, ArrowsClockwise, ArrowsOut,
-  TextT, PaintBrush, TextAa, PaintBucket
+  TextT, PaintBrush, TextAa, PaintBucket,
+  CursorClick
 } from "@phosphor-icons/react";
 import type { EditorElement } from "@/app/photocard-editor/[id]/types";
 
@@ -63,6 +64,10 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
   const [activeTab, setActiveTab] = useState<"libreria" | "capas">("libreria");
 
   useEffect(() => {
+    if (selectedElement) {
+      setActiveTab("capas");
+    }
+    
     if (selectedElement?.fontFamily) {
       const fontName = selectedElement.fontFamily.replace(/\s+/g, "+");
       const linkId = `google-font-${fontName}`;
@@ -74,7 +79,7 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
         document.head.appendChild(link);
       }
     }
-  }, [selectedElement?.fontFamily]);
+  }, [selectedElement, selectedElement?.fontFamily]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,7 +104,7 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
                 <SpaceText text="STICKERS" size="12|12" className="mb-5 font-bold opacity-40 uppercase" />
                 <div className="grid grid-cols-4 gap-3 mb-8">
                   {Object.keys(ICON_MAP).map((iconKey) => (
-                    <button key={iconKey} type="button" onClick={() => { addElement("icon", iconKey); setActiveTab("capas"); }} className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-blue p-2">
+                    <button key={iconKey} type="button" onClick={() => { addElement("icon", iconKey); }} className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-blue p-2">
                       <div className="w-full h-full transition-transform group-hover:scale-110">{ICON_MAP[iconKey]}</div>
                     </button>
                   ))}
@@ -126,7 +131,7 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
               </div>
 
               <div className="pt-6 border-t-[3px] border-black border-dashed">
-                <button type="button" onClick={() => { addElement("text", "NUEVO TEXTO"); setActiveTab("capas"); }} className="w-full bg-v2k-yellow-soft border-[3px] border-black py-4 font-bold shadow-[4px_4px_0px_#000] mb-5 uppercase text-[11px] hover:bg-v2k-yellow">+ Texto Editable</button>
+                <button type="button" onClick={() => { addElement("text", "NUEVO TEXTO"); }} className="w-full bg-v2k-yellow-soft border-[3px] border-black py-4 font-bold shadow-[4px_4px_0px_#000] mb-5 uppercase text-[11px] hover:bg-v2k-yellow">+ Texto Editable</button>
                 <label className="block w-full bg-white border-[3px] border-black py-4 text-center cursor-pointer font-bold shadow-[4px_4px_0px_#000] hover:bg-v2k-blue-soft uppercase text-[11px]">
                   + Imagen Local
                   <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
@@ -136,7 +141,7 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
           ) : (
             <div className="flex flex-col gap-6">
               {selectedElement ? (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-2">
                   {selectedElement.type === "text" && (
                     <div className="space-y-4 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
                       <div className="space-y-2">
@@ -144,7 +149,6 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
                         <textarea value={selectedElement.content} onChange={(e) => updateElement(selectedElement.id, { content: e.target.value })} className="w-full p-3 border-[2px] border-black bg-v2k-yellow-soft font-bold text-sm focus:outline-none min-h-[60px] resize-none" />
                       </div>
 
-                      {/* PICKER COLOR TEXTO */}
                       <div className="space-y-2">
                         <div className="flex items-center gap-2"><PaintBucket size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Color del Texto</p></div>
                         <div className="flex items-center gap-4">
@@ -183,7 +187,17 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
                   <button type="button" onClick={deleteElement} className="w-full bg-v2k-red-soft border-[3px] border-black py-4 font-bold text-red-600 shadow-[4px_4px_0px_#000] hover:bg-v2k-red-hover active:translate-y-1 transition-all flex items-center justify-center gap-3"><Trash size={20} weight="fill" /> ELIMINAR CAPA</button>
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center text-center opacity-30 border-[3px] border-dashed border-black/20 rounded-2xl p-12 mt-4"><p className="text-xs italic">SELECCIONA UN ELEMENTO PARA AJUSTAR</p></div>
+                <div className="flex flex-col items-center justify-center text-center p-10 h-full">
+                  <div className="w-16 h-16 mb-4 opacity-20">
+                    <CursorClick size={64} weight="fill" className="animate-bounce" />
+                  </div>
+                  <p className="text-[10px] font-black uppercase leading-tight opacity-40">
+                    Propiedades de Capa
+                  </p>
+                  <p className="text-[13px] font-bold mt-2 text-v2k-pink-hot italic">
+                    "Haz DOBLE CLIC sobre un sticker para editarlo"
+                  </p>
+                </div>
               )}
             </div>
           )}

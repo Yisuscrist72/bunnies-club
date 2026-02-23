@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import type { EditorElement } from "../../app/photocard-editor/[id]/types";
 import { ICON_MAP } from "@/components/molecules/EditorTools";
 
@@ -26,12 +27,6 @@ export default function EditorCanvas({
     <section className="w-full lg:grow flex flex-col items-center justify-center shrink-0 order-1 lg:order-none overflow-hidden p-2 lg:p-6">
       <div 
         id="photocard-canvas"
-        /* AJUSTE DE TAMAÑO:
-           - w-[90vw]: Casi todo el ancho en móviles.
-           - max-w-[350px]: Un poco más ancho que antes para móviles.
-           - lg:w-[45vh]: Definimos el ancho basado en la altura de la pantalla en PC para que no pierda la forma.
-           - lg:h-[70vh]: Altura equilibrada para que quepa bien el Header.
-        */
         className="relative aspect-[2/3] w-[90vw] max-w-[350px] lg:max-w-none lg:h-[70vh] lg:w-[46.6vh] rounded-[24px] overflow-hidden shadow-[0px_10px_40px_rgba(0,0,0,0.15)] transition-all duration-300 bg-white"
         style={{ backgroundColor: side === "back" ? backColor : "white" }}
         onClick={() => setSelectedId(null)}
@@ -61,21 +56,23 @@ export default function EditorCanvas({
               })
             }
             bounds="parent"
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              setSelectedId(el.id);
-            }}
-            style={{ zIndex: selectedId === el.id ? 100 : index + 1 }}
+            style={{ zIndex: selectedId === el.id ? 100 : index + 10 }}
             className={`flex items-center justify-center transition-all ${
               selectedId === el.id ? "border-[2px] border-dashed border-v2k-pink-hot bg-v2k-pink-hot/5" : ""
             }`}
           >
             <div
-              className="w-full h-full flex items-center justify-center pointer-events-none"
+              className="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
               style={{ transform: `rotate(${el.rotation || 0}deg)` }}
+              title="Doble clic para editar"
+              // IMPLEMENTACIÓN DOBLE CLICK OBLIGATORIO PARA SELECCIONAR
+              onDoubleClick={(e) => {
+                e.stopPropagation();
+                setSelectedId(el.id);
+              }}
             >
               {el.type === "icon" && el.content && (
-                <div className="w-full h-full" style={{ color: el.color || "#000000" }}>
+                <div className="w-full h-full pointer-events-none" style={{ color: el.color || "#000000" }}>
                   {ICON_MAP[el.content]}
                 </div>
               )}
@@ -88,14 +85,14 @@ export default function EditorCanvas({
                     fontSize: `${el.height * 0.45}px`, 
                     lineHeight: 1.1,
                   }}
-                  className="whitespace-pre-wrap text-center px-2 select-none"
+                  className="whitespace-pre-wrap text-center px-2 select-none pointer-events-none"
                 >
                   {el.content}
                 </div>
               )}
               
               {el.type === "image" && (
-                <img src={el.content} className="w-full h-full object-contain" alt="Upload" crossOrigin="anonymous" />
+                <img src={el.content} className="w-full h-full object-contain pointer-events-none" alt="Upload" crossOrigin="anonymous" />
               )}
             </div>
           </Rnd>
