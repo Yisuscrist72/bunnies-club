@@ -17,7 +17,6 @@ const TRANSITION_FAST = { duration: 0.1 };
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // ESTADO NUEVO: Para saber si la Freebies Zone tiene un modal abierto
   const [isFreebiesModalOpen, setIsFreebiesModalOpen] = useState(false);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  // NUEVO EFFECT: Escucha cuando se abre o cierra una ventana de la Freebies Zone
   useEffect(() => {
     const handleModalEvent = (e: any) => setIsFreebiesModalOpen(e.detail);
     window.addEventListener("toggleFreebiesModal", handleModalEvent);
@@ -36,7 +34,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* 1. BOTÓN FLOTANTE MÓVIL (Se oculta si el menú está abierto o si hay un modal de Freebies) */}
       {!isMenuOpen && !isFreebiesModalOpen && (
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -49,23 +46,25 @@ export default function Navbar() {
         </motion.button>
       )}
 
-      {/* 2. NAVBAR COMPLETO DESKTOP */}
       <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
           
-          <motion.div
-            whileHover={{ scale: 1.05, rotate: -2 }}
-            transition={{ duration: 0.2 }}
-            className="flex-shrink-0 relative w-20 h-10 md:w-32 md:h-12 cursor-pointer"
-          >
-            <Image
-              src="/images/bunny-logo.avif"
-              alt="Bunnies Club Logo"
-              pixelated={true}
-              wrapperClassName="absolute -top-2 md:-top-6 -left-2 w-28 h-32 md:w-32 md:h-40 overflow-visible"
-              className="!object-contain drop-shadow-[3px_3px_0px_rgba(0,0,0,0.6)]"
-            />
-          </motion.div>
+          {/* LOGO ENVOLVIdO EN LINK PARA VOLVER AL HOME */}
+          <Link href="/">
+            <motion.div
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              transition={{ duration: 0.2 }}
+              className="flex-shrink-0 relative w-20 h-10 md:w-32 md:h-12 cursor-pointer"
+            >
+              <Image
+                src="/images/bunny-logo.avif"
+                alt="Bunnies Club Logo"
+                pixelated={true}
+                wrapperClassName="absolute -top-2 md:-top-6 -left-2 w-28 h-32 md:w-32 md:h-40 overflow-visible"
+                className="!object-contain drop-shadow-[3px_3px_0px_rgba(0,0,0,0.6)]"
+              />
+            </motion.div>
+          </Link>
 
           <ul className="hidden md:flex items-center gap-6 lg:gap-10 text-black tracking-widest mt-1">
             {["MÚSICA", "QUIZ", "TIENDA", "FORO"].map((item) => (
