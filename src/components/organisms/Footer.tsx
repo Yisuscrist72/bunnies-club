@@ -16,10 +16,6 @@ export default function Footer() {
   };
 
   return (
-    /* AJUSTE DE CAPAS: 
-       Se usa z-0 para que cualquier modal o pop-up (z-50+) pase por encima.
-       Se mantiene relative para que el posicionamiento de los elementos internos sea correcto.
-    */
     <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-0 relative overflow-hidden">
       {/* Fondo decorativo con logo BUNNIES CLUB */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
@@ -50,13 +46,13 @@ export default function Footer() {
 
               <div className="flex flex-col gap-4">
                 <SpaceText
-                  text="BUNNIES CLUB HA SIDO DISEÑADO COMO UNA INTERFAZ DE NAVEGACIÓN TEMPORAL QUE CONECTA EL ESTILO VISUAL DE LOS AÑOS 2000 CON EL SONIDO REVOLUCIONARIO DEL PRESENTE. AQUÍ, CADA USUARIO SE CONVIERTE EN UN NODO ACTIVO DE LA RED."
+                  text="BUNNIES CLUB HA SIDO DISEÑADO COMO UNA INTERFAZ DE NAVEGACIÓN TEMPORAL QUE CONECTA EL ESTILO VISUAL DE LOS AÑOS 2000 CON EL SONIDO REVOLUCIONARIO DEL PRESENTE."
                   size="16|16"
                   className="text-black font-medium leading-relaxed"
                 />
 
                 <SpaceText
-                  text="NUESTRO SISTEMA PERMITE ACCEDER A BASES DE DATOS DE MÚSICA, DESAFÍOS DE CONOCIMIENTO (QUIZZES), UNA TIENDA DE ARTEFACTOS EXCLUSIVOS Y UN FORO DE DISCUSIÓN DONDE LA SINCRONIZACIÓN ENTRE BUNNIES ES TOTAL. ESTÁS NAVEGANDO EN LA VERSIÓN 1.0 DEL PROTOCOLO DE FANS."
+                  text="NUESTRO SISTEMA PERMITE ACCEDER A BASES DE DATOS DE MÚSICA, DESAFÍOS DE CONOCIMIENTO (QUIZZES), UNA TIENDA DE ARTEFACTOS EXCLUSIVOS Y UN FORO DE DISCUSIÓN. VERSIÓN 1.0 DEL PROTOCOLO."
                   size="12|12"
                   className="text-black/80 max-w-[600px] leading-snug"
                 />
@@ -74,19 +70,19 @@ export default function Footer() {
               />
               <div className="flex gap-4">
                 {[
-                  <IconInstagram key="ig" className="w-6 h-6" />,
-                  <IconSpotify key="spotify" className="w-6 h-6" />,
-                  <IconX key="x" className="w-6 h-6" />,
-                  <IconFacebook key="fb" className="w-6 h-6" />,
-                ].map((icon) => (
+                  { icon: <IconInstagram className="w-6 h-6" />, key: "ig" },
+                  { icon: <IconSpotify className="w-6 h-6" />, key: "spotify" },
+                  { icon: <IconX className="w-6 h-6" />, key: "x" },
+                  { icon: <IconFacebook className="w-6 h-6" />, key: "fb" },
+                ].map((item) => (
                   <motion.div
-                    key={icon.key}
+                    key={item.key}
                     whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
                     whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                     transition={{ duration: 0.1 }}
                     className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer text-black"
                   >
-                    {icon}
+                    {item.icon}
                   </motion.div>
                 ))}
               </div>
@@ -117,20 +113,38 @@ export default function Footer() {
                 />
               </div>
 
-              <motion.button
-                onClick={scrollToTop}
-                initial={{ backgroundColor: "#FFF", color: "#000" }}
-                whileHover={{
-                  backgroundColor: "#000",
-                  color: "#FFF",
-                  scale: 1.05,
-                }}
-                whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-                transition={{ duration: 0.1, ease: "linear" }}
-                className="px-8 py-2 border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center"
-              >
-                <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
-              </motion.button>
+              <div className="flex flex-col items-start md:items-end gap-8">
+                <motion.button
+                    onClick={scrollToTop}
+                    initial={{ backgroundColor: "#FFF", color: "#000" }}
+                    whileHover={{
+                    backgroundColor: "#000",
+                    color: "#FFF",
+                    scale: 1.05,
+                    }}
+                    whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
+                    transition={{ duration: 0.1, ease: "linear" }}
+                    className="px-8 py-2 border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center bg-white"
+                >
+                    <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
+                </motion.button>
+
+                {/* SECCIÓN DE CONTACTO CON SPACETEXT PARA MAYOR LEGIBILIDAD */}
+                <div className="flex flex-col items-start md:items-end gap-1.5">
+                    <SpaceText 
+                        text="CONTACTANOS:" 
+                        size="14|14" 
+                        className="text-black opacity-50 uppercase tracking-widest font-bold"
+                    />
+                    <a href="mailto:contact.bunnies.dev@gmail.com" className="hover:text-pink-600 transition-colors duration-200">
+                        <SpaceText 
+                            text="contact.bunnies.dev@gmail.com" 
+                            size="14|14" 
+                            className="text-black font-bold lowercase tracking-tighter underline underline-offset-4 decoration-black/10"
+                        />
+                    </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
