@@ -6,4 +6,8 @@ export interface EditorElement {
   y: number;
   width: number;
   height: number;
+  rotation?: number;
+  color?: string;
+  zIndex?: number;
+  fontFamily?: string;
 }

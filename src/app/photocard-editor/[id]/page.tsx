@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-// Componentes
 import Jersey from "@/components/atoms/texts/Jersey";
 import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
 import EditorHeader from "@/components/molecules/EditorHeader";
@@ -17,7 +16,6 @@ import type { EditorElement } from "./types";
 export default function PhotocardEditorPage() {
   const { id } = useParams();
 
-  // --- ESTADOS ---
   const [template, setTemplate] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [side, setSide] = useState<"front" | "back">("front");
@@ -25,7 +23,6 @@ export default function PhotocardEditorPage() {
   const [backElements, setBackElements] = useState<EditorElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // --- CARGA DE DATOS OPTIMIZADA ---
   useEffect(() => {
     const loadData = async () => {
       if (!id) return;
@@ -37,7 +34,7 @@ export default function PhotocardEditorPage() {
           setTemplate(docSnap.data());
         }
       } catch (error) {
-        console.error("Error cargando recurso:", error);
+        console.error("Error:", error);
       } finally {
         setLoading(false);
       }
@@ -45,16 +42,16 @@ export default function PhotocardEditorPage() {
     loadData();
   }, [id]);
 
-  // --- LÓGICA DEL EDITOR ---
   const addElement = (type: EditorElement["type"], content: string) => {
     const newEl: EditorElement = {
       id: `el-${Date.now()}`,
       type,
       content,
-      x: 40,
-      y: 40,
-      width: type === "text" ? 180 : type === "icon" ? 80 : 100,
-      height: type === "text" ? 100 : type === "icon" ? 80 : 100,
+      x: 50,
+      y: 50,
+      width: type === "text" ? 180 : 100,
+      height: type === "text" ? 100 : 100,
+      rotation: 0,
     };
     const setter = side === "front" ? setFrontElements : setBackElements;
     setter((prev) => [...prev, newEl]);
@@ -75,32 +72,32 @@ export default function PhotocardEditorPage() {
     setSelectedId(null);
   };
 
-  // --- RENDERIZADO DE CARGA (SKELETON) ---
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-v2k-blue">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-16 h-16 border-4 border-black border-t-v2k-pink rounded-full animate-spin" />
-          <Jersey text="CARGANDO_ESTUDIO.SYS" className="animate-pulse" />
-        </div>
+        <Jersey text="CARGANDO_ESTUDIO.SYS" className="animate-pulse" />
       </div>
     );
 
   const activeElements = side === "front" ? frontElements : backElements;
+  const selectedElement =
+    activeElements.find((el) => el.id === selectedId) || null;
 
   return (
-    <div className="fixed inset-0 z-50 w-full h-full flex flex-col items-center bg-[#BEE5FD] overflow-hidden font-space">
+    <div className="fixed inset-0 z-50 w-full h-full flex flex-col items-center bg-[#BEE5FD] overflow-hidden">
       <BackgroundDecorations />
-
       <EditorHeader
         side={side}
         setSide={setSide}
         title={template?.title || "EDITOR_V2K"}
       />
-
-      <main className="relative z-10 w-full flex-1 flex p-6 gap-6 min-h-0">
-        <EditorTools addElement={addElement} />
-
+      <main className="relative z-10 w-full flex-1 flex flex-col lg:flex-row p-4 lg:p-6 gap-6 items-center lg:items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
+        <EditorTools
+          addElement={addElement}
+          deleteElement={deleteElement}
+          updateElement={updateElement}
+          selectedElement={selectedElement}
+        />
         <EditorCanvas
           side={side}
           imageURL={template?.imageURL}
@@ -109,8 +106,6 @@ export default function PhotocardEditorPage() {
           selectedId={selectedId}
           setSelectedId={setSelectedId}
         />
-
-        <EditorProperties selectedId={selectedId} onDelete={deleteElement} />
       </main>
     </div>
   );
