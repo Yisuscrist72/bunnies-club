@@ -5,14 +5,14 @@
   --color-v2k-blue: #c9e9f6;
   --color-v2k-pink: #f4d8ed;
   --color-v2k-pink-hot: #ff69b4;
-  --color-v2k-pink-light: #FFB6C1; /* Botón de cerrar ventana */
+  --color-v2k-pink-light: #ffb6c1; /* Botón de cerrar ventana */
   --color-v2k-yellow: #f9f1c3;
-  --color-v2k-yellow-soft: #FFFCE0; /* Fondos de modales y alertas */
+  --color-v2k-yellow-soft: #fffce0; /* Fondos de modales y alertas */
   --color-v2k-accent: #cde8ff;
-  --color-v2k-green-soft: #B2F2BB; /* Botón de confirmar */
+  --color-v2k-green-soft: #b2f2bb; /* Botón de confirmar */
   --color-v2k-green-hover: #8ce99a; /* Hover botón confirmar */
-  --color-v2k-red-soft: #FFD1DC; /* Botón cancelar */
-  --color-v2k-red-hover: #FFB7CE; /* Hover botón cancelar */
+  --color-v2k-red-soft: #ffd1dc; /* Botón cancelar */
+  --color-v2k-red-hover: #ffb7ce; /* Hover botón cancelar */
 
   /* Colores de Sistema (Variables globales solicitadas) */
   --color-sys-bg-soft: #f3f4f6;

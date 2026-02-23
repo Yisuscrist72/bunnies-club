@@ -7,35 +7,35 @@ import Navbar from "@/components/organisms/Navbar";
 import { AudioProvider } from "@/context/AudioContext";
 
 const jersey10 = localFont({
-	src: "../../public/fonts/Jersey10-Regular.ttf",
-	variable: "--font-jersey",
+  src: "../../public/fonts/Jersey10-Regular.ttf",
+  variable: "--font-jersey",
 });
 
 const spaceGrotesk = Space_Grotesk({
-	subsets: ["latin"],
-	variable: "--font-space",
+  subsets: ["latin"],
+  variable: "--font-space",
 });
 
 export const metadata: Metadata = {
-	title: "Bunnies Club | NewJeans Fan Experience",
-	description: "A retro Y2K inspired community platform for Bunnies.",
+  title: "Bunnies Club | NewJeans Fan Experience",
+  description: "A retro Y2K inspired community platform for Bunnies.",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html
-			lang="es"
-			className={`
+  return (
+    <html
+      lang="es"
+      className={`
         ${jersey10.variable} ${spaceGrotesk.variable} 
         h-full bg-[#BEE5FD]
       `}
-		>
-			<body
-				className="
+    >
+      <body
+        className="
         antialiased 
         flex flex-col 
         min-h-full 
@@ -45,13 +45,13 @@ export default function RootLayout({
         bg-no-repeat 
         bg-cover
       "
-			>
-				<AudioProvider>
-					<Navbar />
-					<main className="grow flex flex-col relative z-10">{children}</main>
-					<Footer />
-				</AudioProvider>
-			</body>
-		</html>
-	);
+      >
+        <AudioProvider>
+          <Navbar />
+          <main className="grow flex flex-col relative z-10">{children}</main>
+          <Footer />
+        </AudioProvider>
+      </body>
+    </html>
+  );
 }

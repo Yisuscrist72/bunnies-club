@@ -11,17 +11,20 @@ export default function LoadingScreen() {
       className="fixed inset-0 z-[999] bg-[#BEE5FD] flex flex-col items-center justify-center"
     >
       {/* Patrón de fondo retro */}
-      <div 
-        className="absolute inset-0 opacity-[0.1]" 
-        style={{ backgroundImage: `radial-gradient(#000 1px, transparent 1px)`, backgroundSize: '20px 20px' }}
+      <div
+        className="absolute inset-0 opacity-[0.1]"
+        style={{
+          backgroundImage: `radial-gradient(#000 1px, transparent 1px)`,
+          backgroundSize: "20px 20px",
+        }}
       />
 
       <div className="relative flex flex-col items-center gap-6">
         {/* Logo o Icono animado */}
         <motion.div
-          animate={{ 
+          animate={{
             scale: [1, 1.1, 1],
-            rotate: [0, 5, -5, 0] 
+            rotate: [0, 5, -5, 0],
           }}
           transition={{ duration: 2, repeat: Infinity }}
           className="text-8xl"
@@ -34,7 +37,7 @@ export default function LoadingScreen() {
           <Jersey text="BUNNIES CLUB OS" size="32|40" className="text-black" />
           <div className="flex items-center gap-2">
             <div className="w-48 h-4 border-2 border-black p-0.5 bg-white">
-              <motion.div 
+              <motion.div
                 initial={{ width: "0%" }}
                 animate={{ width: "100%" }}
                 transition={{ duration: 2.5, ease: "easeInOut" }}
@@ -42,7 +45,7 @@ export default function LoadingScreen() {
               />
             </div>
           </div>
-          <motion.span 
+          <motion.span
             animate={{ opacity: [0, 1, 0] }}
             transition={{ duration: 1, repeat: Infinity }}
             className="font-mono text-xs text-black uppercase tracking-tighter"

@@ -7,9 +7,12 @@ import HeroSection from "../components/organisms/HeroSection";
 import LoadingScreen from "../components/molecules/LoadingScreen";
 
 // El Dashboard se carga de forma dinámica para optimizar peso
-const HomeDashboard = dynamic(() => import("../components/organisms/HomeDashboard"), {
-  ssr: false,
-});
+const HomeDashboard = dynamic(
+  () => import("../components/organisms/HomeDashboard"),
+  {
+    ssr: false,
+  },
+);
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);

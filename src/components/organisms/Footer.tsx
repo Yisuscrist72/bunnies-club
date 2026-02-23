@@ -109,33 +109,36 @@ export default function Footer() {
 
               <div className="flex flex-col items-start md:items-end gap-8">
                 <motion.button
-                    onClick={scrollToTop}
-                    initial={{ backgroundColor: "#FFF", color: "#000" }}
-                    whileHover={{
+                  onClick={scrollToTop}
+                  initial={{ backgroundColor: "#FFF", color: "#000" }}
+                  whileHover={{
                     backgroundColor: "#000",
                     color: "#FFF",
                     scale: 1.05,
-                    }}
-                    whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-                    transition={{ duration: 0.1, ease: "linear" }}
-                    className="px-8 py-2 border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center bg-white"
+                  }}
+                  whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
+                  transition={{ duration: 0.1, ease: "linear" }}
+                  className="px-8 py-2 border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center bg-white"
                 >
-                    <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
+                  <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
                 </motion.button>
 
                 <div className="flex flex-col items-start md:items-end gap-1.5">
-                    <SpaceText 
-                        text="CONTACTANOS:" 
-                        size="14|14" 
-                        className="text-black opacity-50 uppercase tracking-widest font-bold"
+                  <SpaceText
+                    text="CONTACTANOS:"
+                    size="14|14"
+                    className="text-black opacity-50 uppercase tracking-widest font-bold"
+                  />
+                  <a
+                    href="mailto:contact.bunnies.dev@gmail.com"
+                    className="hover:text-pink-600 transition-colors duration-200"
+                  >
+                    <SpaceText
+                      text="contact.bunnies.dev@gmail.com"
+                      size="14|14"
+                      className="text-black font-bold lowercase tracking-tighter underline underline-offset-4 decoration-black/10"
                     />
-                    <a href="mailto:contact.bunnies.dev@gmail.com" className="hover:text-pink-600 transition-colors duration-200">
-                        <SpaceText 
-                            text="contact.bunnies.dev@gmail.com" 
-                            size="14|14" 
-                            className="text-black font-bold lowercase tracking-tighter underline underline-offset-4 decoration-black/10"
-                        />
-                    </a>
+                  </a>
                 </div>
               </div>
             </div>

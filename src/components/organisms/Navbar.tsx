@@ -13,7 +13,11 @@ import Jersey from "../atoms/texts/Jersey";
 import MobileMenu from "../molecules/MobileMenu";
 
 const WHILE_TAP = { x: 4, y: 4, boxShadow: "0px 0px 0px #000000" };
-const TRANSITION_SPRING = { type: "spring" as const, stiffness: 400, damping: 17 };
+const TRANSITION_SPRING = {
+  type: "spring" as const,
+  stiffness: 400,
+  damping: 17,
+};
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,7 +33,8 @@ export default function Navbar() {
   useEffect(() => {
     const handleModalEvent = (e: any) => setIsFreebiesModalOpen(e.detail);
     window.addEventListener("toggleFreebiesModal", handleModalEvent);
-    return () => window.removeEventListener("toggleFreebiesModal", handleModalEvent);
+    return () =>
+      window.removeEventListener("toggleFreebiesModal", handleModalEvent);
   }, []);
 
   return (
@@ -49,7 +54,6 @@ export default function Navbar() {
       {/* DESKTOP NAVBAR */}
       <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
-          
           {/* LOGO SECTION */}
           <Link href="/">
             <motion.div
@@ -102,20 +106,20 @@ export default function Navbar() {
                 ico: <IconInstagram className="w-5 h-5" />,
                 bg: "bg-insta",
                 hov: "hover:bg-pink-400",
-                rotate: -8
+                rotate: -8,
               },
               {
                 ico: <IconSpotify className="w-5 h-5" />,
                 bg: "bg-spotify",
                 hov: "hover:bg-green-500",
                 round: "rounded-full",
-                rotate: 8
+                rotate: 8,
               },
               {
                 ico: <IconX className="w-5 h-5" />,
                 bg: "bg-nav-bg",
                 hov: "hover:bg-blue-300",
-                rotate: -5
+                rotate: -5,
               },
               {
                 ico: <IconFacebook className="w-5 h-5" />,
@@ -123,16 +127,16 @@ export default function Navbar() {
                 hov: "hover:bg-blue-600",
                 round: "rounded-full",
                 txt: "text-white",
-                rotate: 5
+                rotate: 5,
               },
             ].map((soc, index) => (
               <motion.div
                 key={index}
-                whileHover={{ 
-                  y: -6, 
-                  scale: 1.15, 
+                whileHover={{
+                  y: -6,
+                  scale: 1.15,
                   rotate: soc.rotate,
-                  boxShadow: "6px 6px 0px #000000" 
+                  boxShadow: "6px 6px 0px #000000",
                 }}
                 whileTap={WHILE_TAP}
                 transition={TRANSITION_SPRING}
@@ -145,10 +149,10 @@ export default function Navbar() {
 
           {/* LANGUAGE BUTTON CON CONTRASTE CORREGIDO */}
           <motion.button
-            whileHover={{ 
-                scale: 1.05, 
-                backgroundColor: "#000", 
-                boxShadow: "6px 6px 0px #FF69B4" 
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "#000",
+              boxShadow: "6px 6px 0px #FF69B4",
             }}
             whileTap={WHILE_TAP}
             transition={TRANSITION_SPRING}

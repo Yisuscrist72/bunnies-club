@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import type React from "react";
-import Jersey from "./texts/Jersey";
+import Jersey from "../atoms/texts/Jersey";
 
 interface WindowProps {
   title: string;
   children: React.ReactNode;
   className?: string;
+  contentClassName?: string;
   onClose?: () => void;
 }
 
@@ -13,6 +14,7 @@ export default function Window({
   title,
   children,
   className = "",
+  contentClassName = "p-4",
   onClose,
 }: WindowProps) {
   return (
@@ -29,6 +31,7 @@ export default function Window({
         />
         {onClose && (
           <motion.button
+            type="button"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
@@ -39,7 +42,7 @@ export default function Window({
         )}
       </div>
       {/* Contenido */}
-      <div className="p-4">{children}</div>
+      <div className={contentClassName}>{children}</div>
     </div>
   );
 }
