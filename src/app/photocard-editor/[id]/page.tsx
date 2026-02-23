@@ -10,7 +10,6 @@ import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
 import EditorHeader from "@/components/molecules/EditorHeader";
 import EditorTools from "@/components/molecules/EditorTools";
 import EditorCanvas from "@/components/molecules/EditorCanvas";
-import EditorProperties from "@/components/molecules/EditorProperties";
 import type { EditorElement } from "./types";
 
 export default function PhotocardEditorPage() {
@@ -22,14 +21,14 @@ export default function PhotocardEditorPage() {
   const [frontElements, setFrontElements] = useState<EditorElement[]>([]);
   const [backElements, setBackElements] = useState<EditorElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Nuevo estado para el color del reverso
+  const [backColor, setBackColor] = useState<string>("#FFFFFF");
 
   useEffect(() => {
     const loadData = async () => {
       if (!id) return;
       try {
-        const docSnap = await getDoc(
-          doc(db, "photocards_resources", id as string),
-        );
+        const docSnap = await getDoc(doc(db, "photocards_resources", id as string));
         if (docSnap.exists()) {
           setTemplate(docSnap.data());
         }
@@ -52,6 +51,7 @@ export default function PhotocardEditorPage() {
       width: type === "text" ? 180 : 100,
       height: type === "text" ? 100 : 100,
       rotation: 0,
+      color: "#000000", // Color inicial por defecto
     };
     const setter = side === "front" ? setFrontElements : setBackElements;
     setter((prev) => [...prev, newEl]);
@@ -60,9 +60,7 @@ export default function PhotocardEditorPage() {
 
   const updateElement = (elId: string, data: Partial<EditorElement>) => {
     const setter = side === "front" ? setFrontElements : setBackElements;
-    setter((prev) =>
-      prev.map((el) => (el.id === elId ? { ...el, ...data } : el)),
-    );
+    setter((prev) => prev.map((el) => (el.id === elId ? { ...el, ...data } : el)));
   };
 
   const deleteElement = () => {
@@ -74,17 +72,16 @@ export default function PhotocardEditorPage() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-v2k-blue">
+      <div className="min-h-screen flex items-center justify-center bg-[#BEE5FD]">
         <Jersey text="CARGANDO_ESTUDIO.SYS" className="animate-pulse" />
       </div>
     );
 
   const activeElements = side === "front" ? frontElements : backElements;
-  const selectedElement =
-    activeElements.find((el) => el.id === selectedId) || null;
+  const selectedElement = activeElements.find((el) => el.id === selectedId) || null;
 
   return (
-    <div className="fixed inset-0 z-50 w-full h-full flex flex-col items-center bg-[#BEE5FD] overflow-hidden">
+    <div className="fixed inset-0 z-50 w-full h-full flex flex-col items-center bg-[#BEE5FD] overflow-hidden font-space">
       <BackgroundDecorations />
       <EditorHeader
         side={side}
@@ -98,15 +95,18 @@ export default function PhotocardEditorPage() {
           deleteElement={deleteElement}
           updateElement={updateElement}
           selectedElement={selectedElement}
+          backColor={backColor}      // Pasamos el color
+          setBackColor={setBackColor} // Pasamos el setter
         />
         <EditorCanvas
-         
           side={side}
           imageURL={template?.imageURL}
           elements={activeElements}
           updateElement={updateElement}
           selectedId={selectedId}
-          setSelectedId={setSelectedId} backColor={""}        />
+          setSelectedId={setSelectedId}
+          backColor={backColor} // El canvas ahora usa este color para el reverso
+        />
       </main>
     </div>
   );

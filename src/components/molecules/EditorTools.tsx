@@ -11,11 +11,10 @@ import {
   Microphone, Butterfly, Flower, Ghost,
   HandPeace, Palette, Alien, Rainbow,
   Trash, ArrowsClockwise, ArrowsOut,
-  TextT, PaintBrush, TextAa
+  TextT, PaintBrush, TextAa, PaintBucket
 } from "@phosphor-icons/react";
 import type { EditorElement } from "@/app/photocard-editor/[id]/types";
 
-// Definimos las fuentes aquí para asegurar consistencia
 const GOOGLE_FONTS = [
   { name: "Jersey 10", family: "Jersey 10" },
   { name: "Space Grotesk", family: "Space Grotesk" },
@@ -25,7 +24,6 @@ const GOOGLE_FONTS = [
   { name: "Press Start 2P", family: "Press Start 2P" },
 ];
 
-// ICON_MAP exportado correctamente para que el Canvas también lo vea
 export const ICON_MAP: Record<string, React.ReactNode> = {
   Heart: <Heart weight="fill" className="w-full h-full text-[#ff007f]" />,
   Star: <Star weight="fill" className="w-full h-full text-yellow-400" />,
@@ -57,12 +55,13 @@ interface EditorToolsProps {
   deleteElement: () => void;
   updateElement: (elId: string, data: Partial<EditorElement>) => void;
   selectedElement: EditorElement | null;
+  backColor: string;
+  setBackColor: (color: string) => void;
 }
 
-export default function EditorTools({ addElement, deleteElement, updateElement, selectedElement }: EditorToolsProps) {
+export default function EditorTools({ addElement, deleteElement, updateElement, selectedElement, backColor, setBackColor }: EditorToolsProps) {
   const [activeTab, setActiveTab] = useState<"libreria" | "capas">("libreria");
 
-  // Inyección dinámica de Google Fonts
   useEffect(() => {
     if (selectedElement?.fontFamily) {
       const fontName = selectedElement.fontFamily.replace(/\s+/g, "+");
@@ -87,11 +86,7 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
 
   return (
     <aside className="w-full lg:w-[420px] flex flex-col shrink-0 lg:h-full order-2 lg:order-none min-h-0 font-space">
-      <Window
-        title="DESIGN_CORE.EXE"
-        className="flex flex-col h-full border-[4px] border-black shadow-[10px_10px_0px_#000]"
-        contentClassName="flex flex-col flex-1 min-h-0"
-      >
+      <Window title="DESIGN_CORE.EXE" className="flex flex-col h-full border-[4px] border-black shadow-[10px_10px_0px_#000]" contentClassName="flex flex-col flex-1 min-h-0">
         <div className="flex border-b-[3px] border-black bg-black shrink-0">
           <button type="button" onClick={() => setActiveTab("libreria")} className={`flex-1 py-4 font-bold border-r-[3px] border-black uppercase text-[12px] transition-all ${activeTab === "libreria" ? "bg-v2k-pink" : "bg-white"}`}>Librería</button>
           <button type="button" onClick={() => setActiveTab("capas")} className={`flex-1 py-4 font-bold uppercase text-[12px] transition-all ${activeTab === "capas" ? "bg-v2k-pink" : "bg-white"}`}>Capas</button>
@@ -99,15 +94,37 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
 
         <div className="p-5 overflow-y-auto flex-1 bg-[#F9F9F9] custom-scrollbar min-h-0">
           {activeTab === "libreria" ? (
-            <div className="flex flex-col">
-              <SpaceText text="STICKERS" size="12|12" className="mb-5 font-bold opacity-40 uppercase" />
-              <div className="grid grid-cols-4 gap-3 mb-8">
-                {Object.keys(ICON_MAP).map((iconKey) => (
-                  <button key={iconKey} type="button" onClick={() => { addElement("icon", iconKey); setActiveTab("capas"); }} className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-blue p-2">
-                    <div className="w-full h-full transition-transform group-hover:scale-110">{ICON_MAP[iconKey]}</div>
-                  </button>
-                ))}
+            <div className="flex flex-col gap-6">
+              <div>
+                <SpaceText text="STICKERS" size="12|12" className="mb-5 font-bold opacity-40 uppercase" />
+                <div className="grid grid-cols-4 gap-3 mb-8">
+                  {Object.keys(ICON_MAP).map((iconKey) => (
+                    <button key={iconKey} type="button" onClick={() => { addElement("icon", iconKey); setActiveTab("capas"); }} className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-blue p-2">
+                      <div className="w-full h-full transition-transform group-hover:scale-110">{ICON_MAP[iconKey]}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* PICKER COLOR FONDO (REVERSO) */}
+              <div className="space-y-3 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
+                <div className="flex items-center gap-2">
+                  <PaintBrush size={18} weight="bold" />
+                  <p className="text-[10px] font-black uppercase">Color Fondo Reverso</p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="relative w-12 h-12 border-[2px] border-black shadow-[2px_2px_0px_#000] overflow-hidden">
+                    <input 
+                      type="color" 
+                      value={backColor} 
+                      onChange={(e) => setBackColor(e.target.value)}
+                      className="absolute -inset-2 w-[150%] h-[150%] cursor-pointer appearance-none bg-transparent border-none"
+                    />
+                  </div>
+                  <span className="text-[12px] font-mono font-bold uppercase">{backColor}</span>
+                </div>
+              </div>
+
               <div className="pt-6 border-t-[3px] border-black border-dashed">
                 <button type="button" onClick={() => { addElement("text", "NUEVO TEXTO"); setActiveTab("capas"); }} className="w-full bg-v2k-yellow-soft border-[3px] border-black py-4 font-bold shadow-[4px_4px_0px_#000] mb-5 uppercase text-[11px] hover:bg-v2k-yellow">+ Texto Editable</button>
                 <label className="block w-full bg-white border-[3px] border-black py-4 text-center cursor-pointer font-bold shadow-[4px_4px_0px_#000] hover:bg-v2k-blue-soft uppercase text-[11px]">
@@ -126,6 +143,23 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
                         <div className="flex items-center gap-2"><TextT size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Contenido</p></div>
                         <textarea value={selectedElement.content} onChange={(e) => updateElement(selectedElement.id, { content: e.target.value })} className="w-full p-3 border-[2px] border-black bg-v2k-yellow-soft font-bold text-sm focus:outline-none min-h-[60px] resize-none" />
                       </div>
+
+                      {/* PICKER COLOR TEXTO */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2"><PaintBucket size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Color del Texto</p></div>
+                        <div className="flex items-center gap-4">
+                          <div className="relative w-10 h-10 border-[2px] border-black shadow-[2px_2px_0px_#000] overflow-hidden">
+                            <input 
+                              type="color" 
+                              value={selectedElement.color || "#000000"} 
+                              onChange={(e) => updateElement(selectedElement.id, { color: e.target.value })}
+                              className="absolute -inset-2 w-[150%] h-[150%] cursor-pointer appearance-none bg-transparent border-none"
+                            />
+                          </div>
+                          <span className="text-[11px] font-mono font-bold uppercase">{selectedElement.color || "#000000"}</span>
+                        </div>
+                      </div>
+
                       <div className="space-y-2">
                         <div className="flex items-center gap-2"><TextAa size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Fuente</p></div>
                         <select value={selectedElement.fontFamily || ""} onChange={(e) => updateElement(selectedElement.id, { fontFamily: e.target.value })} className="w-full p-2 border-[2px] border-black bg-white font-bold text-[12px] cursor-pointer">

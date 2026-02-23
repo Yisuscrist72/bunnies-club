@@ -20,33 +20,29 @@ interface EditorCanvasProps {
 }
 
 export default function EditorCanvas({ 
-  side, 
-  imageURL, 
-  elements, 
-  updateElement, 
-  selectedId, 
-  setSelectedId, 
-  backColor 
+  side, imageURL, elements, updateElement, selectedId, setSelectedId, backColor 
 }: EditorCanvasProps) {
   return (
-    <section className="w-full lg:grow flex flex-col lg:flex-row items-center justify-center shrink-0 order-1 lg:order-none overflow-hidden">
+    <section className="w-full lg:grow flex flex-col items-center justify-center shrink-0 order-1 lg:order-none overflow-hidden p-2 lg:p-6">
       <div 
         id="photocard-canvas"
-        /* CAMBIOS AQUÍ:
-           1. Cambiamos 'rounded-none' por 'rounded-[20px]' o 'rounded-[32px]' para la forma de photocard.
-           2. Quitamos 'border-black' y 'border-[4px]' para eliminar los bordes negros.
-           3. Mantenemos 'overflow-hidden' para que la imagen se corte con la forma redondeada.
+        /* AJUSTE DE TAMAÑO:
+           - w-[90vw]: Casi todo el ancho en móviles.
+           - max-w-[350px]: Un poco más ancho que antes para móviles.
+           - lg:w-[45vh]: Definimos el ancho basado en la altura de la pantalla en PC para que no pierda la forma.
+           - lg:h-[70vh]: Altura equilibrada para que quepa bien el Header.
         */
-        className="relative aspect-[2/3] w-[80%] max-w-[320px] lg:max-w-none lg:w-auto lg:h-[78vh] rounded-[24px] overflow-hidden shadow-[0px_10px_30px_rgba(0,0,0,0.2)] transition-all duration-300 bg-white"
+        className="relative aspect-[2/3] w-[90vw] max-w-[350px] lg:max-w-none lg:h-[70vh] lg:w-[46.6vh] rounded-[24px] overflow-hidden shadow-[0px_10px_40px_rgba(0,0,0,0.15)] transition-all duration-300 bg-white"
         style={{ backgroundColor: side === "back" ? backColor : "white" }}
+        onClick={() => setSelectedId(null)}
       >
-        
         {/* CARA FRONTAL */}
         {side === "front" && imageURL && (
           <img 
             src={imageURL} 
             className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" 
             alt="Front Base" 
+            crossOrigin="anonymous"
           />
         )}
 
@@ -65,7 +61,10 @@ export default function EditorCanvas({
               })
             }
             bounds="parent"
-            onMouseDown={() => setSelectedId(el.id)}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              setSelectedId(el.id);
+            }}
             style={{ zIndex: selectedId === el.id ? 100 : index + 1 }}
             className={`flex items-center justify-center transition-all ${
               selectedId === el.id ? "border-[2px] border-dashed border-v2k-pink-hot bg-v2k-pink-hot/5" : ""
@@ -76,7 +75,7 @@ export default function EditorCanvas({
               style={{ transform: `rotate(${el.rotation || 0}deg)` }}
             >
               {el.type === "icon" && el.content && (
-                <div className="w-full h-full filter drop-shadow-[2px_2px_0px_white]" style={{ color: el.color || "#000000" }}>
+                <div className="w-full h-full" style={{ color: el.color || "#000000" }}>
                   {ICON_MAP[el.content]}
                 </div>
               )}
@@ -86,17 +85,17 @@ export default function EditorCanvas({
                   style={{
                     color: el.color || "#000000",
                     fontFamily: el.fontFamily ? `'${el.fontFamily}', sans-serif` : "inherit", 
-                    fontSize: `${el.height * 0.5}px`, 
+                    fontSize: `${el.height * 0.45}px`, 
                     lineHeight: 1.1,
                   }}
-                  className="whitespace-pre-wrap text-center px-2 select-none filter drop-shadow-[1px_1px_0px_white]"
+                  className="whitespace-pre-wrap text-center px-2 select-none"
                 >
                   {el.content}
                 </div>
               )}
               
               {el.type === "image" && (
-                <img src={el.content} className="w-full h-full object-contain" alt="Upload" />
+                <img src={el.content} className="w-full h-full object-contain" alt="Upload" crossOrigin="anonymous" />
               )}
             </div>
           </Rnd>
