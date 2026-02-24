@@ -27,12 +27,11 @@ export default function FreebiesZone() {
   const [width, setWidth] = useState(0);
   const [isDraggingCarousel, setIsDraggingCarousel] = useState(false);
 
-  // 1. BLOQUEO DE SCROLL Y AVISO AL NAVBAR (MODAL ABIERTO)
+  // 1. BLOQUEO DE SCROLL Y AVISO AL NAVBAR
   useEffect(() => {
     const isModalOpen = !!(activeFolder || previewItem);
     document.body.style.overflow = isModalOpen ? "hidden" : "unset";
 
-    // Notifica al Navbar para ocultar el botón de menú móvil
     window.dispatchEvent(
       new CustomEvent("toggleFreebiesModal", { detail: isModalOpen }),
     );
@@ -87,7 +86,7 @@ export default function FreebiesZone() {
     fetchItems();
   }, [activeFolder]);
 
-  // 4. DESCARGA LIMPIA (PDF/IMAGEN)
+  // 4. LÓGICA DE DESCARGA
   const handleDownloadSingle = useCallback(async (item: FreebieItem) => {
     const targetUrl = item.downloadURL || item.imageURL;
     try {
@@ -151,6 +150,7 @@ export default function FreebiesZone() {
         className="font-bold uppercase tracking-widest text-black text-center"
       />
 
+      {/* VENTANA PRINCIPAL DE CARPETAS */}
       <Window
         title="C:\Freebies"
         className="w-full max-w-4xl shadow-none border-2 border-black"
@@ -180,6 +180,7 @@ export default function FreebiesZone() {
         </div>
       </Window>
 
+      {/* MODAL DE EXPLORADOR DE ARCHIVOS */}
       <AnimatePresence>
         {activeFolder && (
           <motion.div
@@ -212,7 +213,6 @@ export default function FreebiesZone() {
                     className="font-bold text-black mb-4 uppercase text-center flex-shrink-0"
                   />
 
-                  {/* BOTÓN ZIP (SOLO SE MUESTRA SI HAY ARCHIVOS) */}
                   {!loading && items.length > 0 && (
                     <div className="mb-4 flex justify-center flex-shrink-0">
                       <button
@@ -221,9 +221,7 @@ export default function FreebiesZone() {
                         disabled={isDownloadingAll}
                         className="px-4 md:px-6 py-2 border-2 border-black bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase"
                       >
-                        {isDownloadingAll
-                          ? "ZIPPING..."
-                          : "DOWNLOAD ALL ZIP 📦"}
+                        {isDownloadingAll ? "ZIPPING..." : "DOWNLOAD ALL ZIP 📦"}
                       </button>
                     </div>
                   )}
@@ -240,7 +238,6 @@ export default function FreebiesZone() {
                         dragConstraints={{ right: 0, left: -width }}
                         className="flex gap-4 md:gap-12 h-full items-center px-6 md:px-24"
                       >
-                        {/* 1. TARJETAS DE RECURSOS (SI HAY EN FIREBASE) */}
                         {items.map((item) => (
                           <ResourceSwiperCard
                             key={item.id}
@@ -252,13 +249,11 @@ export default function FreebiesZone() {
                           />
                         ))}
 
-                        {/* 2. TARJETA DE "CARPETA VACÍA": SI NO HAY ARCHIVOS */}
+                        {/* ESTADO VACÍO */}
                         {!loading && items.length === 0 && (
                           <div className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex flex-col items-center justify-center pointer-events-none">
                             <div className="border-2 border-black bg-gray-100 p-4 shadow-[4px_4px_0px_black] flex flex-col items-center justify-center gap-3 text-center h-[80%] w-full">
-                              <span className="text-6xl md:text-7xl animate-pulse">
-                                🐰🪧
-                              </span>
+                              <span className="text-6xl md:text-7xl animate-pulse">🐰🪧</span>
                               <SpaceText
                                 tag="h4"
                                 text="EMPTY FOLDER"
@@ -266,44 +261,25 @@ export default function FreebiesZone() {
                                 className="font-bold text-red-500 uppercase mt-2"
                               />
                               <p className="font-mono text-[10px] md:text-xs text-gray-600 px-2 leading-tight">
-                                Aún no hay archivos aquí... <br />
-                                <br />
-                                ¡Sé el primero en crear uno y envíalo usando el
-                                buzón de la derecha! ✨
+                                Aún no hay archivos aquí... <br /><br />
+                                ¡Sé el primero en crear uno y envíalo usando el buzón! ✨
                               </p>
                             </div>
                           </div>
                         )}
 
-                        {/* 3. BOTÓN COLABORACIÓN COMUNIDAD (GOOGLE FORM) */}
+                        {/* BOTÓN COLABORACIÓN */}
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() =>
-                            window.open(
-                              "https://docs.google.com/forms/d/e/1FAIpQLSeJnV2XDPYFemEwkjNxNu8ANTHmJ_P9XQoi-mN-nyMKqef3pQ/viewform?usp=publish-editor",
-                              "_blank",
-                            )
-                          }
+                          onClick={() => window.open("https://docs.google.com/forms/...", "_blank")}
                           className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex items-center justify-center cursor-pointer group"
                         >
                           <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 grayscale group-hover:grayscale-0 group-hover:border-v2k-pink-hot transition-all duration-300 bg-white/50 shadow-inner w-full">
-                            <span className="text-4xl md:text-5xl group-hover:animate-bounce">
-                              📮
-                            </span>
+                            <span className="text-4xl md:text-5xl group-hover:animate-bounce">📮</span>
                             <div className="text-center">
-                              <SpaceText
-                                tag="span"
-                                text="COMMUNITY HUB"
-                                size="14|14"
-                                className="font-bold text-gray-600 block uppercase group-hover:text-black"
-                              />
-                              <SpaceText
-                                tag="span"
-                                text="REQUEST OR SEND ART"
-                                size="12|12"
-                                className="font-mono text-gray-500 block group-hover:text-v2k-pink-hot"
-                              />
+                              <SpaceText tag="span" text="COMMUNITY HUB" size="14|14" className="font-bold text-gray-600 block uppercase group-hover:text-black" />
+                              <SpaceText tag="span" text="REQUEST OR SEND ART" size="12|12" className="font-mono text-gray-500 block group-hover:text-v2k-pink-hot" />
                             </div>
                           </div>
                         </motion.button>
@@ -317,15 +293,16 @@ export default function FreebiesZone() {
         )}
       </AnimatePresence>
 
+      {/* MODAL DE PREVIEW (SOLUCIÓN A IMÁGENES VERTICALES) */}
       <AnimatePresence>
         {previewItem && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center z-[600] p-4 bg-black"
+            className="fixed inset-0 flex items-center justify-center z-[600] p-4 bg-black/90"
           >
-            <div className="w-full max-w-5xl">
+            <div className="w-full max-w-4xl">
               <Window
                 title={`Preview: ${previewItem.title}`}
                 className="relative bg-gray-100 border-2 border-black shadow-none max-h-[90vh] flex flex-col overflow-hidden"
@@ -333,31 +310,40 @@ export default function FreebiesZone() {
                 <button
                   type="button"
                   onClick={() => setPreviewItem(null)}
-                  className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-10 hover:bg-red-400"
+                  className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-gray-200 border-2 border-black font-bold z-20 hover:bg-red-400"
                 >
                   X
                 </button>
-                <div className="p-4 mt-8 flex flex-col items-center gap-4 w-full overflow-y-auto flex-grow">
-                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0">
+
+                {/* CONTENEDOR DE SCROLL OPTIMIZADO */}
+                <div className="p-4 mt-10 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden scrollbar-hide pb-16">
+                  
+                  {/* IMAGEN: Reducida a 45vh para asegurar que el botón entre en pantalla */}
+                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6">
                     <img
                       src={previewItem.imageURL}
                       alt={previewItem.title}
-                      className="w-auto h-auto max-w-full max-h-[45vh] md:max-h-[70vh] object-contain"
+                      className="w-auto h-auto max-w-full max-h-[45vh] md:max-h-[55vh] object-contain block mx-auto"
                     />
                   </div>
-                  <SpaceText
-                    tag="h4"
-                    text={previewItem.title}
-                    size="18|22"
-                    className="font-bold text-black mt-2 text-center shrink-0"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleDownloadSingle(previewItem)}
-                    className="px-4 md:px-6 py-2 bg-blue-200 border-2 border-black text-xs md:text-sm font-bold shadow-[4px_4px_0px_black] active:translate-x-0.5 active:translate-y-0.5 transition-all shrink-0 mb-4 uppercase"
-                  >
-                    ⬇️ DOWNLOAD FILE
-                  </button>
+
+                  {/* INFO Y BOTÓN DE DESCARGA */}
+                  <div className="flex flex-col items-center gap-6 w-full text-center">
+                    <SpaceText
+                      tag="h4"
+                      text={previewItem.title}
+                      size="18|22"
+                      className="font-bold text-black px-4"
+                    />
+                    
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadSingle(previewItem)}
+                      className="px-10 py-4 bg-blue-200 border-2 border-black text-xs md:text-sm font-bold shadow-[4px_4px_0px_black] active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase hover:bg-blue-300"
+                    >
+                      ⬇️ DOWNLOAD FILE
+                    </button>
+                  </div>
                 </div>
               </Window>
             </div>
