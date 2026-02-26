@@ -9,11 +9,25 @@ import Window from "../molecules/Window";
 
 export default function HeroSection() {
   const [showPopup, setShowPopup] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
+    // Check localStorage to see if user previously opted out
+    if (typeof window !== "undefined") {
+      const hidePopup = localStorage.getItem("hideHeroPopup");
+      if (hidePopup === "true") return;
+    }
+
     const timer = setTimeout(() => setShowPopup(true), 10000);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleClose = () => {
+    if (dontShowAgain && typeof window !== "undefined") {
+      localStorage.setItem("hideHeroPopup", "true");
+    }
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -57,7 +71,7 @@ export default function HeroSection() {
                         */}
             <Window
               title="( NEWJEANS_MATCH.EXE )"
-              onClose={() => setShowPopup(false)}
+              onClose={handleClose}
             >
               <div className="flex flex-col items-center gap-4 p-5 min-w-[280px] bg-v2k-gray-med">
                 <SpaceText
@@ -72,11 +86,27 @@ export default function HeroSection() {
                   className="text-center font-bold text-black"
                 />
 
+                <div className="flex items-center gap-2 mt-2 self-start cursor-pointer hover:opacity-80 transition-opacity">
+                  <input
+                    type="checkbox"
+                    id="dontShowAgain"
+                    checked={dontShowAgain}
+                    onChange={(e) => setDontShowAgain(e.target.checked)}
+                    className="w-4 h-4 border-2 border-black accent-v2k-pink-hot cursor-pointer"
+                  />
+                  <label
+                    htmlFor="dontShowAgain"
+                    className="text-[10px] font-bold text-black cursor-pointer uppercase tracking-tight"
+                  >
+                    No mostrar nunca más
+                  </label>
+                </div>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95, translateX: 2, translateY: 2 }}
                   className="mt-2 bg-v2k-accent border-[3px] border-black p-3 shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
-                  onClick={() => setShowPopup(false)}
+                  onClick={handleClose}
                 >
                   <Jersey
                     text="INICIAR_TEST"
@@ -89,6 +119,7 @@ export default function HeroSection() {
           </motion.div>
         )}
       </AnimatePresence>
+
     </>
   );
 }
