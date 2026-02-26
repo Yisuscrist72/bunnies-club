@@ -115,7 +115,7 @@ export default function MusicPlayer() {
             )}
 
             {/* PANTALLA LCD ANIMADA */}
-            <div className="bg-v2k-purple-soft rounded-[30px] p-4 border-[3px] border-black shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)] flex flex-col gap-3 overflow-hidden relative">
+            <div className="bg-v2k-purple-soft rounded-[30px] p-4 border-[3px] border-black shadow-[inset_4px_4px_0px_var(--v2k-shadow-light)] flex flex-col gap-3 overflow-hidden relative">
               <SpeakerGrille className="absolute left-2 top-1/2 -translate-y-1/2 rotate-90" />
               <SpeakerGrille className="absolute right-2 top-1/2 -translate-y-1/2 rotate-90" />
 
@@ -176,7 +176,7 @@ export default function MusicPlayer() {
                 </div>
               </div>
 
-              <div className="relative h-5 bg-white border-[2.5px] border-black rounded-full overflow-hidden mt-1 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] z-10">
+              <div className="relative h-5 bg-v2k-white border-[2.5px] border-black rounded-full overflow-hidden mt-1 shadow-[2px_2px_0px_var(--v2k-shadow-light)] z-10">
                 <div
                   className="absolute top-0 left-0 h-full bg-v2k-red-hover border-r-2 border-black"
                   style={{ width: `${(currentTime / duration) * 100}%` }}
@@ -230,11 +230,11 @@ export default function MusicPlayer() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between gap-2 bg-white rounded-2xl p-2.5 border-[3px] border-black shadow-[4px_4px_0px_rgba(0,0,0,0.1)]">
+              <div className="flex items-center justify-between gap-2 bg-v2k-white rounded-2xl p-2.5 border-[3px] border-black shadow-[4px_4px_0px_var(--v2k-shadow-light)]">
                 <button
                   type="button"
                   onClick={() => adjustVol(-10)}
-                  className="w-9 h-9 rounded-xl bg-[#D0EBFF] border-2 border-black text-black font-black shadow-[2px_2px_0px_#000] active:translate-y-0.5 flex items-center justify-center"
+                  className="w-9 h-9 rounded-xl bg-v2k-accent-soft border-2 border-black text-black font-black shadow-[2px_2px_0px_var(--v2k-black)] active:translate-y-0.5 flex items-center justify-center"
                 >
                   <SpaceText text="-" size="12|12" />
                 </button>

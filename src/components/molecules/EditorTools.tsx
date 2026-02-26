@@ -115,21 +115,21 @@ export default function EditorTools({
     <aside className="w-full lg:w-[420px] flex flex-col shrink-0 lg:h-full order-2 lg:order-none min-h-0 font-space">
       <Window
         title="DESIGN_CORE.EXE"
-        className="flex flex-col h-full border-[4px] border-black shadow-[10px_10px_0px_#000]"
+        className="flex flex-col h-full border-[4px] border-black shadow-[10px_10px_0px_var(--color-v2k-black)]"
         contentClassName="flex flex-col flex-1 min-h-0"
       >
         <div className="flex border-b-[3px] border-black bg-black shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab("libreria")}
-            className={`flex-1 py-4 font-bold border-r-[3px] border-black uppercase text-[12px] transition-all ${activeTab === "libreria" ? "bg-v2k-pink" : "bg-white"}`}
+            className={`flex-1 py-4 font-bold border-r-[3px] border-black uppercase text-[12px] transition-all ${activeTab === "libreria" ? "bg-v2k-pink" : "bg-v2k-white"}`}
           >
             Librería
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("capas")}
-            className={`flex-1 py-4 font-bold uppercase text-[12px] transition-all ${activeTab === "capas" ? "bg-v2k-pink" : "bg-white"}`}
+            className={`flex-1 py-4 font-bold uppercase text-[12px] transition-all ${activeTab === "capas" ? "bg-v2k-pink" : "bg-v2k-white"}`}
           >
             Capas
           </button>
@@ -157,7 +157,7 @@ export default function EditorTools({
                       placeholder="BUSCAR STICKER (EN INGLÉS)..."
                       value={iconSearch}
                       onChange={(e) => setIconSearch(e.target.value)}
-                      className="w-full p-3 border-[3px] border-black bg-white font-bold text-[11px] focus:bg-v2k-blue-soft outline-none shadow-[4px_4px_0px_#000] uppercase placeholder:opacity-30"
+                      className="w-full p-3 border-[3px] border-black bg-v2k-white font-bold text-[11px] focus:bg-v2k-blue-soft outline-none shadow-[4px_4px_0px_var(--color-v2k-black)] uppercase placeholder:opacity-30"
                     />
                     <p className="text-[9px] mt-2 opacity-40 font-bold italic uppercase tracking-wider">
                       * BUSCA EN INGLÉS (EJ: HEART, STAR, CAT)
@@ -176,7 +176,7 @@ export default function EditorTools({
                         onClick={() => {
                           addElement("icon", iconKey);
                         }}
-                        className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-pink p-2"
+                        className="group aspect-square bg-v2k-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_var(--color-v2k-black)] hover:bg-v2k-pink p-2"
                         title={iconKey}
                       >
                         <div className="w-full h-full transition-transform group-hover:scale-110">
@@ -196,7 +196,7 @@ export default function EditorTools({
                 </div>
 
               {/* PICKER COLOR FONDO (REVERSO) */}
-              <div className="space-y-3 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
+              <div className="space-y-3 bg-v2k-white p-4 border-[3px] border-black shadow-[4px_4px_0px_var(--color-v2k-black)]">
                 <div className="flex items-center gap-2">
                   <PaintBrush size={18} weight="bold" />
                   <p className="text-[10px] font-black uppercase">
@@ -204,7 +204,7 @@ export default function EditorTools({
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="relative w-12 h-12 border-[2px] border-black shadow-[2px_2px_0px_#000] overflow-hidden">
+                  <div className="relative w-12 h-12 border-[2px] border-black shadow-[2px_2px_0px_var(--color-v2k-black)] overflow-hidden">
                     <input
                       type="color"
                       value={backColor}
@@ -224,11 +224,11 @@ export default function EditorTools({
                   onClick={() => {
                     addElement("text", "NUEVO TEXTO");
                   }}
-                  className="w-full bg-v2k-yellow-soft border-[3px] border-black py-4 font-bold shadow-[4px_4px_0px_#000] mb-5 uppercase text-[11px] hover:bg-v2k-yellow"
+                  className="w-full bg-v2k-yellow-soft border-[3px] border-black py-4 font-bold shadow-[4px_4px_0px_var(--color-v2k-black)] mb-5 uppercase text-[11px] hover:bg-v2k-yellow"
                 >
                   + Texto Editable
                 </button>
-                <label className="block w-full bg-white border-[3px] border-black py-4 text-center cursor-pointer font-bold shadow-[4px_4px_0px_#000] hover:bg-v2k-blue-soft uppercase text-[11px]">
+                <label className="block w-full bg-v2k-white border-[3px] border-black py-4 text-center cursor-pointer font-bold shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-blue-soft uppercase text-[11px]">
                   + Imagen Local
                   <input
                     type="file"
@@ -245,7 +245,7 @@ export default function EditorTools({
                 <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-2">
                   {(selectedElement.type === "text" ||
                     selectedElement.type === "icon") && (
-                    <div className="space-y-4 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
+                    <div className="space-y-4 bg-v2k-white p-4 border-[3px] border-black shadow-[4px_4px_0px_var(--color-v2k-black)]">
                       {selectedElement.type === "text" && (
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
@@ -309,7 +309,7 @@ export default function EditorTools({
                                 fontFamily: e.target.value,
                               })
                             }
-                            className="w-full p-2 border-[2px] border-black bg-white font-bold text-[12px] cursor-pointer"
+                            className="w-full p-2 border-[2px] border-black bg-v2k-white font-bold text-[12px] cursor-pointer"
                           >
                             <option value="">Seleccionar...</option>
                             {GOOGLE_FONTS.map((f) => (
@@ -323,7 +323,7 @@ export default function EditorTools({
                     </div>
                   )}
 
-                  <div className="space-y-8 bg-white p-5 border-[3px] border-black shadow-[4px_4px_0px_#000]">
+                  <div className="space-y-8 bg-v2k-white p-5 border-[3px] border-black shadow-[4px_4px_0px_var(--color-v2k-black)]">
                     <div className="relative group">
                       <div className="flex justify-between items-center mb-4">
                         <div className="flex items-center gap-2">
@@ -379,7 +379,7 @@ export default function EditorTools({
                   <button
                     type="button"
                     onClick={deleteElement}
-                    className="w-full bg-v2k-red-soft border-[3px] border-black py-4 font-bold text-red-600 shadow-[4px_4px_0px_#000] hover:bg-v2k-red-hover active:translate-y-1 transition-all flex items-center justify-center gap-3"
+                    className="w-full bg-v2k-red-soft border-[3px] border-black py-4 font-bold text-red-600 shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-red-hover active:translate-y-1 transition-all flex items-center justify-center gap-3"
                   >
                     <Trash size={20} weight="fill" /> ELIMINAR CAPA
                   </button>

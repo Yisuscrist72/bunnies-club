@@ -1,62 +1,99 @@
 @import "tailwindcss";
 
+:root {
+  /* --- 1. COLORES BASE --- */
+  --v2k-blue: #c9e9f6;
+  --v2k-pink: #f4d8ed;
+  --v2k-pink-hot: #ff69b4;
+  --v2k-pink-light: #ffb6c1;
+  --v2k-yellow: #f9f1c3;
+  --v2k-yellow-soft: #fffce0;
+  --v2k-accent: #cde8ff;
+  --v2k-green-soft: #b2f2bb;
+  --v2k-green-hover: #8ce99a;
+  --v2k-red-soft: #ffd1dc;
+  --v2k-red-hover: #ffb7ce;
+
+  /* --- 2. COLORES SISTEMA --- */
+  --sys-bg-soft: #f3f4f6;
+  --sys-gray-win: #e5e7eb;
+  --sys-preview: #bfdbfe;
+
+  /* --- 3. COLORES COMPONENTES --- */
+  --nav-mobile: #e0f0ff;
+  --nav-bg: #bee5fd;
+  --insta: #f9a8d4;
+  --spotify: #4ade80;
+  --fb: #3b82f6;
+  --lang-from: #cae8fb;
+  --lang-to: #f4d1e2;
+
+  /* --- 4. COLORES ADICIONALES --- */
+  --v2k-black: #000000;
+  --v2k-white: #ffffff;
+  --v2k-gray-soft: #f9f9f9;
+  --v2k-gray-med: #f0f0f0;
+  --v2k-dark: #222222;
+  --v2k-cyan: #e0f7fa;
+  --v2k-purple-soft: #d1c4e9;
+  --v2k-accent-soft: #d0ebff;
+  --v2k-blue-deep: #80c8f0;
+  --v2k-pink-hover: #fce4ec;
+
+  /* --- 5. TRANSPARENCIAS --- */
+  --v2k-shadow-dark: rgba(0, 0, 0, 0.6);
+  --v2k-shadow-light: rgba(0, 0, 0, 0.1);
+  --v2k-shadow-white: rgba(255, 255, 255, 0.4);
+}
+
 @theme {
-  /* --- 1. COLORES BASE (SISTEMA Y V2K) --- */
-  --color-v2k-blue: #c9e9f6;
-  --color-v2k-pink: #f4d8ed;
-  --color-v2k-pink-hot: #ff69b4;
-  --color-v2k-pink-light: #ffb6c1; /* Botón de cerrar ventana */
-  --color-v2k-yellow: #f9f1c3;
-  --color-v2k-yellow-soft: #fffce0; /* Fondos de modales y alertas */
-  --color-v2k-accent: #cde8ff;
-  --color-v2k-green-soft: #b2f2bb; /* Botón de confirmar */
-  --color-v2k-green-hover: #8ce99a; /* Hover botón confirmar */
-  --color-v2k-red-soft: #ffd1dc; /* Botón cancelar */
-  --color-v2k-red-hover: #ffb7ce; /* Hover botón cancelar */
+  /* Mapeo de variables a Tailwind classes */
+  --color-v2k-blue: var(--v2k-blue);
+  --color-v2k-pink: var(--v2k-pink);
+  --color-v2k-pink-hot: var(--v2k-pink-hot);
+  --color-v2k-pink-light: var(--v2k-pink-light);
+  --color-v2k-yellow: var(--v2k-yellow);
+  --color-v2k-yellow-soft: var(--v2k-yellow-soft);
+  --color-v2k-accent: var(--v2k-accent);
+  --color-v2k-green-soft: var(--v2k-green-soft);
+  --color-v2k-green-hover: var(--v2k-green-hover);
+  --color-v2k-red-soft: var(--v2k-red-soft);
+  --color-v2k-red-hover: var(--v2k-red-hover);
 
-  /* Colores de Sistema (Variables globales solicitadas) */
-  --color-sys-bg-soft: #f3f4f6;
-  --color-sys-overlay: rgba(0, 0, 0, 0.8);
-  --color-sys-gray-win: #e5e7eb;
-  --color-sys-preview: #bfdbfe;
+  --color-sys-bg-soft: var(--sys-bg-soft);
+  --color-sys-gray-win: var(--sys-gray-win);
+  --color-sys-preview: var(--sys-preview);
 
-  /* --- 2. COLORES NAVBAR Y COMPONENTES --- */
-  --color-nav-mobile: #e0f0ff;
-  --color-nav-bg: #bee5fd;
-  --color-insta: #f9a8d4;
-  --color-spotify: #4ade80;
-  --color-fb: #3b82f6;
-  --color-lang-from: #cae8fb;
-  --color-lang-to: #f4d1e2;
+  --color-nav-mobile: var(--nav-mobile);
+  --color-nav-bg: var(--nav-bg);
+  --color-insta: var(--insta);
+  --color-spotify: var(--spotify);
+  --color-fb: var(--fb);
+  --color-lang-from: var(--lang-from);
+  --color-lang-to: var(--lang-to);
 
-  /* --- 3. FUENTES --- */
+  --color-v2k-black: var(--v2k-black);
+  --color-v2k-white: var(--v2k-white);
+  --color-v2k-gray-soft: var(--v2k-gray-soft);
+  --color-v2k-gray-med: var(--v2k-gray-med);
+  --color-v2k-dark: var(--v2k-dark);
+  --color-v2k-cyan: var(--v2k-cyan);
+  --color-v2k-purple-soft: var(--v2k-purple-soft);
+  --color-v2k-accent-soft: var(--v2k-accent-soft);
+  --color-v2k-blue-deep: var(--v2k-blue-deep);
+  --color-v2k-pink-hover: var(--v2k-pink-hover);
+
+  /* Sombras Y2K */
+  --shadow-v2k-lg: 8px 8px 0px var(--v2k-black);
+  --shadow-v2k-md: 6px 6px 0px var(--v2k-black);
+  --shadow-v2k-sm: 4px 4px 0px var(--v2k-black);
+  --shadow-v2k-xs: 3px 3px 0px var(--v2k-black);
+  --shadow-nav-btn: 3px 3px 0px var(--v2k-black);
+  --shadow-nav-small: 2px 2px 0px var(--v2k-black);
+
+  /* Fuentes */
   --font-jersey: var(--font-jersey);
   --font-space: var(--font-space);
-
-  /* --- 4. SOMBRAS Y2K --- */
-  --shadow-v2k-lg: 8px 8px 0px #000000;
-  --shadow-v2k-md: 6px 6px 0px #000000;
-  --shadow-v2k-sm: 4px 4px 0px #000000;
-  --shadow-v2k-xs: 3px 3px 0px #000000;
-  --shadow-nav-btn: 3px 3px 0px #000000;
-  --shadow-nav-small: 2px 2px 0px #000000;
-
-  /* --- 5. COLORES ADICIONALES  --- */
-  --color-v2k-black: #000000;
-  --color-v2k-white: #ffffff;
-  --color-v2k-gray-soft: #f9f9f9;
-  --color-v2k-gray-med: #f0f0f0;
-  --color-v2k-dark: #222222;
-  --color-v2k-cyan: #e0f7fa;
-  --color-v2k-purple-soft: #d1c4e9;
-  --color-v2k-accent-soft: #d0ebff;
-  --color-v2k-blue-deep: #80c8f0;
-  --color-v2k-pink-hover: #fce4ec;
-
-  /* Colores con transparencia */
-  --color-v2k-shadow-dark: rgba(0, 0, 0, 0.6);
-  --color-v2k-shadow-light: rgba(0, 0, 0, 0.1);
-  --color-v2k-shadow-white: rgba(255, 255, 255, 0.4);
 }
 
 /* --- ESTILOS BASE --- */
