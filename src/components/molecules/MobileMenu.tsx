@@ -9,6 +9,8 @@ import {
   IconX,
 } from "../atoms/icons/SocialIcons";
 import Jersey from "../atoms/texts/Jersey";
+import { useAuth } from "@/context/AuthContext";
+import { IconUser } from "../atoms/icons/SocialIcons";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -16,6 +18,7 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { user, profile } = useAuth();
   const menuVariants: Variants = {
     closed: {
       x: "100%",
@@ -92,6 +95,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 { label: "QUIZ", href: "/quiz", sparkles: true },
                 { label: "TIENDA", href: "/shop" },
                 { label: "FORO", href: "/forum" },
+                { label: user ? "PERFIL" : "LOGIN", href: user ? "/profile" : "/login", userIcon: true },
               ].map((item) => (
                 <motion.li
                   key={item.label}
@@ -106,6 +110,15 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     >
                       <div className="flex items-center gap-2">
                         {item.sparkles && <span className="text-xl">✨</span>}
+                        {item.userIcon && (
+                          profile?.photoURL ? (
+                            <div className="w-8 h-8 relative rounded-full overflow-hidden border-2 border-black mr-1">
+                              <Image src={profile.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                            </div>
+                          ) : (
+                            <IconUser className="w-8 h-8 mr-1 text-black" />
+                          )
+                        )}
                         <Jersey
                           tag="span"
                           text={item.label}

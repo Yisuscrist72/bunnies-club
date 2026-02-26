@@ -7,10 +7,12 @@ import {
   IconFacebook,
   IconInstagram,
   IconSpotify,
+  IconUser,
   IconX,
 } from "../atoms/icons/SocialIcons";
 import Jersey from "../atoms/texts/Jersey";
 import MobileMenu from "../molecules/MobileMenu";
+import { useAuth } from "@/context/AuthContext";
 
 const WHILE_TAP = { x: 4, y: 4, boxShadow: "0px 0px 0px #000000" };
 const TRANSITION_SPRING = {
@@ -22,6 +24,7 @@ const TRANSITION_SPRING = {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFreebiesModalOpen, setIsFreebiesModalOpen] = useState(false);
+  const { user, profile } = useAuth();
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
@@ -31,10 +34,10 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   useEffect(() => {
-    const handleModalEvent = (e: any) => setIsFreebiesModalOpen(e.detail);
-    window.addEventListener("toggleFreebiesModal", handleModalEvent);
+    const handleModalEvent = (e: CustomEvent<boolean>) => setIsFreebiesModalOpen(e.detail);
+    window.addEventListener("toggleFreebiesModal", handleModalEvent as EventListener);
     return () =>
-      window.removeEventListener("toggleFreebiesModal", handleModalEvent);
+      window.removeEventListener("toggleFreebiesModal", handleModalEvent as EventListener);
   }, []);
 
   return (
@@ -165,6 +168,31 @@ export default function Navbar() {
           >
             <Jersey tag="span" text="ES/EN" size="18|22" />
           </motion.button>
+
+          {/* USER PROFILE ICON */}
+          <Link href={user ? "/profile" : "/login"}>
+            <motion.div
+              whileHover={{
+                y: -6,
+                scale: 1.15,
+                rotate: -5,
+                boxShadow: "6px 6px 0px var(--color-v2k-black)",
+              }}
+              whileTap={WHILE_TAP}
+              transition={TRANSITION_SPRING}
+              className="w-9 h-9 lg:w-11 lg:h-11 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center cursor-pointer hover:bg-pink-400 shadow-nav-small text-white transition-colors duration-200 overflow-hidden"
+            >
+              {profile?.photoURL ? (
+                <Image
+                  src={profile.photoURL}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <IconUser className="w-6 h-6" />
+              )}
+            </motion.div>
+          </Link>
         </div>
       </nav>
 
