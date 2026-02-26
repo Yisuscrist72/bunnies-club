@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import React from "react";
 import {
   IconFacebook,
@@ -162,18 +163,30 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-8">
-            <Jersey
-              tag="span"
-              text="PRIVACY_POLICY.TXT"
-              size="12|12"
-              className="text-black opacity-60 cursor-pointer hover:opacity-100 hover:underline transition-all"
-            />
-            <Jersey
-              tag="span"
-              text="TERMS_OF_USE.EXE"
-              size="12|12"
-              className="text-black opacity-60 cursor-pointer hover:opacity-100 hover:underline transition-all"
-            />
+            <Link href="/privacy">
+              <Jersey
+                tag="span"
+                text="PRIVACY_POLICY.TXT"
+                size="12|12"
+                className="text-black opacity-60 cursor-pointer hover:opacity-100 hover:underline transition-all"
+              />
+            </Link>
+            <Link href="/terms">
+              <Jersey
+                tag="span"
+                text="TERMS_OF_USE.EXE"
+                size="12|12"
+                className="text-black opacity-60 cursor-pointer hover:opacity-100 hover:underline transition-all"
+              />
+            </Link>
+            <Link href="/copyright">
+              <Jersey
+                tag="span"
+                text="COPYRIGHT_INFO.MD"
+                size="12|12"
+                className="text-black opacity-60 cursor-pointer hover:opacity-100 hover:underline transition-all"
+              />
+            </Link>
           </div>
         </div>
       </div>
