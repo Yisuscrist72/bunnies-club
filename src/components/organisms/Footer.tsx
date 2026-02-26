@@ -16,7 +16,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#BEE5FD] border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-0 relative overflow-hidden">
+    <footer className="w-full bg-nav-bg border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-0 relative overflow-hidden">
       {/* Fondo decorativo con logo BUNNIES CLUB */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
         <span className="font-jersey text-[8rem] md:text-[14rem] leading-none text-black whitespace-nowrap font-bold tracking-tighter">
@@ -80,7 +80,7 @@ export default function Footer() {
                     whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
                     whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                     transition={{ duration: 0.1 }}
-                    className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer text-black"
+                    className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-v2k-sm cursor-pointer text-black"
                   >
                     {item.icon}
                   </motion.div>
@@ -118,7 +118,7 @@ export default function Footer() {
                   }}
                   whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                   transition={{ duration: 0.1, ease: "linear" }}
-                  className="px-8 py-2 border-[3px] border-black shadow-[4px_4px_0px_#000] flex items-center justify-center bg-white"
+                  className="px-8 py-2 border-[3px] border-black shadow-v2k-sm flex items-center justify-center bg-white"
                 >
                   <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
                 </motion.button>

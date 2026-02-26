@@ -26,28 +26,28 @@ const GOOGLE_FONTS = [
 ];
 
 export const ICON_MAP: Record<string, React.ReactNode> = {
-  Heart: <Heart weight="fill" className="w-full h-full text-[#ff007f]" />,
-  Star: <Star weight="fill" className="w-full h-full text-yellow-400" />,
+  Heart: <Heart weight="fill" className="w-full h-full" />,
+  Star: <Star weight="fill" className="w-full h-full" />,
   Smiley: <Smiley weight="bold" className="w-full h-full" />,
   Music: <MusicNotes weight="bold" className="w-full h-full" />,
-  Zap: <Lightning weight="fill" className="w-full h-full text-yellow-500" />,
+  Zap: <Lightning weight="fill" className="w-full h-full" />,
   Coffee: <Coffee weight="bold" className="w-full h-full" />,
   Camera: <Camera weight="bold" className="w-full h-full" />,
-  Sparkle: <Sparkle weight="fill" className="w-full h-full text-[#ffccff]" />,
-  Moon: <Moon weight="fill" className="w-full h-full text-indigo-300" />,
+  Sparkle: <Sparkle weight="fill" className="w-full h-full" />,
+  Moon: <Moon weight="fill" className="w-full h-full" />,
   Headphones: <Headphones weight="bold" className="w-full h-full" />,
   Disc: <Disc weight="bold" className="w-full h-full" />,
-  Fire: <Fire weight="fill" className="w-full h-full text-orange-500" />,
-  Cloud: <Cloud weight="fill" className="w-full h-full text-blue-200" />,
-  Sun: <Sun weight="fill" className="w-full h-full text-yellow-500" />,
-  Crown: <Crown weight="fill" className="w-full h-full text-yellow-400" />,
+  Fire: <Fire weight="fill" className="w-full h-full" />,
+  Cloud: <Cloud weight="fill" className="w-full h-full" />,
+  Sun: <Sun weight="fill" className="w-full h-full" />,
+  Crown: <Crown weight="fill" className="w-full h-full" />,
   Game: <GameController weight="bold" className="w-full h-full" />,
   Mic: <Microphone weight="bold" className="w-full h-full" />,
-  Butterfly: <Butterfly weight="bold" className="w-full h-full text-[#ff007f]" />,
-  Flower: <Flower weight="fill" className="w-full h-full text-[#ffccff]" />,
+  Butterfly: <Butterfly weight="bold" className="w-full h-full" />,
+  Flower: <Flower weight="fill" className="w-full h-full" />,
   Ghost: <Ghost weight="bold" className="w-full h-full" />,
   Peace: <HandPeace weight="bold" className="w-full h-full" />,
-  Alien: <Alien weight="fill" className="w-full h-full text-green-400" />,
+  Alien: <Alien weight="fill" className="w-full h-full" />,
   Rainbow: <Rainbow weight="bold" className="w-full h-full" />,
 };
 
@@ -142,17 +142,19 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
             <div className="flex flex-col gap-6">
               {selectedElement ? (
                 <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-2">
-                  {selectedElement.type === "text" && (
+                  {(selectedElement.type === "text" || selectedElement.type === "icon") && (
                     <div className="space-y-4 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2"><TextT size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Contenido</p></div>
-                        <textarea value={selectedElement.content} onChange={(e) => updateElement(selectedElement.id, { content: e.target.value })} className="w-full p-3 border-[2px] border-black bg-v2k-yellow-soft font-bold text-sm focus:outline-none min-h-[60px] resize-none" />
-                      </div>
+                      {selectedElement.type === "text" && (
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2"><TextT size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Contenido</p></div>
+                          <textarea value={selectedElement.content} onChange={(e) => updateElement(selectedElement.id, { content: e.target.value })} className="w-full p-3 border-[2px] border-black bg-v2k-yellow-soft font-bold text-sm focus:outline-none min-h-[60px] resize-none" />
+                        </div>
+                      )}
 
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2"><PaintBucket size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Color del Texto</p></div>
+                        <div className="flex items-center gap-2"><PaintBucket size={18} weight="bold" /><p className="text-[10px] font-black uppercase">{selectedElement.type === "text" ? "Color del Texto" : "Color del Sticker"}</p></div>
                         <div className="flex items-center gap-4">
-                          <div className="relative w-10 h-10 border-[2px] border-black shadow-[2px_2px_0px_#000] overflow-hidden">
+                          <div className="relative w-10 h-10 border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden">
                             <input 
                               type="color" 
                               value={selectedElement.color || "#000000"} 
@@ -164,13 +166,15 @@ export default function EditorTools({ addElement, deleteElement, updateElement, 
                         </div>
                       </div>
 
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2"><TextAa size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Fuente</p></div>
-                        <select value={selectedElement.fontFamily || ""} onChange={(e) => updateElement(selectedElement.id, { fontFamily: e.target.value })} className="w-full p-2 border-[2px] border-black bg-white font-bold text-[12px] cursor-pointer">
-                          <option value="">Seleccionar...</option>
-                          {GOOGLE_FONTS.map(f => <option key={f.family} value={f.family}>{f.name}</option>)}
-                        </select>
-                      </div>
+                      {selectedElement.type === "text" && (
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2"><TextAa size={18} weight="bold" /><p className="text-[10px] font-black uppercase">Fuente</p></div>
+                          <select value={selectedElement.fontFamily || ""} onChange={(e) => updateElement(selectedElement.id, { fontFamily: e.target.value })} className="w-full p-2 border-[2px] border-black bg-white font-bold text-[12px] cursor-pointer">
+                            <option value="">Seleccionar...</option>
+                            {GOOGLE_FONTS.map(f => <option key={f.family} value={f.family}>{f.name}</option>)}
+                          </select>
+                        </div>
+                      )}
                     </div>
                   )}
 
