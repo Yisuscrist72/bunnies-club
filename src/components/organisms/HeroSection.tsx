@@ -59,7 +59,7 @@ export default function HeroSection() {
               title="( NEWJEANS_MATCH.EXE )"
               onClose={() => setShowPopup(false)}
             >
-              <div className="flex flex-col items-center gap-4 p-5 min-w-[280px] bg-[#f0f0f0]">
+              <div className="flex flex-col items-center gap-4 p-5 min-w-[280px] bg-v2k-gray-med">
                 <SpaceText
                   text="¿CUÁL SERÁ TU INTEGRANTE?"
                   size="12|12"

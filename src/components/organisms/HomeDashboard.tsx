@@ -33,7 +33,7 @@ const PhotocardModule = () => (
           </div>
 
           {/* Lado derecho: Información y Stickers */}
-          <div className="w-1/2 bg-[#f9f9f9] p-2 flex flex-col">
+          <div className="w-1/2 bg-v2k-gray-soft p-2 flex flex-col">
             <SpaceText
               text="Stickers"
               size="12|12"

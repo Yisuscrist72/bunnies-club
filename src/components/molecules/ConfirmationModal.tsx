@@ -42,7 +42,7 @@ export default function ConfirmationModal({
       >
         <Window title={title} onClose={onCancel}>
           <div className="flex flex-col items-center gap-6 p-6 text-center bg-white">
-            <div className="text-7xl drop-shadow-[3px_3px_0px_#000] animate-bounce text-black">
+            <div className="text-7xl drop-shadow-[3px_3px_0px_var(--color-v2k-black)] animate-bounce text-black">
               {emoji}
             </div>
             <SpaceText
@@ -55,14 +55,14 @@ export default function ConfirmationModal({
               <button
                 type="button"
                 onClick={onCancel}
-                className="flex-1 bg-v2k-red-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_#000] hover:bg-v2k-red-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
+                className="flex-1 bg-v2k-red-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-red-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
               >
                 {cancelText}
               </button>
               <button
                 type="button"
                 onClick={onConfirm}
-                className="flex-1 bg-v2k-green-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_#000] hover:bg-v2k-green-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
+                className="flex-1 bg-v2k-green-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-green-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
               >
                 {confirmText}
               </button>

@@ -47,10 +47,10 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           initial="closed"
           animate="open"
           exit="closed"
-          className="fixed inset-0 w-full h-[100dvh] bg-[#BEE5FD] z-[100] flex flex-col md:hidden overflow-hidden"
+          className="fixed inset-0 w-full h-[100dvh] bg-nav-bg z-[100] flex flex-col md:hidden overflow-hidden"
         >
           {/* BARRA DE TÍTULO */}
-          <div className="w-full bg-[#80c8f0] p-2 border-b-[3px] border-black flex justify-between items-center shadow-[0_2px_0_rgba(255,255,255,0.4)_inset]">
+          <div className="w-full bg-v2k-blue-deep p-2 border-b-[3px] border-black flex justify-between items-center shadow-[0_2px_0_var(--color-v2k-shadow-white)_inset]">
             <div className="flex items-center gap-2 ml-2">
               <div className="w-3 h-3 bg-black border border-black shadow-[1px_1px_0_white]" />
               <Jersey
@@ -133,9 +133,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               ].map((icon) => (
                 <motion.div
                   key={icon.key}
-                  whileHover={{ scale: 1.1, backgroundColor: "#fce4ec" }}
-                  whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-                  className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_#000] cursor-pointer transition-colors text-black"
+                  whileHover={{ scale: 1.1, backgroundColor: "var(--color-v2k-pink-hover)" }}
+                  whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
+                  className="w-12 h-12 bg-v2k-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_var(--color-v2k-black)] cursor-pointer transition-colors text-black"
                 >
                   {icon}
                 </motion.div>
@@ -145,8 +145,8 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <motion.button
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
-              whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-              className="w-full max-w-[220px] text-black border-[3px] border-black bg-gradient-to-r from-[#cae8fb] to-[#f4d1e2] py-3 rounded-full shadow-[4px_4px_0px_#000] transition-all"
+              whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
+              className="w-full max-w-[220px] text-black border-[3px] border-black bg-gradient-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
             >
               <Jersey
                 tag="span"
@@ -158,7 +158,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* BARRA DE ESTADO */}
-          <div className="w-full bg-[#BEE5FD] border-t-[3px] border-black px-4 py-1 flex justify-between items-center font-bold">
+          <div className="w-full bg-nav-bg border-t-[3px] border-black px-4 py-1 flex justify-between items-center font-bold">
             <Jersey
               tag="span"
               text="SYSTEM READY"

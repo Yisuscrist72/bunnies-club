@@ -136,7 +136,7 @@ export default function Navbar() {
                   y: -6,
                   scale: 1.15,
                   rotate: soc.rotate,
-                  boxShadow: "6px 6px 0px #000000",
+                  boxShadow: "6px 6px 0px var(--color-v2k-black)",
                 }}
                 whileTap={WHILE_TAP}
                 transition={TRANSITION_SPRING}
@@ -151,8 +151,8 @@ export default function Navbar() {
           <motion.button
             whileHover={{
               scale: 1.05,
-              backgroundColor: "#000",
-              boxShadow: "6px 6px 0px #FF69B4",
+              backgroundColor: "var(--color-v2k-black)",
+              boxShadow: "6px 6px 0px var(--color-v2k-pink-hot)",
             }}
             whileTap={WHILE_TAP}
             transition={TRANSITION_SPRING}

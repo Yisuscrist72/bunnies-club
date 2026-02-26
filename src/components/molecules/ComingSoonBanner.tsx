@@ -10,13 +10,13 @@ export default function ComingSoonBanner() {
         className="absolute inset-0 opacity-10"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%)",
+            "repeating-linear-gradient(45deg, var(--color-v2k-black) 0, var(--color-v2k-black) 1px, transparent 0, transparent 50%)",
           backgroundSize: "10px 10px",
         }}
       />
 
       <div className="bg-white border-[3px] border-black px-8 py-5 text-center shadow-v2k-sm z-10 -rotate-1 max-w-lg w-full">
-        <div className="text-4xl mb-3 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
+        <div className="text-4xl mb-3 drop-shadow-[2px_2px_0px_var(--color-v2k-shadow-light)]">
           🔒
         </div>
         <Jersey

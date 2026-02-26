@@ -31,9 +31,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${jersey10.variable} ${spaceGrotesk.variable} h-full bg-[#BEE5FD]`}
+      className={`${jersey10.variable} ${spaceGrotesk.variable} h-full bg-nav-bg`}
     >
-      <body className="antialiased flex flex-col min-h-full w-full bg-gradient-to-b from-[#BEE5FD] via-[#FEE2FE] to-[#BEE5FD] bg-fixed bg-no-repeat bg-cover">
+      <body className="antialiased flex flex-col min-h-full w-full bg-gradient-to-b from-nav-bg via-[#FEE2FE] to-nav-bg bg-fixed bg-no-repeat bg-cover">
         {/* Aquí ponemos la pantalla de carga, ella sola sabe cuándo mostrarse */}
         <LoadingScreen />
 

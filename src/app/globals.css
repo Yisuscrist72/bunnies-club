@@ -40,6 +40,23 @@
   --shadow-v2k-xs: 3px 3px 0px #000000;
   --shadow-nav-btn: 3px 3px 0px #000000;
   --shadow-nav-small: 2px 2px 0px #000000;
+
+  /* --- 5. COLORES ADICIONALES  --- */
+  --color-v2k-black: #000000;
+  --color-v2k-white: #ffffff;
+  --color-v2k-gray-soft: #f9f9f9;
+  --color-v2k-gray-med: #f0f0f0;
+  --color-v2k-dark: #222222;
+  --color-v2k-cyan: #e0f7fa;
+  --color-v2k-purple-soft: #d1c4e9;
+  --color-v2k-accent-soft: #d0ebff;
+  --color-v2k-blue-deep: #80c8f0;
+  --color-v2k-pink-hover: #fce4ec;
+
+  /* Colores con transparencia */
+  --color-v2k-shadow-dark: rgba(0, 0, 0, 0.6);
+  --color-v2k-shadow-light: rgba(0, 0, 0, 0.1);
+  --color-v2k-shadow-white: rgba(255, 255, 255, 0.4);
 }
 
 /* --- ESTILOS BASE --- */

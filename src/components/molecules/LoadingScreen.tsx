@@ -36,13 +36,13 @@ export default function LoadingScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[999] bg-[#BEE5FD] flex flex-col items-center justify-center pointer-events-auto"
+          className="fixed inset-0 z-[999] bg-nav-bg flex flex-col items-center justify-center pointer-events-auto"
         >
           {/* Patrón de fondo retro */}
           <div
             className="absolute inset-0 opacity-[0.1]"
             style={{
-              backgroundImage: `radial-gradient(#000 1px, transparent 1px)`,
+              backgroundImage: `radial-gradient(var(--color-v2k-black) 1px, transparent 1px)`,
               backgroundSize: "20px 20px",
             }}
           />

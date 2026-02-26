@@ -135,7 +135,7 @@ export default function EditorTools({
           </button>
         </div>
 
-        <div className="p-5 overflow-y-auto flex-1 bg-[#F9F9F9] custom-scrollbar min-h-0">
+        <div className="p-5 overflow-y-auto flex-1 bg-v2k-gray-soft custom-scrollbar min-h-0">
           {activeTab === "libreria" ? (
             <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-4 mb-6">
