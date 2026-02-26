@@ -1,7 +1,6 @@
 "use client";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import Link from "next/link";
-import React from "react";
 import Image from "../atoms/Image";
 import {
   IconFacebook,
@@ -126,19 +125,20 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-[2px] border-black/10 z-10">
             <motion.div variants={itemVariants} className="flex gap-4">
               {[
-                <IconInstagram key="ig" className="w-5 h-5" />,
-                <IconSpotify key="spotify" className="w-5 h-5" />,
-                <IconX key="x" className="w-5 h-5" />,
-                <IconFacebook key="fb" className="w-5 h-5" />,
-              ].map((icon) => (
-                <motion.div
-                  key={icon.key}
-                  whileHover={{ scale: 1.1, backgroundColor: "var(--color-v2k-pink-hover)" }}
-                  whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
-                  className="w-12 h-12 bg-v2k-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_var(--color-v2k-black)] cursor-pointer transition-colors text-black"
-                >
-                  {icon}
-                </motion.div>
+                { icon: <IconInstagram key="ig" className="w-5 h-5" />, href: "https://www.instagram.com/newjeans_official/" },
+                { icon: <IconSpotify key="spotify" className="w-5 h-5" />, href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC" },
+                { icon: <IconX key="x" className="w-5 h-5" />, href: "https://twitter.com/NewJeans_ADOR" },
+                { icon: <IconFacebook key="fb" className="w-5 h-5" />, href: "https://www.facebook.com/official.newjeans/" },
+              ].map((item) => (
+                <Link key={item.href} href={item.href} target="_blank">
+                  <motion.div
+                    whileHover={{ scale: 1.1, backgroundColor: "var(--color-v2k-pink-hover)" }}
+                    whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
+                    className="w-12 h-12 bg-v2k-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_var(--color-v2k-black)] cursor-pointer transition-colors text-black"
+                  >
+                    {item.icon}
+                  </motion.div>
+                </Link>
               ))}
             </motion.div>
 

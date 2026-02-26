@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "../atoms/Image";
 import {
   IconFacebook,
@@ -107,6 +107,7 @@ export default function Navbar() {
                 bg: "bg-insta",
                 hov: "hover:bg-pink-400",
                 rotate: -8,
+                href: "https://www.instagram.com/newjeans_official/",
               },
               {
                 ico: <IconSpotify className="w-5 h-5" />,
@@ -114,12 +115,14 @@ export default function Navbar() {
                 hov: "hover:bg-green-500",
                 round: "rounded-full",
                 rotate: 8,
+                href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
               },
               {
                 ico: <IconX className="w-5 h-5" />,
                 bg: "bg-nav-bg",
                 hov: "hover:bg-blue-300",
                 rotate: -5,
+                href: "https://twitter.com/NewJeans_ADOR",
               },
               {
                 ico: <IconFacebook className="w-5 h-5" />,
@@ -128,22 +131,24 @@ export default function Navbar() {
                 round: "rounded-full",
                 txt: "text-white",
                 rotate: 5,
+                href: "https://www.facebook.com/official.newjeans/",
               },
-            ].map((soc, index) => (
-              <motion.div
-                key={index}
-                whileHover={{
-                  y: -6,
-                  scale: 1.15,
-                  rotate: soc.rotate,
-                  boxShadow: "6px 6px 0px var(--color-v2k-black)",
-                }}
-                whileTap={WHILE_TAP}
-                transition={TRANSITION_SPRING}
-                className={`w-9 h-9 lg:w-11 lg:h-11 ${soc.bg} border-[3px] border-black ${soc.round || "rounded-md"} flex items-center justify-center cursor-pointer ${soc.hov} shadow-nav-small ${soc.txt || "text-black"} transition-colors duration-200`}
-              >
-                {soc.ico}
-              </motion.div>
+            ].map((soc) => (
+              <Link key={soc.href} href={soc.href} target="_blank">
+                <motion.div
+                  whileHover={{
+                    y: -6,
+                    scale: 1.15,
+                    rotate: soc.rotate,
+                    boxShadow: "6px 6px 0px var(--color-v2k-black)",
+                  }}
+                  whileTap={WHILE_TAP}
+                  transition={TRANSITION_SPRING}
+                  className={`w-9 h-9 lg:w-11 lg:h-11 ${soc.bg} border-[3px] border-black ${soc.round || "rounded-md"} flex items-center justify-center cursor-pointer ${soc.hov} shadow-nav-small ${soc.txt || "text-black"} transition-colors duration-200`}
+                >
+                  {soc.ico}
+                </motion.div>
+              </Link>
             ))}
           </div>
 

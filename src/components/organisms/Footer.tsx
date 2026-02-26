@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import React from "react";
 import {
   IconFacebook,
   IconInstagram,
@@ -71,20 +70,21 @@ export default function Footer() {
               />
               <div className="flex gap-4">
                 {[
-                  { icon: <IconInstagram className="w-6 h-6" />, key: "ig" },
-                  { icon: <IconSpotify className="w-6 h-6" />, key: "spotify" },
-                  { icon: <IconX className="w-6 h-6" />, key: "x" },
-                  { icon: <IconFacebook className="w-6 h-6" />, key: "fb" },
+                  { icon: <IconInstagram className="w-6 h-6" />, key: "ig", href: "https://www.instagram.com/newjeans_official/" },
+                  { icon: <IconSpotify className="w-6 h-6" />, key: "spotify", href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC" },
+                  { icon: <IconX className="w-6 h-6" />, key: "x", href: "https://twitter.com/NewJeans_ADOR" },
+                  { icon: <IconFacebook className="w-6 h-6" />, key: "fb", href: "https://www.facebook.com/official.newjeans/" },
                 ].map((item) => (
-                  <motion.div
-                    key={item.key}
-                    whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
-                    whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
-                    transition={{ duration: 0.1 }}
-                    className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-v2k-sm cursor-pointer text-black"
-                  >
-                    {item.icon}
-                  </motion.div>
+                  <Link key={item.key} href={item.href} target="_blank">
+                    <motion.div
+                      whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
+                      whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
+                      transition={{ duration: 0.1 }}
+                      className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-v2k-sm cursor-pointer text-black"
+                    >
+                      {item.icon}
+                    </motion.div>
+                  </Link>
                 ))}
               </div>
             </div>
