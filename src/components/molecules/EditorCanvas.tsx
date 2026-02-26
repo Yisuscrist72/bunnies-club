@@ -3,12 +3,19 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import type { EditorElement } from "../../app/photocard-editor/[id]/types";
-import { ICON_MAP } from "@/components/molecules/EditorTools";
+import * as Icons from "@phosphor-icons/react";
 
 const Rnd = dynamic(() => import("react-rnd").then((mod) => mod.Rnd), {
   ssr: false,
   loading: () => <div className="animate-pulse bg-black/5 w-full h-full rounded-xl" />,
 });
+
+// Componente para renderizar iconos por nombre
+const IconRenderer = ({ name, ...props }: { name: string; [key: string]: any }) => {
+  const IconComponent = (Icons as any)[name];
+  if (!IconComponent) return null;
+  return <IconComponent {...props} />;
+};
 
 interface EditorCanvasProps {
   side: "front" | "back";
@@ -73,7 +80,7 @@ export default function EditorCanvas({
             >
               {el.type === "icon" && el.content && (
                 <div className="w-full h-full pointer-events-none" style={{ color: el.color || "#000000" }}>
-                  {ICON_MAP[el.content]}
+                  <IconRenderer name={el.content} weight="fill" className="w-full h-full" />
                 </div>
               )}
 
