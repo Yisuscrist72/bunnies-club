@@ -43,7 +43,7 @@ export default function RootLayout({
             {/* Solo mostramos Navbar y Footer si NO estamos editando */}
             {!isEditor && <Navbar />}
 
-            <main className="grow flex flex-col relative z-50">{children}</main>
+            <main className="grow flex flex-col">{children}</main>
 
             {!isEditor && <Footer />}
 
