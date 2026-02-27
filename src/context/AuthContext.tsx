@@ -215,11 +215,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, profile, addPoints]); // Usamos profile completo para simplicidad y cumplir linting
 
-  const uploadImage = async (file: File) => {
+  const uploadImage = async (file: File, subfolder: string = "avatars") => {
     if (!user) throw new Error("Debes estar autenticado para subir imágenes");
     
     try {
-      const storageRef = ref(storage, `avatars/${user.uid}/${Date.now()}_${file.name}`);
+      const storageRef = ref(storage, `${subfolder}/${user.uid}/${Date.now()}_${file.name}`);
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
       return downloadURL;

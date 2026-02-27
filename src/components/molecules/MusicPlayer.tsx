@@ -9,7 +9,7 @@ const SpeakerGrille = ({ className }: { className?: string }) => (
   <div className={`grid grid-cols-4 gap-1 opacity-40 ${className}`}>
     {[...Array(16)].map((_, i) => (
       <div
-        key={i}
+        key={`grille-${i}`}
         className="w-1 h-1 bg-black rounded-full shadow-[inset_0.5px_0.5px_0px_rgba(255,255,255,0.2)]"
       />
     ))}
@@ -30,7 +30,7 @@ const HoloDisc = ({ size, hole }: { size: string; hole: string }) => (
   </div>
 );
 
-export default function MusicPlayer() {
+export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const {
@@ -102,7 +102,7 @@ export default function MusicPlayer() {
               opacity: { duration: 0.4 }
             }}
             className={`
-                            bg-v2k-cyan border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
+                            ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
                             w-full max-w-[280px] flex flex-col gap-4 z-[110] rounded-[45px] mx-auto
                             ${isOpen ? "fixed bottom-24 right-4" : "relative"} lg:relative
                         `}

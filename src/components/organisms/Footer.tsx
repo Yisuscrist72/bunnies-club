@@ -16,7 +16,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-nav-bg border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-0 relative overflow-hidden">
+    <footer className="w-full bg-nav-bg border-t-[3px] border-black py-10 md:py-16 mt-20 md:mt-32 z-40 relative overflow-hidden">
       {/* Fondo decorativo con logo BUNNIES CLUB */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
         <span className="font-jersey text-[8rem] md:text-[14rem] leading-none text-black whitespace-nowrap font-bold tracking-tighter">
