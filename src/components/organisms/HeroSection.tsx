@@ -1,18 +1,21 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "../atoms/Image";
 import Jersey from "../atoms/texts/Jersey";
 import SpaceText from "../atoms/texts/SpaceText";
 import Window from "../molecules/Window";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function HeroSection() {
+  const router = useRouter();
+  const { user } = useAuth();
   const [showPopup, setShowPopup] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
-    // Check localStorage to see if user previously opted out
     if (typeof window !== "undefined") {
       const hidePopup = localStorage.getItem("hideHeroPopup");
       if (hidePopup === "true") return;
@@ -22,19 +25,18 @@ export default function HeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleClose = () => {
+  const handleClose = (shouldNavigate = false) => {
     if (dontShowAgain && typeof window !== "undefined") {
       localStorage.setItem("hideHeroPopup", "true");
     }
     setShowPopup(false);
+    if (shouldNavigate) {
+      router.push("/quiz");
+    }
   };
 
   return (
     <>
-      {/* SECCIÓN PRINCIPAL: 
-                - border-[3px] border-black: Asegura el borde grueso característico.
-                - shadow-[8px_8px_0px_#000]: Añade la sombra sólida Neo-Brutalista.
-            */}
       <section className="relative w-full h-80 md:h-120 border-[3px] border-black shadow-[8px_8px_0px_#000] flex items-center justify-center overflow-hidden rounded-xl bg-white">
         <Image
           src="/images/Image-Home.avif"
@@ -64,11 +66,8 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed bottom-10 right-10 z-[150] cursor-grab active:cursor-grabbing touch-none"
+            className="fixed bottom-10 right-10 z-150 cursor-grab active:cursor-grabbing touch-none"
           >
-            {/* WINDOW: 
-                            Asegúrate de que el componente Window también use border-[3px] internamente 
-                        */}
             <Window
               title="( NEWJEANS_MATCH.EXE )"
               onClose={handleClose}
@@ -105,21 +104,26 @@ export default function HeroSection() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95, translateX: 2, translateY: 2 }}
-                  className="mt-2 bg-v2k-accent border-[3px] border-black p-3 shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
-                  onClick={handleClose}
+                  className="mt-2 bg-v2k-accent border-[3px] border-black p-3 shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all relative"
+                  onClick={() => handleClose(true)}
+                  type="button"
                 >
-                  <Jersey
-                    text="INICIAR_TEST"
-                    size="20|24"
-                    className="text-black"
-                  />
+                  <div className="flex items-center gap-2">
+                    <Jersey
+                      text="INICIAR_TEST"
+                      size="20|24"
+                      className="text-black"
+                    />
+                      <span className="bg-v2k-pink-hot text-white text-[10px] font-black px-2 py-0.5 rounded-md border border-black shadow-[2px_2px_0px_#000]">
+                        {user ? "+XP" : "🔒 +XP"}
+                      </span>
+                  </div>
                 </motion.button>
               </div>
             </Window>
           </motion.div>
         )}
       </AnimatePresence>
-
     </>
   );
 }

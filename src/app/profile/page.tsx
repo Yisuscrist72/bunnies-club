@@ -6,13 +6,13 @@ import { useEffect, useState, useRef } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "@/components/atoms/Image";
-import Cropper, { Point, Area } from "react-easy-crop";
+import Cropper, { type Point, type Area } from "react-easy-crop";
 
 const AVAILABLE_MEMBERS = ["MINJI", "HANNI", "DANIELLE", "HAERIN", "HYEIN"];
 const SUGGESTED_SONGS = ["ATTENTION", "DITTO", "OMG", "SUPER SHY", "ETA", "HOW SWEET"];
 
 export default function ProfilePage() {
-  const { user, profile, loading, logout, updateUserProfile } = useAuth();
+  const { user, profile, loading, logout, updateUserProfile, addPoints } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -23,7 +23,7 @@ export default function ProfilePage() {
     bio: "",
     favMembers: [] as string[],
     favSongs: [] as string[],
-    photoURL: ""
+    photoURL: "",
   });
 
   // ESTADOS PARA EL CROPPER
@@ -64,7 +64,7 @@ export default function ProfilePage() {
     }));
   };
 
-  const onCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
+  const onCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -120,6 +120,19 @@ export default function ProfilePage() {
     setIsSaving(true);
     try {
       await updateUserProfile(formData);
+      
+      // Bonus por completar perfil: se da si el usuario no lo ha recibido aún
+      // y tiene bio, foto y al menos un favorito
+      const isComplete = formData.bio.trim().length > 10 && 
+                        formData.photoURL && 
+                        formData.favMembers.length > 0;
+
+      if (!profile?.hasBioBonus && isComplete) {
+        await addPoints(100);
+        await updateUserProfile({ hasBioBonus: true });
+        alert("¡BONUS! +100 XP por completar tu perfil por primera vez ✨");
+      }
+
       setIsEditing(false);
     } catch {
       alert("Error al guardar el perfil");
@@ -137,14 +150,14 @@ export default function ProfilePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-100 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm"
           >
             <div className="bg-white border-4 border-black p-6 rounded-[2.5rem] max-w-lg w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <Jersey text="AJUSTA TU FOTO" size="24|28" className="text-center mb-6" />
               
               <div className="relative h-64 md:h-80 bg-gray-200 border-2 border-dashed border-gray-400 rounded-2xl overflow-hidden mb-6">
                 <Cropper
-                  image={imageToCrop}
+                  image={imageToCrop as string}
                   crop={crop}
                   zoom={zoom}
                   aspect={1}
@@ -209,9 +222,8 @@ export default function ProfilePage() {
               className="hidden" 
               accept="image/*"
             />
-            <div 
-              role="button"
-              tabIndex={0}
+            <button 
+              type="button"
               onClick={() => isEditing && fileInputRef.current?.click()}
               onKeyDown={(e) => {
                 if (isEditing && (e.key === 'Enter' || e.key === ' ')) {
@@ -235,7 +247,7 @@ export default function ProfilePage() {
                    <span className="text-white font-bold text-xs md:text-sm text-center px-1">CAMBIAR FOTO</span>
                 </div>
               )}
-            </div>
+            </button>
           </div>
           
           <div className="text-center md:text-left flex-1">
@@ -257,6 +269,37 @@ export default function ProfilePage() {
             
             <div className="bg-v2k-pink-hot/10 border-2 border-black px-4 py-1.5 rounded-full inline-block mt-2">
               <Jersey text={profile.rank} size="16|16" className="text-v2k-pink-hot font-bold" />
+            </div>
+
+            {/* BARRA DE PROGRESO XP */}
+            <div className="mt-6 max-w-xs mx-auto md:mx-0">
+              <div className="flex justify-between items-end mb-2">
+                <Jersey text={`XP: ${profile.points || 0}`} size="16|16" className="text-black" />
+                <Jersey 
+                  text={
+                    (profile.points || 0) < 100 ? "PRÓXIMO: TOKKI" :
+                    (profile.points || 0) < 500 ? "PRÓXIMO: FANATIC" :
+                    (profile.points || 0) < 1500 ? "PRÓXIMO: SUPER SHY" :
+                    (profile.points || 0) < 5000 ? "PRÓXIMO: LEGEND" : "NIVEL MÁXIMO"
+                  } 
+                  size="12|12" 
+                  className="text-gray-500" 
+                />
+              </div>
+              <div className="w-full h-4 bg-gray-200 border-2 border-black rounded-full overflow-hidden shadow-[2px_2px_0px_#000]">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ 
+                    width: `${Math.min(100, (
+                      (profile.points || 0) < 100 ? (profile.points || 0) :
+                      (profile.points || 0) < 500 ? ((profile.points - 100) / 4) :
+                      (profile.points || 0) < 1500 ? ((profile.points - 500) / 10) :
+                      (profile.points || 0) < 5000 ? ((profile.points - 1500) / 35) : 100
+                    ))}%` 
+                  }}
+                  className="h-full bg-v2k-pink-hot"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -333,6 +376,24 @@ export default function ProfilePage() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* GUÍA DE XP */}
+        <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-v2k-cyan-soft shadow-[4px_4px_0px_#000]">
+          <Jersey text="CÓMO GANAR XP 🚀" size="20|24" className="mb-4 text-black" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {[
+              { text: "Completar tu perfil", xp: "+100" },
+              { text: "Crear photocards", xp: "+50" },
+              { text: "Hacer Quizzes", xp: "+XP var." },
+              { text: "Login diario", xp: "+20" },
+            ].map((item) => (
+              <div key={item.text} className="flex justify-between items-center bg-white/50 border-2 border-black/10 px-4 py-2 rounded-xl">
+                <span className="font-bold text-sm">{item.text}</span>
+                <span className="bg-v2k-pink-hot text-white text-[10px] font-black px-2 py-1 rounded-lg">{item.xp} XP</span>
+              </div>
+            ))}
           </div>
         </div>
 

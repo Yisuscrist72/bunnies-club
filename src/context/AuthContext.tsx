@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { 
   onAuthStateChanged, 
   signInWithPopup, 
@@ -11,6 +11,7 @@ import {
 import { doc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { auth, googleProvider, db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import XpNotification from "@/components/molecules/XpNotification";
 
 export interface UserProfile {
   uid: string;
@@ -22,6 +23,8 @@ export interface UserProfile {
   favSongs: string[];
   rank: string;
   points: number;
+  lastLogin?: string;
+  hasBioBonus?: boolean;
 }
 
 interface AuthContextType {
@@ -32,6 +35,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
   uploadImage: (file: File) => Promise<string>;
+  addPoints: (amount: number, message?: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,10 +45,20 @@ const CREATOR_EMAILS = [
   "contact.bunnies.dev@gmail.com"
 ];
 
+const getRankByPoints = (points: number, email: string): string => {
+  if (CREATOR_EMAILS.includes(email)) return "CREADOR / CEO";
+  if (points >= 5000) return "Bunny Legend 👑";
+  if (points >= 1500) return "Super Shy Member ✨";
+  if (points >= 500) return "Bunnies Fanatic 💖";
+  if (points >= 100) return "Tokki Entusiasta 🐰";
+  return "Bunny Novato";
+};
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState<{ amount: number; message?: string } | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -108,20 +122,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const userDocRef = doc(db, "users", user.uid);
       
       // Actualizar en Firebase Auth solo el nombre
-      // No actualizamos photoURL en Auth porque Base64 es demasiado largo
       if (data.displayName) {
         await firebaseUpdateProfile(user, {
           displayName: data.displayName,
         });
       }
 
-      // En Firestore sí guardamos todo, incluyendo la foto en Base64
+      // En Firestore sí guardamos todo
       await updateDoc(userDocRef, data);
     } catch (error) {
       console.error("Error updating profile", error);
       throw error;
     }
   };
+
+  const addPoints = useCallback(async (amount: number, message?: string) => {
+    if (!user || !profile) return;
+    
+    try {
+      const userDocRef = doc(db, "users", user.uid);
+      const newPoints = (profile.points || 0) + amount;
+      const newRank = getRankByPoints(newPoints, user.email || "");
+      
+      await updateDoc(userDocRef, {
+        points: newPoints,
+        rank: newRank,
+        lastLogin: new Date().toISOString()
+      });
+
+      // Mostrar notificación visual
+      setNotification({ amount, message });
+    } catch (error) {
+      console.error("Error adding points:", error);
+    }
+  }, [user, profile]);
+
+  // Lógica de Login Diario
+  useEffect(() => {
+    if (user && profile) {
+      const today = new Date().toISOString().split("T")[0];
+      const lastLogin = profile.lastLogin?.split("T")[0];
+      
+      if (lastLogin !== today) {
+        addPoints(20, "Bonus por login diario 🐰");
+        console.log("Daily login bonus awarded! +20 XP");
+      }
+    }
+  }, [user, profile, addPoints]);
 
   const uploadImage = async (file: File) => {
     if (!user) throw new Error("Debes estar autenticado para subir imágenes");
@@ -138,8 +185,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, updateUserProfile, uploadImage }}>
+    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, updateUserProfile, uploadImage, addPoints }}>
       {children}
+      {notification && (
+        <XpNotification 
+          amount={notification.amount} 
+          message={notification.message} 
+          onComplete={() => setNotification(null)}
+        />
+      )}
     </AuthContext.Provider>
   );
 }

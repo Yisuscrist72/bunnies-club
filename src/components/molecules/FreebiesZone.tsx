@@ -187,7 +187,7 @@ export default function FreebiesZone() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center z-[500] p-2 md:p-4 bg-black/80"
+            className="fixed inset-0 flex items-center justify-center z-500 p-2 md:p-4 bg-black/80"
           >
             <div className="w-full max-w-6xl overflow-hidden">
               <Window
@@ -210,7 +210,7 @@ export default function FreebiesZone() {
                     tag="h3"
                     text={`${activeFolder} ZONE`}
                     size="18|22"
-                    className="font-bold text-black mb-4 uppercase text-center flex-shrink-0"
+                    className="font-bold text-black mb-4 uppercase text-center shrink-0"
                   />
 
                   {!loading && items.length > 0 && (
@@ -301,7 +301,7 @@ export default function FreebiesZone() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center z-[600] p-4 bg-black/90"
+            className="fixed inset-0 flex items-center justify-center z-600 p-4 bg-black/90"
           >
             <div className="w-full max-w-4xl">
               <Window
