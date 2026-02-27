@@ -88,13 +88,19 @@ export default function MusicPlayer() {
         )}
       </div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {showPlayer && (
           <motion.div
             key="player"
-            initial={{ opacity: 0, scale: 0.7, y: 100 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.5, y: 100 }}
+            initial={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
+            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 150, rotate: 10 }}
+            transition={{ 
+              type: "spring", 
+              damping: 20, 
+              stiffness: 250,
+              opacity: { duration: 0.4 }
+            }}
             className={`
                             bg-v2k-cyan border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
                             w-full max-w-[280px] flex flex-col gap-4 z-[110] rounded-[45px] mx-auto
