@@ -63,7 +63,7 @@ export default function EditorCanvas({
               })
             }
             bounds="parent"
-            style={{ zIndex: selectedId === el.id ? 100 : index + 10 }}
+            style={{ zIndex: index + 10 }}
             className={`flex items-center justify-center transition-all ${
               selectedId === el.id ? "border-[2px] border-dashed border-v2k-pink-hot bg-v2k-pink-hot/5" : ""
             }`}

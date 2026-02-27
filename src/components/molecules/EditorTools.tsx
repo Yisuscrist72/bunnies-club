@@ -43,6 +43,11 @@ const PaintBrush = Icons.PaintBrush || (() => null);
 const TextAa = Icons.TextAa || (() => null);
 const PaintBucket = Icons.PaintBucket || (() => null);
 const CursorClick = Icons.CursorClick || (() => null);
+const CaretUp = Icons.CaretUp || (() => null);
+const CaretDown = Icons.CaretDown || (() => null);
+const CaretDoubleUp = Icons.CaretDoubleUp || (() => null);
+const CaretDoubleDown = Icons.CaretDoubleDown || (() => null);
+const Stack = Icons.Stack || (() => null);
 
 const GOOGLE_FONTS = [
   { name: "Jersey 10", family: "Jersey 10" },
@@ -57,6 +62,10 @@ interface EditorToolsProps {
   addElement: (type: EditorElement["type"], content: string) => void;
   deleteElement: () => void;
   updateElement: (elId: string, data: Partial<EditorElement>) => void;
+  moveElementForward: (elId: string) => void;
+  moveElementBackward: (elId: string) => void;
+  bringElementToFront: (elId: string) => void;
+  sendElementToBack: (elId: string) => void;
   selectedElement: EditorElement | null;
   backColor: string;
   setBackColor: (color: string) => void;
@@ -66,6 +75,10 @@ export default function EditorTools({
   addElement,
   deleteElement,
   updateElement,
+  moveElementForward,
+  moveElementBackward,
+  bringElementToFront,
+  sendElementToBack,
   selectedElement,
   backColor,
   setBackColor,
@@ -374,6 +387,50 @@ export default function EditorTools({
                         }
                         className="w-full h-6 accent-v2k-blue cursor-pointer appearance-none bg-gray-200 border-[2px] border-black"
                       />
+                    </div>
+                  </div>
+
+                  {/* ORDEN DE CAPAS */}
+                  <div className="space-y-4 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
+                    <div className="flex items-center gap-2">
+                      <Stack size={20} weight="bold" />
+                      <p className="text-[10px] font-black uppercase">
+                        Orden de Capas
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => bringElementToFront(selectedElement.id)}
+                        className="bg-v2k-blue-soft border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-blue transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                      >
+                        <span className="text-[9px] font-black uppercase">Al Frente</span>
+                        <CaretDoubleUp size={16} weight="bold" className="group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => sendElementToBack(selectedElement.id)}
+                        className="bg-v2k-gray-soft border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-gray-200 transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                      >
+                        <span className="text-[9px] font-black uppercase">Al Fondo</span>
+                        <CaretDoubleDown size={16} weight="bold" className="group-hover:translate-y-0.5 transition-transform" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveElementForward(selectedElement.id)}
+                        className="bg-white border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-blue-soft transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                      >
+                        <span className="text-[9px] font-black uppercase">Subir</span>
+                        <CaretUp size={16} weight="bold" className="group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveElementBackward(selectedElement.id)}
+                        className="bg-white border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-gray-soft transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                      >
+                        <span className="text-[9px] font-black uppercase">Bajar</span>
+                        <CaretDown size={16} weight="bold" className="group-hover:translate-y-0.5 transition-transform" />
+                      </button>
                     </div>
                   </div>
                   <button

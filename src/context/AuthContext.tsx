@@ -12,6 +12,7 @@ import { doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
 import { auth, googleProvider, db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import XpNotification from "@/components/molecules/XpNotification";
+import SystemNotification from "@/components/molecules/SystemNotification";
 
 export interface Activity {
   id: string;
@@ -46,6 +47,7 @@ interface AuthContextType {
   updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
   uploadImage: (file: File) => Promise<string>;
   addPoints: (amount: number, message?: string) => Promise<void>;
+  showSystemNotification: (message: string, type?: "success" | "error" | "info" | "warning") => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -69,6 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState<{ amount: number; message?: string } | null>(null);
+  const [systemNotification, setSystemNotification] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -226,14 +229,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const showSystemNotification = useCallback((message: string, type: "success" | "error" | "info" | "warning" = "success") => {
+    setSystemNotification({ message, type });
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, updateUserProfile, uploadImage, addPoints }}>
+    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, updateUserProfile, uploadImage, addPoints, showSystemNotification }}>
       {children}
       {notification && (
         <XpNotification 
           amount={notification.amount} 
           message={notification.message} 
           onComplete={() => setNotification(null)}
+        />
+      )}
+      {systemNotification && (
+        <SystemNotification
+          message={systemNotification.message}
+          type={systemNotification.type}
+          onComplete={() => setSystemNotification(null)}
         />
       )}
     </AuthContext.Provider>

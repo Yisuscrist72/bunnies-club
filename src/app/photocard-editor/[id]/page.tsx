@@ -31,7 +31,7 @@ export default function PhotocardEditorPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [backColor, setBackColor] = useState<string>("#FFFFFF");
   const [isSaving, setIsSaving] = useState(false);
-  const { user, addPoints } = useAuth();
+  const { user, addPoints, showSystemNotification } = useAuth();
   const [isUserTemplate, setIsUserTemplate] = useState(false);
   const [customTitle, setCustomTitle] = useState<string>("");
 
@@ -113,7 +113,7 @@ export default function PhotocardEditorPage() {
       if (isUserTemplate) {
         // Actualizar existente
         await updateDoc(doc(db, "user_photocards", id as string), pcData);
-        alert("¡Cambios guardados correctamente!");
+        showSystemNotification("¡Cambios guardados correctamente!", "success");
       } else {
         // Crear nueva
         await addDoc(collection(db, "user_photocards"), {
@@ -121,14 +121,12 @@ export default function PhotocardEditorPage() {
           createdAt: serverTimestamp(),
         });
         setIsUserTemplate(true);
-        // Podríamos redirigir a la nueva URL si quisiéramos:
-        // router.push(`/photocard-editor/${docRef.id}`);
-        alert("¡Plantilla guardada! Ahora puedes verla en tu colección.");
+        showSystemNotification("¡Plantilla guardada en tu colección!", "success");
         await addPoints(100, "¡Guardaste tu primera decoración! 🐰💖");
       }
     } catch (error) {
       console.error("Error saving:", error);
-      alert("Error al guardar la plantilla.");
+      showSystemNotification("Error al guardar la plantilla.", "error");
     } finally {
       setIsSaving(false);
     }
@@ -163,6 +161,50 @@ export default function PhotocardEditorPage() {
     setSelectedId(null);
   };
 
+  const moveElementForward = (elId: string) => {
+    const setter = side === "front" ? setFrontElements : setBackElements;
+    setter((prev) => {
+      const index = prev.findIndex((el) => el.id === elId);
+      if (index === -1 || index === prev.length - 1) return prev;
+      const newArr = [...prev];
+      const nextEl = newArr[index + 1];
+      newArr[index + 1] = newArr[index];
+      newArr[index] = nextEl;
+      return newArr;
+    });
+  };
+
+  const moveElementBackward = (elId: string) => {
+    const setter = side === "front" ? setFrontElements : setBackElements;
+    setter((prev) => {
+      const index = prev.findIndex((el) => el.id === elId);
+      if (index <= 0) return prev;
+      const newArr = [...prev];
+      const prevEl = newArr[index - 1];
+      newArr[index - 1] = newArr[index];
+      newArr[index] = prevEl;
+      return newArr;
+    });
+  };
+
+  const bringElementToFront = (elId: string) => {
+    const setter = side === "front" ? setFrontElements : setBackElements;
+    setter((prev) => {
+      const el = prev.find((e) => e.id === elId);
+      if (!el) return prev;
+      return [...prev.filter((e) => e.id !== elId), el];
+    });
+  };
+
+  const sendElementToBack = (elId: string) => {
+    const setter = side === "front" ? setFrontElements : setBackElements;
+    setter((prev) => {
+      const el = prev.find((e) => e.id === elId);
+      if (!el) return prev;
+      return [el, ...prev.filter((e) => e.id !== elId)];
+    });
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#BEE5FD]">
@@ -191,6 +233,10 @@ export default function PhotocardEditorPage() {
           addElement={addElement}
           deleteElement={deleteElement}
           updateElement={updateElement}
+          moveElementForward={moveElementForward}
+          moveElementBackward={moveElementBackward}
+          bringElementToFront={bringElementToFront}
+          sendElementToBack={sendElementToBack}
           selectedElement={selectedElement}
           backColor={backColor}      // Pasamos el color
           setBackColor={setBackColor} // Pasamos el setter
