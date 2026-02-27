@@ -49,7 +49,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           initial="closed"
           animate="open"
           exit="closed"
-          className="fixed inset-0 w-full h-[100dvh] bg-nav-bg z-[100] flex flex-col md:hidden overflow-hidden"
+          className="fixed inset-0 w-full h-dvh bg-nav-bg z-100 flex flex-col lg:hidden overflow-y-auto scrollbar-hide"
         >
           {/* BARRA DE TÍTULO */}
           <div className="w-full bg-v2k-blue-deep p-2 border-b-[3px] border-black flex justify-between items-center shadow-[0_2px_0_var(--color-v2k-shadow-white)_inset]">
@@ -66,7 +66,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               whileHover={{ scale: 1.1 }}
               whileTap={{ x: 2, y: 2, boxShadow: "0px 0px 0px #000" }}
               onClick={onClose}
-              className="w-8 h-8 rounded-full border-[2px] border-black bg-white flex items-center justify-center shadow-[2px_2px_0px_#000] transition-all"
+              className="w-8 h-8 rounded-full border-2 border-black bg-white flex items-center justify-center shadow-[2px_2px_0px_#000] transition-all"
             >
               <Jersey
                 tag="span"
@@ -78,7 +78,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* CONTENIDO PRINCIPAL */}
-          <div className="flex-grow flex flex-col items-center justify-center relative p-6">
+          <div className="grow flex flex-col items-center justify-center relative p-6">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 opacity-10 pointer-events-none grayscale">
               <Image
                 src="/images/bunny-logo.avif"
@@ -135,7 +135,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </div>
 
           {/* FOOTER - ICONOS Y IDIOMA */}
-          <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-[2px] border-black/10 z-10">
+          <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-2 border-black/10 z-10">
             <motion.div variants={itemVariants} className="flex gap-4">
               {[
                 { icon: <IconInstagram key="ig" className="w-5 h-5" />, href: "https://www.instagram.com/newjeans_official/" },
@@ -159,7 +159,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
-              className="w-full max-w-[220px] text-black border-[3px] border-black bg-gradient-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
+              className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
             >
               <Jersey
                 tag="span"

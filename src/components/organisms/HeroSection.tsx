@@ -52,7 +52,7 @@ export default function HeroSection() {
           transition={{ duration: 0.6 }}
           className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none px-4"
         >
-          <h1 className="sticker-title text-[5rem] md:text-[8rem] lg:text-[10rem]">
+          <h1 className="sticker-title text-[4.5rem] md:text-[6.5rem] lg:text-[10rem]">
             NEW JEANS
           </h1>
         </motion.div>

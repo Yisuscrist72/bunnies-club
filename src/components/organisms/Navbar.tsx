@@ -47,7 +47,7 @@ export default function Navbar() {
         <motion.button
           whileHover={{ scale: 1.1, rotate: 2 }}
           whileTap={WHILE_TAP}
-          className="md:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-nav-mobile px-4 py-1.5 rounded-full shadow-nav-btn z-40"
+          className="lg:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-nav-mobile px-4 py-1.5 rounded-full shadow-nav-btn z-40"
           onClick={() => setIsMenuOpen(true)}
         >
           <Jersey tag="span" text="MENU" size="16|16" />
@@ -55,7 +55,7 @@ export default function Navbar() {
       )}
 
       {/* DESKTOP NAVBAR */}
-      <nav className="hidden md:block w-full bg-nav-bg border-b-[3px] border-black relative">
+      <nav className="hidden lg:block w-full bg-nav-bg border-b-[3px] border-black relative">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
           {/* LOGO SECTION */}
           <Link href="/">
