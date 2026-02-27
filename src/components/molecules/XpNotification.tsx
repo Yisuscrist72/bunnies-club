@@ -18,7 +18,7 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
       if (onComplete) {
         setTimeout(onComplete, 500); // Esperar a la animación de salida
       }
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [onComplete]);
 

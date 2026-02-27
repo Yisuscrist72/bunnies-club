@@ -61,8 +61,6 @@ export default function EditorHeader({ side, setSide, title, setSelectedId }: Ed
       // 5. Premiar con XP si está logueado
       if (user) {
         await addPoints(50, "¡Creador de Photocards! 🎨✨");
-      } else {
-        alert("¡PDF Generado! Sabías que si te logueas ganarías 50 XP por esto? 🐰");
       }
 
       // Devolvemos al usuario a la cara en la que estaba originalmente

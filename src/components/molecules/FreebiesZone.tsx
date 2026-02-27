@@ -7,6 +7,8 @@ import ResourceSwiperCard from "../atoms/ResourceSwiperCard";
 import { db } from "../../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import JSZip from "jszip";
+import { useAuth } from "../../context/AuthContext";
+
 
 interface FreebieItem {
   id: string;
@@ -17,7 +19,9 @@ interface FreebieItem {
 }
 
 export default function FreebiesZone() {
+  const { user, addPoints } = useAuth();
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
+
   const [items, setItems] = useState<FreebieItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [isDownloadingAll, setIsDownloadingAll] = useState(false);
@@ -105,10 +109,13 @@ export default function FreebiesZone() {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      if (user) {
+        await addPoints(10, "¡Archivo descargado! 📥✨");
+      }
     } catch (error) {
       console.error("Error de descarga:", error);
     }
-  }, []);
+  }, [user, addPoints]);
 
   const handleDownloadAllZip = useCallback(async () => {
     if (items.length === 0) return;
@@ -134,12 +141,15 @@ export default function FreebiesZone() {
       link.download = `BunniesClub_${activeFolder}.zip`;
       link.click();
       window.URL.revokeObjectURL(url);
+      if (user) {
+        await addPoints(30, "¡Pack completo descargado! 📦✨");
+      }
     } catch (error) {
       console.error("ZIP error:", error);
     } finally {
       setIsDownloadingAll(false);
     }
-  }, [items, activeFolder]);
+  }, [items, activeFolder, user, addPoints]);
 
   return (
     <div className="flex flex-col gap-2 items-center w-full px-4 relative">

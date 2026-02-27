@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuth, type UserProfile } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
@@ -119,22 +119,29 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await updateUserProfile(formData);
-      
       // Bonus por completar perfil: se da si el usuario no lo ha recibido aún
-      // y tiene bio, foto y al menos un favorito
+      // y tiene bio y al menos un favorito
       const isComplete = formData.bio.trim().length > 10 && 
-                        formData.photoURL && 
                         formData.favMembers.length > 0;
+      
+      const shouldAwardBonus = !profile?.hasBioBonus && isComplete;
 
-      if (!profile?.hasBioBonus && isComplete) {
-        await addPoints(100);
-        await updateUserProfile({ hasBioBonus: true });
-        alert("¡BONUS! +100 XP por completar tu perfil por primera vez ✨");
+      // Si corresponde el bonus, lo incluimos en la actualización del perfil
+      const dataToSave: Partial<UserProfile> = { ...formData };
+      if (shouldAwardBonus) {
+        dataToSave.hasBioBonus = true;
+      }
+
+      await updateUserProfile(dataToSave);
+
+      if (shouldAwardBonus) {
+        console.log("Awarding profile completion bonus: +100 XP");
+        await addPoints(100, "¡Perfil completado! 🐰✨");
       }
 
       setIsEditing(false);
-    } catch {
+    } catch (err) {
+      console.error("Error saving profile:", err);
       alert("Error al guardar el perfil");
     } finally {
       setIsSaving(false);
@@ -248,6 +255,15 @@ export default function ProfilePage() {
                 </div>
               )}
             </button>
+            {profile.hasBioBonus && (
+              <motion.div 
+                initial={{ scale: 0, rotate: -20 }}
+                animate={{ scale: 1, rotate: -15 }}
+                className="absolute -top-1 -right-1 bg-yellow-400 border-[3px] border-black px-2 py-0.5 rounded-lg shadow-[3px_3px_0px_#000] z-20 pointer-events-none"
+              >
+                <span className="text-[10px] font-black text-black italic whitespace-nowrap">VERIFIED BUNNY</span>
+              </motion.div>
+            )}
           </div>
           
           <div className="text-center md:text-left flex-1">
@@ -378,6 +394,45 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+        
+        {/* SECCIÓN DE LOGROS */}
+        <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-white shadow-[6px_6px_0px_#000]">
+          <Jersey text="MIS LOGROS 🏆" size="20|24" className="mb-6 text-black underline decoration-v2k-pink-hot" />
+          <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+            {/* LOGRO: PERFIL COMPLETO */}
+            <div className={`flex flex-col items-center gap-2 ${profile.hasBioBonus ? "opacity-100" : "opacity-20 grayscale"}`}>
+              <div className="w-16 h-16 bg-yellow-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
+                ✨
+              </div>
+              <span className="text-[10px] font-black uppercase">Perfil Full</span>
+            </div>
+
+            {/* LOGRO: EXPLORADOR (BASED ON POINTS) */}
+            <div className={`flex flex-col items-center gap-2 ${profile.points >= 100 ? "opacity-100" : "opacity-20 grayscale"}`}>
+              <div className="w-16 h-16 bg-blue-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
+                🔍
+              </div>
+              <span className="text-[10px] font-black uppercase">Explorador</span>
+            </div>
+
+            {/* LOGRO: FAN TOTAL (BASED ON POINTS) */}
+            <div className={`flex flex-col items-center gap-2 ${profile.points >= 500 ? "opacity-100" : "opacity-20 grayscale"}`}>
+              <div className="w-16 h-16 bg-v2k-pink-soft border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
+                💖
+              </div>
+              <span className="text-[10px] font-black uppercase">Fan Total</span>
+            </div>
+
+            {/* LOGRO: LEYENDA (BASED ON POINTS) */}
+            <div className={`flex flex-col items-center gap-2 ${profile.points >= 5000 ? "opacity-100" : "opacity-20 grayscale"}`}>
+              <div className="w-16 h-16 bg-purple-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
+                👑
+              </div>
+              <span className="text-[10px] font-black uppercase">Leyenda</span>
+            </div>
+          </div>
+        </div>
+
 
         {/* GUÍA DE XP */}
         <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-v2k-cyan-soft shadow-[4px_4px_0px_#000]">

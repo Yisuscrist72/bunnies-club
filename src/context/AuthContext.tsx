@@ -8,7 +8,7 @@ import {
   updateProfile as firebaseUpdateProfile,
   type User 
 } from "firebase/auth";
-import { doc, setDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
 import { auth, googleProvider, db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import XpNotification from "@/components/molecules/XpNotification";
@@ -137,11 +137,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addPoints = useCallback(async (amount: number, message?: string) => {
-    if (!user || !profile) return;
+    if (!user) return;
     
     try {
       const userDocRef = doc(db, "users", user.uid);
-      const newPoints = (profile.points || 0) + amount;
+      
+      // Obtenemos los datos más recientes para evitar desfases
+      const docSnap = await getDoc(userDocRef);
+      if (!docSnap.exists()) return;
+      
+      const currentProfile = docSnap.data() as UserProfile;
+      const newPoints = (currentProfile.points || 0) + amount;
       const newRank = getRankByPoints(newPoints, user.email || "");
       
       await updateDoc(userDocRef, {
@@ -155,7 +161,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error("Error adding points:", error);
     }
-  }, [user, profile]);
+  }, [user]); // Quitamos profile de dependencias ya que usamos getDoc
 
   // Lógica de Login Diario
   useEffect(() => {
@@ -164,7 +170,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const lastLogin = profile.lastLogin?.split("T")[0];
       
       if (lastLogin !== today) {
-        addPoints(20, "Bonus por login diario 🐰");
+        setTimeout(() => {
+          addPoints(20, "Bonus por login diario 🐰");
+        }, 100);
         console.log("Daily login bonus awarded! +20 XP");
       }
     }
