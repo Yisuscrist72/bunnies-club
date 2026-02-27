@@ -14,7 +14,7 @@ interface ForumGuestbookProps {
   handleSendMessage: (e?: React.FormEvent) => void;
   handleKeyDown: (e: React.KeyboardEvent) => void;
   scrollRef: React.RefObject<HTMLDivElement | null>;
-  user: any;
+  user: { uid: string; photoURL?: string | null; displayName?: string | null } | null;
   logout: () => void;
 }
 
@@ -32,7 +32,7 @@ export default function ForumGuestbook({
     <Window 
       title="🐰 BUNNY GUESTBOOK" 
       className="w-full border-4"
-      contentClassName="p-0 flex flex-col h-[600px]"
+      contentClassName="p-0 flex flex-col h-[750px]"
     >
       {/* Message Area */}
       <div 

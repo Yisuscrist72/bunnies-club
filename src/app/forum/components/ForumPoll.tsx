@@ -10,7 +10,7 @@ interface ForumPollProps {
   pollOptions: PollOption[];
   hasVoted: boolean;
   handleVote: (id: string) => void;
-  user: any;
+  user: { uid: string } | null;
 }
 
 export default function ForumPoll({ pollOptions, hasVoted, handleVote, user }: ForumPollProps) {
@@ -76,11 +76,17 @@ export default function ForumPoll({ pollOptions, hasVoted, handleVote, user }: F
         </div>
       </Window>
 
-      {/* Créditos / Pie de página móvil */}
-      <div className="mt-6 md:mt-8 text-center opacity-40 px-4">
-          <p className="text-[9px] md:text-[10px] font-black uppercase tracking-tighter">
-             © 2026 Newjeans FANS CLUB. Made BY Jesús.
+      {/* Reglas del Foro / Conducta */}
+      <div className="mt-6 md:mt-8 bg-black/5 border-2 border-dashed border-black/20 p-4 rounded-lg">
+          <p className="text-[10px] font-black uppercase tracking-wider mb-2 text-center opacity-60">
+             📜 REGLAS DE CONDUCTA
           </p>
+          <ul className="text-[9px] font-bold uppercase space-y-1 opacity-50 list-disc list-inside">
+            <li>Respeta a todos los Bunnies</li>
+            <li>No compartas contenido inapropiado</li>
+            <li>Evita el spam y mensajes repetitivos</li>
+            <li>Disfruta y apoya a NewJeans ✨</li>
+          </ul>
       </div>
     </div>
   );

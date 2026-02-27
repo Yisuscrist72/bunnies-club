@@ -36,7 +36,7 @@ export default function ForumPage() {
     <div className="relative min-h-screen py-12 px-4 md:px-8 overflow-x-hidden pt-24 pb-20">
       <ForumDecorations />
 
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center">
+      <div className="relative z-10 max-w-[1400px] mx-auto flex flex-col items-center">
         <ForumHeader onlineUsers={forum.onlineUsers} />
 
         {/* Layout de 3 Columnas */}
@@ -45,7 +45,7 @@ export default function ForumPage() {
           {/* COLUMNA IZQUIERDA: MUSIC PLAYER */}
           <div className="lg:col-span-3 flex flex-col gap-4">
              <MusicPlayer />
-             <div className="bg-white/50 backdrop-blur-sm border-[3px] border-black p-4 shadow-[4px_4px_0px_#000] flex flex-col items-center gap-2 hidden lg:flex">
+             <div className="bg-white/50 backdrop-blur-sm border-[3px] border-black p-4 shadow-[4px_4px_0px_#000] flex-col items-center gap-2 hidden lg:flex">
                 <Image src="/images/bunny-logo.avif" alt="Bunny" width={60} height={60} className="animate-bounce" />
                 <SpaceText text="¡DISFRUTA DE LA MÚSICA MIENTRAS HABLAS!" size="12|12" className="text-center font-black" />
              </div>

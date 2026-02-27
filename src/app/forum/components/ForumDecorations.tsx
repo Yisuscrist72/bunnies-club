@@ -7,7 +7,7 @@ export default function ForumDecorations() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block">
       <div className="absolute top-[15%] left-[10%] text-4xl animate-pulse opacity-20">✨</div>
-      <div className="absolute top-[45%] right-[5%] text-5xl animate-bounce opacity-15">⭐</div>
+      <div className="absolute top-[45%] right-[5%] text-5xl opacity-15">⭐</div>
       
       <motion.div 
         animate={{ y: [0, -10, 0], rotate: [-2, 2, -2] }}
