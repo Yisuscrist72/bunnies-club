@@ -11,9 +11,15 @@ interface EditorHeaderProps {
   setSide: (side: "front" | "back") => void;
   title: string;
   setSelectedId: (id: string | null) => void;
+  onSave?: () => void;
+  isSaving?: boolean;
+  customTitle?: string;
+  setCustomTitle?: (title: string) => void;
 }
 
-export default function EditorHeader({ side, setSide, title, setSelectedId }: EditorHeaderProps) {
+export default function EditorHeader({ 
+  side, setSide, title, setSelectedId, onSave, isSaving, customTitle, setCustomTitle 
+}: EditorHeaderProps) {
   const router = useRouter();
   const { user, addPoints } = useAuth();
 
@@ -85,23 +91,45 @@ export default function EditorHeader({ side, setSide, title, setSelectedId }: Ed
         <button
           type="button"
           onClick={() => setSide(side === "front" ? "back" : "front")}
-          className="flex-[2] lg:flex-none bg-v2k-accent border-[3px] border-black px-3 py-2 font-bold shadow-[3px_3px_0px_#000] active:translate-y-1 active:shadow-none transition-all text-[9px] leading-tight uppercase"
+          className="flex-2 lg:flex-none bg-v2k-accent border-[3px] border-black px-3 py-2 font-bold shadow-[3px_3px_0px_#000] active:translate-y-1 active:shadow-none transition-all text-[9px] leading-tight uppercase"
         >
           Ver {side === "front" ? "Trasera" : "Frontal"} ↺
         </button>
       </div>
 
-      <div className="bg-white border-[3px] border-black px-4 py-1 rounded-full shadow-[3px_3px_0px_rgba(0,0,0,0.1)] order-1 lg:order-2 w-full lg:w-auto text-center truncate">
-        <Jersey text={title} size="16|16" />
+      <div className="bg-white border-[3px] border-black px-4 py-1 rounded-full shadow-[3px_3px_0px_rgba(0,0,0,0.1)] order-1 lg:order-2 w-full lg:w-auto text-center truncate flex items-center gap-2">
+        {setCustomTitle ? (
+          <input
+            type="text"
+            value={customTitle || title}
+            onChange={(e) => setCustomTitle(e.target.value)}
+            className="bg-transparent border-none outline-none font-jersey text-center text-[16px] w-full max-w-[200px]"
+            placeholder="Nombre del diseño"
+          />
+        ) : (
+          <Jersey text={title} size="16|16" />
+        )}
       </div>
 
-      <button
-        type="button"
-        onClick={handleExportPDF}
-        className="w-full lg:w-auto order-3 bg-v2k-green-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-green-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase"
-      >
-        Descargar PDF Imprimible
-      </button>
+      <div className="w-full lg:w-auto flex gap-2 order-3">
+        {onSave && (
+          <button
+            type="button"
+            onClick={onSave}
+            disabled={isSaving}
+            className={`flex-1 lg:flex-none bg-v2k-blue-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-blue-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isSaving ? "Guardando..." : "Guardar"}
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={handleExportPDF}
+          className="flex-[2] lg:flex-none bg-v2k-green-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-green-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase"
+        >
+          Descargar PDF Imprimible
+        </button>
+      </div>
     </header>
   );
 }

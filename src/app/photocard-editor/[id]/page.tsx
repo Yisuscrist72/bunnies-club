@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { useAuth } from "@/context/AuthContext";
+import { domToPng } from "modern-screenshot";
 
 import Jersey from "@/components/atoms/texts/Jersey";
 import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
@@ -12,25 +14,61 @@ import EditorTools from "@/components/molecules/EditorTools";
 import EditorCanvas from "@/components/molecules/EditorCanvas";
 import type { EditorElement } from "./types";
 
+interface Template {
+  id: string;
+  title: string;
+  imageURL: string;
+}
+
 export default function PhotocardEditorPage() {
   const { id } = useParams();
 
-  const [template, setTemplate] = useState<any>(null);
+  const [template, setTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(true);
   const [side, setSide] = useState<"front" | "back">("front");
   const [frontElements, setFrontElements] = useState<EditorElement[]>([]);
   const [backElements, setBackElements] = useState<EditorElement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  // Nuevo estado para el color del reverso
   const [backColor, setBackColor] = useState<string>("#FFFFFF");
+  const [isSaving, setIsSaving] = useState(false);
+  const { user, addPoints } = useAuth();
+  const [isUserTemplate, setIsUserTemplate] = useState(false);
+  const [customTitle, setCustomTitle] = useState<string>("");
 
   useEffect(() => {
     const loadData = async () => {
       if (!id) return;
       try {
-        const docSnap = await getDoc(doc(db, "photocards_resources", id as string));
-        if (docSnap.exists()) {
-          setTemplate(docSnap.data());
+        // Primero intentamos cargar como plantilla de usuario
+        const userDocSnap = await getDoc(doc(db, "user_photocards", id as string));
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          // Necesitamos el recurso original para la imagen
+          const resourceSnap = await getDoc(doc(db, "photocards_resources", data.templateId));
+          if (resourceSnap.exists()) {
+            const resData = resourceSnap.data();
+            setTemplate({ 
+              id: data.templateId, 
+              title: resData.title, 
+              imageURL: resData.imageURL 
+            });
+            setFrontElements(data.frontElements || []);
+            setBackElements(data.backElements || []);
+            setBackColor(data.backColor || "#FFFFFF");
+            setCustomTitle(data.title || resData.title);
+            setIsUserTemplate(true);
+          }
+        } else {
+          // Si no es de usuario, cargamos el recurso base
+          const docSnap = await getDoc(doc(db, "photocards_resources", id as string));
+          if (docSnap.exists()) {
+            const resData = docSnap.data();
+            setTemplate({ 
+              id: docSnap.id, 
+              title: resData.title, 
+              imageURL: resData.imageURL 
+            });
+          }
         }
       } catch (error) {
         console.error("Error:", error);
@@ -40,6 +78,61 @@ export default function PhotocardEditorPage() {
     };
     loadData();
   }, [id]);
+
+  const handleSave = async () => {
+    if (!user || !template) return;
+    setIsSaving(true);
+    try {
+      setSide("front");
+      
+      // Esperamos a que el canvas se renderice en el frente si no lo estaba
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      const canvasElement = document.getElementById("photocard-canvas");
+      let previewURL = "";
+      
+      if (canvasElement) {
+        // Capturamos el frente como preview
+        // Nota: En una app de producción esto debería subirse a Firebase Storage,
+        // pero para este entorno usaremos Base64 o simplemente guardaremos el estado.
+        // Como el usuario pidió "preview aparezca editado", capturamos la imagen actual.
+        previewURL = await domToPng(canvasElement, { scale: 1, quality: 0.8 });
+      }
+
+      const pcData = {
+        userId: user.uid,
+        templateId: template.id,
+        frontElements,
+        backElements,
+        backColor,
+        updatedAt: serverTimestamp(),
+        title: customTitle || template.title,
+        previewImage: previewURL, // Guardamos la captura actual
+      };
+
+      if (isUserTemplate) {
+        // Actualizar existente
+        await updateDoc(doc(db, "user_photocards", id as string), pcData);
+        alert("¡Cambios guardados correctamente!");
+      } else {
+        // Crear nueva
+        await addDoc(collection(db, "user_photocards"), {
+          ...pcData,
+          createdAt: serverTimestamp(),
+        });
+        setIsUserTemplate(true);
+        // Podríamos redirigir a la nueva URL si quisiéramos:
+        // router.push(`/photocard-editor/${docRef.id}`);
+        alert("¡Plantilla guardada! Ahora puedes verla en tu colección.");
+        await addPoints(100, "¡Guardaste tu primera decoración! 🐰💖");
+      }
+    } catch (error) {
+      console.error("Error saving:", error);
+      alert("Error al guardar la plantilla.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const addElement = (type: EditorElement["type"], content: string) => {
     const newEl: EditorElement = {
@@ -88,6 +181,10 @@ export default function PhotocardEditorPage() {
         setSide={setSide}
         title={template?.title || "EDITOR_V2K"}
         setSelectedId={setSelectedId}
+        onSave={user ? handleSave : undefined}
+        isSaving={isSaving}
+        customTitle={customTitle}
+        setCustomTitle={setCustomTitle}
       />
       <main className="relative z-10 w-full flex-1 flex flex-col lg:flex-row p-4 lg:p-6 gap-6 items-center lg:items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
         <EditorTools
