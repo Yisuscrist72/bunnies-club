@@ -55,7 +55,7 @@ export default function Navbar() {
       )}
 
       {/* DESKTOP NAVBAR */}
-      <nav className="hidden lg:block w-full bg-nav-bg border-b-[3px] border-black relative">
+      <nav className="hidden lg:block w-full bg-nav-bg border-b-[3px] border-black relative z-40">
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
           {/* LOGO SECTION */}
           <Link href="/">

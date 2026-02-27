@@ -4,20 +4,68 @@ import { useAuth, type UserProfile } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
+import SpaceText from "@/components/atoms/texts/SpaceText";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "@/components/atoms/Image";
 import Cropper, { type Point, type Area } from "react-easy-crop";
+import { domToPng } from "modern-screenshot";
+import BunniesClubID from "@/components/molecules/BunniesClubID";
 
 const AVAILABLE_MEMBERS = ["MINJI", "HANNI", "DANIELLE", "HAERIN", "HYEIN"];
 const SUGGESTED_SONGS = ["ATTENTION", "DITTO", "OMG", "SUPER SHY", "ETA", "HOW SWEET"];
+
+const RANK_FRAMES: Record<string, string> = {
+  "Bunny Novato": "border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]",
+  "Tokki Entusiasta 🐰": "border-blue-400 shadow-[4px_4px_0px_#60A5FA]",
+  "Bunnies Fanatic 💖": "border-v2k-pink-hot shadow-[4px_4px_0px_#FF69B4]",
+  "Super Shy Member ✨": "border-purple-400 shadow-[4px_4px_0px_#A855F7]",
+  "Bunny Legend 👑": "border-yellow-400 shadow-[4px_4px_0px_#FACC15]",
+  "CREADOR / CEO": "border-black shadow-[6px_6px_0px_#FF69B4]",
+};
+
+const AvatarDecorations = ({ rank }: { rank: string }) => {
+  const isHighRank = rank.includes("Legend") || rank.includes("CEO") || rank.includes("Super Shy");
+  const isFanatic = rank.includes("Fanatic");
+
+  const earColor = rank.includes("Legend") ? "bg-yellow-400" : 
+                   rank.includes("Fanatic") ? "bg-v2k-pink-hot" :
+                   rank.includes("Super Shy") ? "bg-purple-400" :
+                   rank.includes("CEO") ? "bg-v2k-pink-hot" : "bg-white";
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0">
+      {(isHighRank || isFanatic) && (
+        <>
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={`absolute -top-12 left-[10%] w-10 h-20 ${earColor} border-4 border-black rounded-full -rotate-20 shadow-[4px_0_0_#000] z-[-1] flex items-center justify-center`}
+          >
+            <div className="w-4 h-12 bg-pink-100/50 rounded-full" />
+          </motion.div>
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className={`absolute -top-12 right-[10%] w-10 h-20 ${earColor} border-4 border-black rounded-full rotate-20 shadow-[4px_0_0_#000] z-[-1] flex items-center justify-center`}
+          >
+            <div className="w-4 h-12 bg-pink-100/50 rounded-full" />
+          </motion.div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default function ProfilePage() {
   const { user, profile, loading, logout, updateUserProfile, addPoints } = useAuth();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const idCardRef = useRef<HTMLDivElement>(null);
   
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedAchievement, setSelectedAchievement] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     displayName: "",
     bio: "",
@@ -54,6 +102,41 @@ export default function ProfilePage() {
       </div>
     );
   }
+
+  const ALL_ACHIEVEMENTS = [
+    {
+      id: 'perfil',
+      icon: '✨',
+      name: 'Perfil Full',
+      description: 'Completa tu biografía y selecciona tus miembros favoritos para desbloquear este logro.',
+      requirement: profile.hasBioBonus,
+      color: 'bg-yellow-100'
+    },
+    {
+      id: 'explorador',
+      icon: '🔍',
+      name: 'Explorador',
+      description: 'Consigue 100 puntos de XP explorando y participando en el club.',
+      requirement: profile.points >= 100,
+      color: 'bg-blue-100'
+    },
+    {
+      id: 'fan',
+      icon: '💖',
+      name: 'Fan Total',
+      description: 'Demuestra tu amor por NewJeans llegando a los 500 XP.',
+      requirement: profile.points >= 500,
+      color: 'bg-v2k-pink-soft'
+    },
+    {
+      id: 'leyenda',
+      icon: '👑',
+      name: 'Leyenda',
+      description: 'Conviértete en una leyenda viviente del club con 5000 XP.',
+      requirement: profile.points >= 5000,
+      color: 'bg-purple-100'
+    }
+  ];
 
   const handleToggleMember = (member: string) => {
     setFormData(prev => ({
@@ -113,6 +196,20 @@ export default function ProfilePage() {
     } catch (e) {
       console.error(e);
       alert("Error al recortar la imagen");
+    }
+  };
+
+  const handleDownloadID = async () => {
+    if (!idCardRef.current) return;
+    try {
+      const dataUrl = await domToPng(idCardRef.current, { scale: 3 });
+      const link = document.createElement('a');
+      link.download = `BunniesClub_ID_${profile.displayName.replace(/\s+/g, '_')}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Error generating ID card:", err);
+      alert("Error al generar el carnet de socio");
     }
   };
 
@@ -229,32 +326,35 @@ export default function ProfilePage() {
               className="hidden" 
               accept="image/*"
             />
-            <button 
-              type="button"
-              onClick={() => isEditing && fileInputRef.current?.click()}
-              onKeyDown={(e) => {
-                if (isEditing && (e.key === 'Enter' || e.key === ' ')) {
-                  fileInputRef.current?.click();
-                }
-              }}
-              className={`w-32 h-32 md:w-44 md:h-44 rounded-full border-4 border-black overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-v2k-pink-soft relative ${isEditing ? "cursor-pointer hover:scale-105 transition-transform" : ""}`}
-            >
-              {formData.photoURL ? (
-                <Image 
-                  src={formData.photoURL} 
-                  alt={profile.displayName} 
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Jersey text={profile.displayName[0]} size="68|94" />
-                </div>
-              )}
-              {isEditing && (
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                   <span className="text-white font-bold text-xs md:text-sm text-center px-1">CAMBIAR FOTO</span>
-                </div>
-              )}
-            </button>
+            <div className="relative z-10">
+              <AvatarDecorations rank={profile.rank} />
+              <button 
+                type="button"
+                onClick={() => isEditing && fileInputRef.current?.click()}
+                onKeyDown={(e) => {
+                  if (isEditing && (e.key === 'Enter' || e.key === ' ')) {
+                    fileInputRef.current?.click();
+                  }
+                }}
+                className={`w-32 h-32 md:w-44 md:h-44 rounded-full border-4 overflow-hidden relative transition-all bg-v2k-pink-soft ${RANK_FRAMES[profile.rank] || RANK_FRAMES["Bunny Novato"]} ${isEditing ? "cursor-pointer hover:scale-105" : ""}`}
+              >
+                {formData.photoURL ? (
+                  <Image 
+                    src={formData.photoURL} 
+                    alt={profile.displayName} 
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Jersey text={profile.displayName[0]} size="68|94" />
+                  </div>
+                )}
+                {isEditing && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-white font-bold text-xs md:text-sm text-center px-1">CAMBIAR FOTO</span>
+                  </div>
+                )}
+              </button>
+            </div>
             {profile.hasBioBonus && (
               <motion.div 
                 initial={{ scale: 0, rotate: -20 }}
@@ -283,8 +383,16 @@ export default function ProfilePage() {
               />
             )}
             
-            <div className="bg-v2k-pink-hot/10 border-2 border-black px-4 py-1.5 rounded-full inline-block mt-2">
-              <Jersey text={profile.rank} size="16|16" className="text-v2k-pink-hot font-bold" />
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-2">
+              <div className="bg-v2k-pink-hot/10 border-2 border-black px-4 py-1.5 rounded-full inline-block">
+                <Jersey text={profile.rank} size="16|16" className="text-v2k-pink-hot font-bold" />
+              </div>
+              
+              {/* STREAK WIDGET */}
+              <div className="bg-orange-100 border-2 border-black px-4 py-1.5 rounded-full flex items-center gap-2 shadow-[2px_2px_0px_#000]">
+                <span className="text-sm">🔥</span>
+                <Jersey text={`${profile.streak || 1} DÍAS`} size="14|14" className="text-orange-600 font-black" />
+              </div>
             </div>
 
             {/* BARRA DE PROGRESO XP */}
@@ -398,41 +506,134 @@ export default function ProfilePage() {
         {/* SECCIÓN DE LOGROS */}
         <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-white shadow-[6px_6px_0px_#000]">
           <Jersey text="MIS LOGROS 🏆" size="20|24" className="mb-6 text-black underline decoration-v2k-pink-hot" />
-          <div className="flex flex-wrap gap-6 justify-center md:justify-start">
-            {/* LOGRO: PERFIL COMPLETO */}
-            <div className={`flex flex-col items-center gap-2 ${profile.hasBioBonus ? "opacity-100" : "opacity-20 grayscale"}`}>
-              <div className="w-16 h-16 bg-yellow-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
-                ✨
-              </div>
-              <span className="text-[10px] font-black uppercase">Perfil Full</span>
-            </div>
-
-            {/* LOGRO: EXPLORADOR (BASED ON POINTS) */}
-            <div className={`flex flex-col items-center gap-2 ${profile.points >= 100 ? "opacity-100" : "opacity-20 grayscale"}`}>
-              <div className="w-16 h-16 bg-blue-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
-                🔍
-              </div>
-              <span className="text-[10px] font-black uppercase">Explorador</span>
-            </div>
-
-            {/* LOGRO: FAN TOTAL (BASED ON POINTS) */}
-            <div className={`flex flex-col items-center gap-2 ${profile.points >= 500 ? "opacity-100" : "opacity-20 grayscale"}`}>
-              <div className="w-16 h-16 bg-v2k-pink-soft border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
-                💖
-              </div>
-              <span className="text-[10px] font-black uppercase">Fan Total</span>
-            </div>
-
-            {/* LOGRO: LEYENDA (BASED ON POINTS) */}
-            <div className={`flex flex-col items-center gap-2 ${profile.points >= 5000 ? "opacity-100" : "opacity-20 grayscale"}`}>
-              <div className="w-16 h-16 bg-purple-100 border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000]">
-                👑
-              </div>
-              <span className="text-[10px] font-black uppercase">Leyenda</span>
-            </div>
+          
+          <div className="flex flex-wrap gap-6 justify-center md:justify-start mb-8">
+            {ALL_ACHIEVEMENTS.map((ach) => (
+              <motion.button
+                key={ach.id}
+                type="button"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSelectedAchievement(selectedAchievement === ach.id ? null : ach.id)}
+                className={`flex flex-col items-center gap-2 transition-all ${ach.requirement ? "opacity-100" : "opacity-30 grayscale filter"}`}
+              >
+                <div className={`w-16 h-16 ${ach.color} border-2 border-black rounded-2xl flex items-center justify-center text-3xl shadow-[3px_3px_0px_#000] ${selectedAchievement === ach.id ? "ring-4 ring-v2k-pink-hot ring-offset-2" : ""}`}>
+                  {ach.icon}
+                </div>
+                <span className="text-[10px] font-black uppercase">{ach.name}</span>
+              </motion.button>
+            ))}
           </div>
+
+          <AnimatePresence mode="wait">
+            {selectedAchievement && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="p-4 border-[3px] border-black rounded-2xl bg-v2k-gray-soft/10 relative">
+                  <button 
+                    type="button"
+                    onClick={() => setSelectedAchievement(null)}
+                    className="absolute top-2 right-2 text-gray-400 hover:text-black"
+                  >
+                    ✕
+                  </button>
+                  <div className="flex items-center gap-4">
+                    <div className="text-4xl">
+                      {ALL_ACHIEVEMENTS.find(a => a.id === selectedAchievement)?.icon}
+                    </div>
+                    <div>
+                      <SpaceText 
+                        text={ALL_ACHIEVEMENTS.find(a => a.id === selectedAchievement)?.name || ""} 
+                        size="16|16" 
+                        className="font-black text-black uppercase" 
+                      />
+                      <SpaceText 
+                        text={ALL_ACHIEVEMENTS.find(a => a.id === selectedAchievement)?.description || ""} 
+                        size="14|14" 
+                        className="text-gray-600 font-bold" 
+                      />
+                      <div className="mt-2 text-[10px] font-black uppercase text-v2k-pink-hot">
+                        {ALL_ACHIEVEMENTS.find(a => a.id === selectedAchievement)?.requirement 
+                          ? "✅ ¡DESBLOQUEADO!" 
+                          : "� POR DESBLOQUEAR"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
+        {/* HISTORIAL DE ACTIVIDAD RECIENTE */}
+        <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-white shadow-[6px_6px_0px_#000]">
+          <Jersey text="ACTIVIDAD RECIENTE 🕒" size="20|24" className="mb-6 text-black underline decoration-v2k-cyan-soft" />
+          <div className="space-y-3">
+            {profile.activities && profile.activities.length > 0 ? (
+              profile.activities.map((activity) => (
+                <div 
+                  key={activity.id} 
+                  className="flex items-center justify-between p-3 border-2 border-black rounded-xl bg-v2k-gray-soft/10 hover:bg-v2k-cyan-soft/5 transition-colors"
+                >
+                  <div className="flex flex-col">
+                    <SpaceText text={activity.text} size="14|14" className="font-bold text-black" />
+                    <span className="text-[10px] text-gray-400 font-bold uppercase">
+                      {new Date(activity.timestamp).toLocaleDateString('es-ES', { 
+                        day: '2-digit', 
+                        month: 'short', 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      })}
+                    </span>
+                  </div>
+                  {activity.points && (
+                    <div className="bg-v2k-pink-hot text-white px-3 py-1 border-2 border-black rounded-full text-[10px] font-black shadow-[2px_2px_0px_#000]">
+                      +{activity.points} XP
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="py-8 text-center border-2 border-dashed border-black/20 rounded-2xl bg-v2k-gray-soft/5">
+                <SpaceText text="Aún no tienes actividad registrada. ¡Empieza a explorar el club!" size="14|14" className="text-gray-400 italic" />
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* CARNET DE SOCIO (BUNNIES CLUB ID) */}
+        {!isEditing && (
+          <div className="mb-12 border-[3px] border-black p-4 md:p-6 rounded-3xl bg-v2k-pink-soft/30 shadow-[6px_6px_0px_#000] flex flex-col items-center gap-6 overflow-hidden">
+            <Jersey text="TU CARNET DE BUNNY ID 🆔" size="20|24" className="text-black text-center" />
+            
+            <div className="w-full flex justify-center -my-8 sm:my-0">
+              <div className="scale-[0.6] min-[400px]:scale-[0.75] sm:scale-95 md:scale-100 origin-center">
+                <BunniesClubID profile={profile} ref={idCardRef} />
+              </div>
+            </div>
+
+            <div className="w-full max-w-sm flex flex-col items-center gap-3">
+              <button
+                type="button"
+                onClick={handleDownloadID}
+                className="w-full bg-v2k-accent border-[3px] border-black px-8 py-3 font-bold shadow-[4px_4px_0px_#000] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2"
+              >
+                <span>DESCARGAR PARA COMPARTIR</span>
+                <span>📸</span>
+              </button>
+              
+              {!profile.hasBioBonus || profile.points < 100 ? (
+                <p className="text-[10px] font-bold text-gray-500 text-center uppercase">
+                  ⚠️ Necesitas +100 XP y Perfil Completo para estar verificado
+                </p>
+              ) : null}
+            </div>
+          </div>
+        )}
 
         {/* GUÍA DE XP */}
         <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-v2k-cyan-soft shadow-[4px_4px_0px_#000]">
@@ -442,7 +643,7 @@ export default function ProfilePage() {
               { text: "Completar tu perfil", xp: "+100" },
               { text: "Crear photocards", xp: "+50" },
               { text: "Hacer Quizzes", xp: "+XP var." },
-              { text: "Login diario", xp: "+20" },
+              { text: "Login diario", xp: profile.streak && profile.streak >= 5 ? "+40 (x2 🔥)" : "+20" },
             ].map((item) => (
               <div key={item.text} className="flex justify-between items-center bg-white/50 border-2 border-black/10 px-4 py-2 rounded-xl">
                 <span className="font-bold text-sm">{item.text}</span>

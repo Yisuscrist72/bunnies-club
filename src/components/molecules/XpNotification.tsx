@@ -18,7 +18,7 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
       if (onComplete) {
         setTimeout(onComplete, 500); // Esperar a la animación de salida
       }
-    }, 1000);
+    }, 1800);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
@@ -26,9 +26,10 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 50, x: "-50%" }}
-          animate={{ opacity: 1, y: 0, x: "-50%" }}
-          exit={{ opacity: 0, scale: 0.5, x: "-50%" }}
+          initial={{ opacity: 0, scale: 0.8, y: 50, x: "-50%" }}
+          animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
+          transition={{ type: "spring", damping: 12, stiffness: 200 }}
+          exit={{ opacity: 0, scale: 0.5, y: -20, x: "-50%" }}
           className="fixed bottom-24 left-1/2 z-9999 flex items-center gap-3 bg-white border-4 border-black p-4 shadow-[8px_8px_0px_#000] rounded-2xl min-w-[200px]"
         >
           <div className="bg-v2k-pink-hot border-2 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[2px_2px_0px_#000] shrink-0">

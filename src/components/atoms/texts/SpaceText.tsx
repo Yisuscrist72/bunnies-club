@@ -18,6 +18,7 @@ export interface SpaceTextProps {
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
   size?: SpaceTextSize;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 // Mapeo de tamaños idéntico al de Jersey para que escalen igual
@@ -40,6 +41,7 @@ export default function SpaceText({
   tag = "p",
   size = "14|14",
   className = "",
+  style = {},
 }: SpaceTextProps) {
   const textRef = useRef<HTMLElement>(null);
 
@@ -54,6 +56,7 @@ export default function SpaceText({
     <Component
       ref={textRef}
       className={`${fontStyle} ${sizeStyle} antialiased ${className}`}
+      style={style}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: El contenido ya está sanitizado con DOMPurify
       dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
     />

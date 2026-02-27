@@ -13,6 +13,13 @@ import { auth, googleProvider, db, storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import XpNotification from "@/components/molecules/XpNotification";
 
+export interface Activity {
+  id: string;
+  text: string;
+  timestamp: string;
+  points?: number;
+}
+
 export interface UserProfile {
   uid: string;
   displayName: string;
@@ -24,7 +31,10 @@ export interface UserProfile {
   rank: string;
   points: number;
   lastLogin?: string;
+  joinDate?: string;
+  streak?: number;
   hasBioBonus?: boolean;
+  activities?: Activity[];
 }
 
 interface AuthContextType {
@@ -83,6 +93,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               favSongs: [],
               rank: CREATOR_EMAILS.includes(firebaseUser.email || "") ? "CREADOR / CEO" : "Bunny Novato",
               points: 0,
+              streak: 1,
+              joinDate: new Date().toISOString(),
             };
             await setDoc(userDocRef, newProfile);
             setProfile(newProfile);
@@ -150,10 +162,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const newPoints = (currentProfile.points || 0) + amount;
       const newRank = getRankByPoints(newPoints, user.email || "");
       
+      const currentActivities = currentProfile.activities || [];
+      const newActivity: Activity = {
+        id: crypto.randomUUID(),
+        text: message || "Puntos obtenidos",
+        timestamp: new Date().toISOString(),
+        points: amount
+      };
+
       await updateDoc(userDocRef, {
         points: newPoints,
         rank: newRank,
-        lastLogin: new Date().toISOString()
+        lastLogin: new Date().toISOString(),
+        activities: [newActivity, ...currentActivities].slice(0, 10)
       });
 
       // Mostrar notificación visual
@@ -170,13 +191,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const lastLogin = profile.lastLogin?.split("T")[0];
       
       if (lastLogin !== today) {
-        setTimeout(() => {
-          addPoints(20, "Bonus por login diario 🐰");
-        }, 100);
-        console.log("Daily login bonus awarded! +20 XP");
+        setTimeout(async () => {
+          // Calcular nueva racha
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yesterdayStr = yesterday.toISOString().split("T")[0];
+          
+          const newStreak = lastLogin === yesterdayStr ? (profile.streak || 0) + 1 : 1;
+          const xpBonus = newStreak >= 5 ? 40 : 20;
+          const msg = newStreak >= 5 ? `¡Racha de ${newStreak} días! 🔥 +${xpBonus} XP` : "Bonus por login diario 🐰";
+          
+          await addPoints(xpBonus, msg);
+          
+          // Actualizamos la racha en el documento
+          const userDocRef = doc(db, "users", user.uid);
+          await updateDoc(userDocRef, { streak: newStreak });
+        }, 1000);
+        console.log("Processing daily login and streak...");
       }
     }
-  }, [user, profile, addPoints]);
+  }, [user, profile, addPoints]); // Usamos profile completo para simplicidad y cumplir linting
 
   const uploadImage = async (file: File) => {
     if (!user) throw new Error("Debes estar autenticado para subir imágenes");
