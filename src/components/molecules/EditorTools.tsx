@@ -20,7 +20,11 @@ try {
       try {
         const val = (Icons as any)[key];
         // Verificar que sea un componente de React (función o objeto con $$typeof)
-        if (val && (typeof val === "function" || (typeof val === "object" && val.$$typeof))) {
+        if (
+          val &&
+          (typeof val === "function" ||
+            (typeof val === "object" && val.$$typeof))
+        ) {
           STARK_ICONS[key] = val;
         }
       } catch (e) {
@@ -84,23 +88,24 @@ export default function EditorTools({
   setBackColor,
 }: EditorToolsProps) {
   const [activeTab, setActiveTab] = useState<"libreria" | "capas">("libreria");
+  const [prevSelectedElement, setPrevSelectedElement] =
+    useState<EditorElement | null>(selectedElement);
   const [iconSearch, setIconSearch] = useState("");
+
+  if (selectedElement !== prevSelectedElement) {
+    setPrevSelectedElement(selectedElement);
+    if (selectedElement && activeTab !== "capas") {
+      setActiveTab("capas");
+    }
+  }
 
   const filteredIcons = React.useMemo(() => {
     const search = iconSearch.trim().toLowerCase();
     if (!search) return ALL_ICON_NAMES.slice(0, 40); // Mostrar top 40 inicialmente
     return ALL_ICON_NAMES.filter((name) =>
-      name.toLowerCase().includes(search)
+      name.toLowerCase().includes(search),
     ).slice(0, 40); // Limitar para máxima estabilidad
   }, [iconSearch]);
-
-  useEffect(() => {
-    if (selectedElement && activeTab !== "capas") {
-      setActiveTab("capas");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedElement]); 
-
 
   useEffect(() => {
     if (selectedElement?.fontFamily) {
@@ -151,62 +156,62 @@ export default function EditorTools({
         <div className="p-5 overflow-y-auto flex-1 bg-v2k-gray-soft custom-scrollbar min-h-0">
           {activeTab === "libreria" ? (
             <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-4 mb-6">
-                  <div className="flex items-center gap-2 mb-1">
-                    <SpaceText
-                      text="STICKERS"
-                      size="12|12"
-                      className="font-bold opacity-40 uppercase"
-                    />
-                    <span className="text-[10px] font-bold bg-black text-white px-2">
-                      {ALL_ICON_NAMES.length}
-                    </span>
-                  </div>
-                  
-                  {/* Buscador de stickers */}
-                  <div className="relative group">
-                    <input 
-                      type="text"
-                      placeholder="BUSCAR STICKER (EN INGLÉS)..."
-                      value={iconSearch}
-                      onChange={(e) => setIconSearch(e.target.value)}
-                      className="w-full p-3 border-[3px] border-black bg-white font-bold text-[11px] focus:bg-v2k-blue-soft outline-none shadow-[4px_4px_0px_#000] uppercase placeholder:opacity-30"
-                    />
-                    <p className="text-[9px] mt-2 opacity-40 font-bold italic uppercase tracking-wider">
-                      * BUSCA EN INGLÉS (EJ: HEART, STAR, CAT)
-                    </p>
-                  </div>
+              <div className="flex flex-col gap-4 mb-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <SpaceText
+                    text="STICKERS"
+                    size="12|12"
+                    className="font-bold opacity-40 uppercase"
+                  />
+                  <span className="text-[10px] font-bold bg-black text-white px-2">
+                    {ALL_ICON_NAMES.length}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-4 gap-3 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                  {filteredIcons.map((iconKey) => {
-                    const IconComponent = STARK_ICONS[iconKey];
-                    if (!IconComponent) return null;
-                    return (
-                      <button
-                        key={iconKey}
-                        type="button"
-                        onClick={() => {
-                          addElement("icon", iconKey);
-                        }}
-                        className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-pink p-2"
-                        title={iconKey}
-                      >
-                        <div className="w-full h-full transition-transform group-hover:scale-110">
-                          {React.createElement(IconComponent, {
-                            weight: "fill",
-                            className: "w-full h-full",
-                          })}
-                        </div>
-                      </button>
-                    );
-                  })}
-                  {filteredIcons.length === 0 && (
-                    <div className="col-span-4 py-10 text-center opacity-40 text-[10px] font-bold uppercase italic">
-                      No se encontraron stickers
-                    </div>
-                  )}
+                {/* Buscador de stickers */}
+                <div className="relative group">
+                  <input
+                    type="text"
+                    placeholder="BUSCAR STICKER (EN INGLÉS)..."
+                    value={iconSearch}
+                    onChange={(e) => setIconSearch(e.target.value)}
+                    className="w-full p-3 border-[3px] border-black bg-white font-bold text-[11px] focus:bg-v2k-blue-soft outline-none shadow-[4px_4px_0px_#000] uppercase placeholder:opacity-30"
+                  />
+                  <p className="text-[9px] mt-2 opacity-40 font-bold italic uppercase tracking-wider">
+                    * BUSCA EN INGLÉS (EJ: HEART, STAR, CAT)
+                  </p>
                 </div>
+              </div>
+
+              <div className="grid grid-cols-4 gap-3 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                {filteredIcons.map((iconKey) => {
+                  const IconComponent = STARK_ICONS[iconKey];
+                  if (!IconComponent) return null;
+                  return (
+                    <button
+                      key={iconKey}
+                      type="button"
+                      onClick={() => {
+                        addElement("icon", iconKey);
+                      }}
+                      className="group aspect-square bg-white border-[3px] border-black flex items-center justify-center transition-all shadow-[3px_3px_0px_#000] hover:bg-v2k-pink p-2"
+                      title={iconKey}
+                    >
+                      <div className="w-full h-full transition-transform group-hover:scale-110">
+                        {React.createElement(IconComponent, {
+                          weight: "fill",
+                          className: "w-full h-full",
+                        })}
+                      </div>
+                    </button>
+                  );
+                })}
+                {filteredIcons.length === 0 && (
+                  <div className="col-span-4 py-10 text-center opacity-40 text-[10px] font-bold uppercase italic">
+                    No se encontraron stickers
+                  </div>
+                )}
+              </div>
 
               {/* PICKER COLOR FONDO (REVERSO) */}
               <div className="space-y-3 bg-white p-4 border-[3px] border-black shadow-[4px_4px_0px_#000]">
@@ -404,32 +409,56 @@ export default function EditorTools({
                         onClick={() => bringElementToFront(selectedElement.id)}
                         className="bg-v2k-blue-soft border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-blue transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                       >
-                        <span className="text-[9px] font-black uppercase">Al Frente</span>
-                        <CaretDoubleUp size={16} weight="bold" className="group-hover:-translate-y-0.5 transition-transform" />
+                        <span className="text-[9px] font-black uppercase">
+                          Al Frente
+                        </span>
+                        <CaretDoubleUp
+                          size={16}
+                          weight="bold"
+                          className="group-hover:-translate-y-0.5 transition-transform"
+                        />
                       </button>
                       <button
                         type="button"
                         onClick={() => sendElementToBack(selectedElement.id)}
                         className="bg-v2k-gray-soft border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-gray-200 transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                       >
-                        <span className="text-[9px] font-black uppercase">Al Fondo</span>
-                        <CaretDoubleDown size={16} weight="bold" className="group-hover:translate-y-0.5 transition-transform" />
+                        <span className="text-[9px] font-black uppercase">
+                          Al Fondo
+                        </span>
+                        <CaretDoubleDown
+                          size={16}
+                          weight="bold"
+                          className="group-hover:translate-y-0.5 transition-transform"
+                        />
                       </button>
                       <button
                         type="button"
                         onClick={() => moveElementForward(selectedElement.id)}
                         className="bg-white border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-blue-soft transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                       >
-                        <span className="text-[9px] font-black uppercase">Subir</span>
-                        <CaretUp size={16} weight="bold" className="group-hover:-translate-y-0.5 transition-transform" />
+                        <span className="text-[9px] font-black uppercase">
+                          Subir
+                        </span>
+                        <CaretUp
+                          size={16}
+                          weight="bold"
+                          className="group-hover:-translate-y-0.5 transition-transform"
+                        />
                       </button>
                       <button
                         type="button"
                         onClick={() => moveElementBackward(selectedElement.id)}
                         className="bg-white border-[2px] border-black py-2.5 px-3 flex items-center justify-between hover:bg-v2k-gray-soft transition-colors group shadow-[2px_2px_0px_#000] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
                       >
-                        <span className="text-[9px] font-black uppercase">Bajar</span>
-                        <CaretDown size={16} weight="bold" className="group-hover:translate-y-0.5 transition-transform" />
+                        <span className="text-[9px] font-black uppercase">
+                          Bajar
+                        </span>
+                        <CaretDown
+                          size={16}
+                          weight="bold"
+                          className="group-hover:translate-y-0.5 transition-transform"
+                        />
                       </button>
                     </div>
                   </div>

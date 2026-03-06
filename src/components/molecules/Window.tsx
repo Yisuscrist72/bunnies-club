@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type React from "react";
 import Jersey from "../atoms/texts/Jersey";
 
@@ -30,7 +30,7 @@ export default function Window({
           className="text-black font-bold"
         />
         {onClose && (
-          <motion.button
+          <m.button
             type="button"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -38,7 +38,7 @@ export default function Window({
             className="w-5 h-5 bg-v2k-pink-light border-[2px] border-black flex items-center justify-center font-bold leading-none cursor-pointer"
           >
             X
-          </motion.button>
+          </m.button>
         )}
       </div>
       {/* Contenido */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "@/components/atoms/Image";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { RANK_FRAMES } from "./constants";
@@ -22,20 +22,20 @@ const AvatarDecorations = ({ rank }: AvatarDecorationsProps) => {
     <div className="absolute inset-0 pointer-events-none z-0">
       {(isHighRank || isFanatic) && (
         <>
-          <motion.div 
+          <m.div 
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className={`absolute -top-12 left-[10%] w-10 h-20 ${earColor} border-4 border-black rounded-full -rotate-20 shadow-[4px_0_0_#000] z-[-1] flex items-center justify-center`}
           >
             <div className="w-4 h-12 bg-pink-100/50 rounded-full" />
-          </motion.div>
-          <motion.div 
+          </m.div>
+          <m.div 
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className={`absolute -top-12 right-[10%] w-10 h-20 ${earColor} border-4 border-black rounded-full rotate-20 shadow-[4px_0_0_#000] z-[-1] flex items-center justify-center`}
           >
             <div className="w-4 h-12 bg-pink-100/50 rounded-full" />
-          </motion.div>
+          </m.div>
         </>
       )}
     </div>
@@ -91,13 +91,13 @@ export default function ProfileAvatar({
         </button>
       </div>
       {hasBioBonus && (
-        <motion.div 
+        <m.div 
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: -15 }}
           className="absolute -top-1 -right-1 bg-yellow-400 border-[3px] border-black px-2 py-0.5 rounded-lg shadow-[3px_3px_0px_#000] z-20 pointer-events-none"
         >
           <span className="text-[10px] font-black text-black italic whitespace-nowrap">VERIFIED BUNNY</span>
-        </motion.div>
+        </m.div>
       )}
     </div>
   );

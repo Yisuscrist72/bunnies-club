@@ -9,6 +9,7 @@ import Navbar from "@/components/organisms/Navbar";
 import { AudioProvider } from "@/context/AudioContext";
 import { AuthProvider } from "@/context/AuthContext";
 import LoadingScreen from "@/components/molecules/LoadingScreen";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 const jersey10 = localFont({
   src: "../../public/fonts/Jersey10-Regular.ttf",
@@ -35,21 +36,23 @@ export default function RootLayout({
       className={`${jersey10.variable} ${spaceGrotesk.variable} h-full bg-nav-bg`}
     >
       <body className="antialiased flex flex-col min-h-full w-full bg-linear-to-b from-nav-bg via-[#FEE2FE] to-nav-bg bg-fixed bg-no-repeat bg-cover">
-        {/* Aquí ponemos la pantalla de carga, ella sola sabe cuándo mostrarse */}
-        <LoadingScreen />
+        <LazyMotion features={domAnimation}>
+          {/* Aquí ponemos la pantalla de carga, ella sola sabe cuándo mostrarse */}
+          <LoadingScreen />
 
-        <AuthProvider>
-          <AudioProvider>
-            {/* Solo mostramos Navbar y Footer si NO estamos editando */}
-            {!isEditor && <Navbar />}
+          <AuthProvider>
+            <AudioProvider>
+              {/* Solo mostramos Navbar y Footer si NO estamos editando */}
+              {!isEditor && <Navbar />}
 
-            <main className="grow flex flex-col">{children}</main>
+              <main className="grow flex flex-col">{children}</main>
 
-            {!isEditor && <Footer />}
+              {!isEditor && <Footer />}
 
-            {/* El MusicPlayer ha sido eliminado visualmente de aquí */}
-          </AudioProvider>
-        </AuthProvider>
+              {/* El MusicPlayer ha sido eliminado visualmente de aquí */}
+            </AudioProvider>
+          </AuthProvider>
+        </LazyMotion>
       </body>
     </html>
   );

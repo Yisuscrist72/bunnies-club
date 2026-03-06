@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import Cropper, { type Point, type Area } from "react-easy-crop";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { useState } from "react";
@@ -23,7 +23,7 @@ export default function CropModal({ imageToCrop, onClose, onConfirm }: CropModal
   return (
     <AnimatePresence>
       {imageToCrop && (
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -79,7 +79,7 @@ export default function CropModal({ imageToCrop, onClose, onConfirm }: CropModal
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

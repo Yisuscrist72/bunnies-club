@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 
@@ -25,7 +25,7 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.8, y: 50, x: "-50%" }}
           animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
           transition={{ type: "spring", damping: 12, stiffness: 200 }}
@@ -40,7 +40,7 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
             <p className="text-[10px] font-bold text-black uppercase">{message || "Acción completada"}</p>
           </div>
           <div className="ml-2 text-2xl">✨</div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

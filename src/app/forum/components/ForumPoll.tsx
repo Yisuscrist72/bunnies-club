@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
@@ -39,7 +39,7 @@ export default function ForumPoll({ pollOptions, hasVoted, handleVote, user }: F
                 >
                   {/* Progress Bar Background */}
                   {hasVoted && (
-                    <motion.div 
+                    <m.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${percentage}%` }}
                       className="absolute inset-0 bg-v2k-accent/30 pointer-events-none"

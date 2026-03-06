@@ -3,7 +3,7 @@
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Window from "@/components/molecules/Window";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function CopyrightPage() {
   const credits = [
@@ -29,7 +29,7 @@ export default function CopyrightPage() {
 
   return (
     <div className="container mx-auto px-4 py-20 min-h-screen flex items-center justify-center">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -57,7 +57,7 @@ export default function CopyrightPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {credits.map((item) => (
-                <motion.div
+                <m.div
                   key={item.id}
                   whileHover={{ y: -5 }}
                   className={`${item.color} border-[3px] border-black p-4 shadow-[4px_4px_0px_#000]`}
@@ -72,7 +72,7 @@ export default function CopyrightPage() {
                     size="14|14"
                     className="text-black leading-tight"
                   />
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -96,18 +96,18 @@ export default function CopyrightPage() {
                 className="text-black/40 font-bold text-center uppercase tracking-widest"
               />
               
-              <motion.button
+              <m.button
                 whileHover={{ scale: 1.05, x: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.history.back()}
                 className="bg-black text-white px-8 py-3 font-jersey uppercase text-xl border-[3px] border-black shadow-[6px_6px_0px_var(--v2k-accent)] hover:bg-v2k-accent hover:text-black transition-all"
               >
                 REGRESAR_AL_SISTEMA
-              </motion.button>
+              </m.button>
             </footer>
           </div>
         </Window>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

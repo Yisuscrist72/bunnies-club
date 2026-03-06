@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { CheckCircle, Info, Warning, XCircle } from "@phosphor-icons/react";
@@ -57,7 +57,7 @@ export default function SystemNotification({
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.8, y: 50, x: "-50%" }}
           animate={{ opacity: 1, scale: 1, y: 0, x: "-50%" }}
           transition={{ type: "spring", damping: 15, stiffness: 300 }}
@@ -73,7 +73,7 @@ export default function SystemNotification({
             <Jersey text={title} size="16|16" className="text-black" />
             <p className="text-[11px] font-bold text-black uppercase leading-tight mt-1">{message}</p>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

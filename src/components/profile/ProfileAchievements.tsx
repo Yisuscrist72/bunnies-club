@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import ProfileSection from "./ProfileSection";
 import { ALL_ACHIEVEMENTS } from "./constants";
@@ -26,7 +26,7 @@ function ProfileAchievements({ points, hasBioBonus }: ProfileAchievementsProps) 
     <ProfileSection title="MIS LOGROS 🏆">
       <div className="flex flex-wrap gap-6 justify-center md:justify-start mb-8">
         {achievementsWithStatus.map((ach) => (
-          <motion.button
+          <m.button
             key={ach.id}
             type="button"
             whileHover={{ scale: 1.05 }}
@@ -38,13 +38,13 @@ function ProfileAchievements({ points, hasBioBonus }: ProfileAchievementsProps) 
               {ach.icon}
             </div>
             <span className="text-[10px] font-black uppercase text-center">{ach.name}</span>
-          </motion.button>
+          </m.button>
         ))}
       </div>
 
       <AnimatePresence mode="wait">
         {selectedAchievement && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -82,7 +82,7 @@ function ProfileAchievements({ points, hasBioBonus }: ProfileAchievementsProps) 
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </ProfileSection>

@@ -3,7 +3,7 @@
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Window from "@/components/molecules/Window";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function PrivacyPage() {
   const privacyModules = [
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="container mx-auto px-4 py-20 min-h-screen flex items-center justify-center">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {privacyModules.map((module) => (
-                <motion.div
+                <m.div
                   key={module.id}
                   whileHover={{ scale: 1.02, rotate: -0.5 }}
                   className={`${module.color} border-[3px] border-black p-5 shadow-[6px_6px_0px_#000]`}
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
                     size="14|14"
                     className="text-black leading-relaxed"
                   />
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -111,18 +111,18 @@ export default function PrivacyPage() {
                 />
               </div>
 
-              <motion.button
+              <m.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.history.back()}
                 className="bg-v2k-pink-light text-black px-10 py-3 font-jersey uppercase text-xl border-4 border-black shadow-[6px_6px_0px_#000] hover:bg-white transition-all w-full md:w-auto text-center"
               >
                 CERRAR_SISTEMA
-              </motion.button>
+              </m.button>
             </footer>
           </div>
         </Window>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

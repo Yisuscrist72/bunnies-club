@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "../atoms/Image";
@@ -44,14 +44,14 @@ export default function Navbar() {
     <>
       {/* MOBILE MENU BUTTON */}
       {!isMenuOpen && !isFreebiesModalOpen && (
-        <motion.button
+        <m.button
           whileHover={{ scale: 1.1, rotate: 2 }}
           whileTap={WHILE_TAP}
           className="lg:hidden fixed top-4 right-4 text-black border-[3px] border-black bg-nav-mobile px-4 py-1.5 rounded-full shadow-nav-btn z-40"
           onClick={() => setIsMenuOpen(true)}
         >
           <Jersey tag="span" text="MENU" size="16|16" />
-        </motion.button>
+        </m.button>
       )}
 
       {/* DESKTOP NAVBAR */}
@@ -59,7 +59,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between md:justify-center md:gap-8 lg:gap-16 px-4 py-3">
           {/* LOGO SECTION */}
           <Link href="/">
-            <motion.div
+            <m.div
               whileHover={{ scale: 1.05, rotate: -2 }}
               transition={{ duration: 0.2 }}
               className="shrink-0 relative w-20 h-10 md:w-32 md:h-12 cursor-pointer"
@@ -71,13 +71,13 @@ export default function Navbar() {
                 wrapperClassName="absolute -top-2 md:-top-6 -left-2 w-28 h-32 md:w-32 md:h-40 overflow-visible"
                 className="object-contain! drop-shadow-[3px_3px_0px_rgba(0,0,0,0.6)]"
               />
-            </motion.div>
+            </m.div>
           </Link>
 
           {/* NAV LINKS */}
           <ul className="hidden md:flex items-center gap-6 lg:gap-10 text-black tracking-widest mt-1">
             {["MÚSICA", "QUIZ", "TIENDA", "FORO"].map((item) => (
-              <motion.li
+              <m.li
                 key={item}
                 whileHover={{ y: -3, scale: 1.1 }}
                 transition={TRANSITION_SPRING}
@@ -103,7 +103,7 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
 
@@ -143,7 +143,7 @@ export default function Navbar() {
               },
             ].map((soc) => (
               <Link key={soc.href} href={soc.href} target="_blank">
-                <motion.div
+                <m.div
                   whileHover={{
                     y: -6,
                     scale: 1.15,
@@ -155,13 +155,13 @@ export default function Navbar() {
                   className={`w-9 h-9 lg:w-11 lg:h-11 ${soc.bg} border-[3px] border-black ${soc.round || "rounded-md"} flex items-center justify-center cursor-pointer ${soc.hov} shadow-nav-small ${soc.txt || "text-black"} transition-colors duration-200`}
                 >
                   {soc.ico}
-                </motion.div>
+                </m.div>
               </Link>
             ))}
           </div>
 
           {/* LANGUAGE BUTTON CON CONTRASTE CORREGIDO */}
-          <motion.button
+          <m.button
             whileHover={{
               scale: 1.05,
               backgroundColor: "var(--color-v2k-black)",
@@ -172,12 +172,12 @@ export default function Navbar() {
             className="hidden md:block text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to px-4 lg:px-6 py-1 rounded-full shadow-nav-small transition-colors duration-200"
           >
             <Jersey tag="span" text="ES/EN" size="18|22" />
-          </motion.button>
+          </m.button>
 
           {/* USER PROFILE ICON & RANK INFO */}
           <div className="relative group">
             <Link href={user ? "/profile" : "/login"}>
-              <motion.div
+              <m.div
                 whileHover={{
                   y: -6,
                   scale: 1.15,
@@ -197,12 +197,12 @@ export default function Navbar() {
                 ) : (
                   <IconUser className="w-6 h-6" />
                 )}
-              </motion.div>
+              </m.div>
             </Link>
 
             {/* Rank Bubble (Solo escritorio por ahora) */}
             {user && profile ? (
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-black border-2 border-white rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
@@ -210,9 +210,9 @@ export default function Navbar() {
                 <span className="text-[8px] text-white font-black whitespace-nowrap">
                   LVL {Math.floor((profile.points || 0) / 100) + 1}
                 </span>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-v2k-red-soft border-2 border-black rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
@@ -220,7 +220,7 @@ export default function Navbar() {
                 <span className="text-[8px] text-black font-black whitespace-nowrap">
                   GUEST
                 </span>
-              </motion.div>
+              </m.div>
             )}
 
             {/* Hover tooltip with XP or Login prompt */}

@@ -17,8 +17,15 @@ interface EditorHeaderProps {
   setCustomTitle?: (title: string) => void;
 }
 
-export default function EditorHeader({ 
-  side, setSide, title, setSelectedId, onSave, isSaving, customTitle, setCustomTitle 
+export default function EditorHeader({
+  side,
+  setSide,
+  title,
+  setSelectedId,
+  onSave,
+  isSaving,
+  customTitle,
+  setCustomTitle,
 }: EditorHeaderProps) {
   const router = useRouter();
   const { user, addPoints } = useAuth();
@@ -34,7 +41,12 @@ export default function EditorHeader({
       const currentImage = await domToPng(canvasElement, { scale: 3 });
 
       // 2. Cambiamos de cara para capturar la otra
-      const otherSide = side === "front" ? "back" : "front";
+      let otherSide: "front" | "back";
+      if (side === "front") {
+        otherSide = "back";
+      } else {
+        otherSide = "front";
+      }
       setSide(otherSide);
 
       // Esperamos un momento a que el DOM se actualice con la otra cara
@@ -43,15 +55,18 @@ export default function EditorHeader({
 
       // 3. Crear el PDF (A4 es el estándar de impresión)
       const pdf = new jsPDF("p", "mm", "a4");
-      
+
       // Definimos el tamaño de una photocard real (aprox 55mm x 85mm)
       const pcWidth = 55;
       const pcHeight = 85;
 
-      // Cara Frontal (Izquierda)
-      const frontImg = side === "front" ? currentImage : otherImage;
-      // Cara Trasera (Derecha)
-      const backImg = side === "back" ? currentImage : otherImage;
+      // Cara Frontal (Izquierda) e Cara Trasera (Derecha)
+      let frontImg = currentImage;
+      let backImg = otherImage;
+      if (side === "back") {
+        frontImg = otherImage;
+        backImg = currentImage;
+      }
 
       pdf.setFontSize(10);
       pdf.text("Bunnies Club - Photocard Print Sheet", 10, 15);
@@ -71,7 +86,6 @@ export default function EditorHeader({
 
       // Devolvemos al usuario a la cara en la que estaba originalmente
       setSide(side);
-
     } catch (err) {
       console.error("Error generando PDF:", err);
       alert("Error al crear el PDF imprimible.");
@@ -117,7 +131,7 @@ export default function EditorHeader({
             type="button"
             onClick={onSave}
             disabled={isSaving}
-            className={`flex-1 lg:flex-none bg-v2k-blue-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-blue-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`flex-1 lg:flex-none bg-v2k-blue-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-blue-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase ${isSaving ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isSaving ? "Guardando..." : "Guardar"}
           </button>

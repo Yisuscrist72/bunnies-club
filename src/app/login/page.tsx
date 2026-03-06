@@ -3,8 +3,9 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Link from "next/link";
 import Jersey from "@/components/atoms/texts/Jersey";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function LoginPage() {
   const { user, signInWithGoogle } = useAuth();
@@ -18,24 +19,27 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 py-20">
-      <motion.div 
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white border-4 border-black p-8 md:p-12 rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-md w-full text-center"
       >
-        <Jersey 
-          tag="h1" 
-          text="BIENVENIDO A BUNNIES CLUB" 
-          size="40|48" 
+        <Jersey
+          tag="h1"
+          text="BIENVENIDO A BUNNIES CLUB"
+          size="40|48"
           className="mb-8 text-v2k-pink-hot drop-shadow-[2px_2px_0px_#000]"
         />
-        
+
         <p className="text-black mb-10 font-medium text-lg">
           Inicia sesión para acceder a tu perfil y contenido exclusivo.
         </p>
 
-        <motion.button
-          whileHover={{ scale: 1.05, boxShadow: "4px 4px 0px 0px rgba(0,0,0,1)" }}
+        <m.button
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "4px 4px 0px 0px rgba(0,0,0,1)",
+          }}
           whileTap={{ scale: 0.95, boxShadow: "2px 2px 0px 0px rgba(0,0,0,1)" }}
           onClick={signInWithGoogle}
           className="flex items-center justify-center gap-4 w-full bg-[#4285F4] text-white border-[3px] border-black py-4 rounded-xl font-bold text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all"
@@ -60,12 +64,20 @@ export default function LoginPage() {
             />
           </svg>
           Google Login
-        </motion.button>
+        </m.button>
 
         <div className="mt-8 text-sm text-gray-500">
-          Al iniciar sesión, aceptas nuestros <a href="/terms" className="underline hover:text-v2k-pink-hot">Términos de Uso</a> y <a href="/privacy" className="underline hover:text-v2k-pink-hot">Política de Privacidad</a>.
+          Al iniciar sesión, aceptas nuestros{" "}
+          <Link href="/terms" className="underline hover:text-v2k-pink-hot">
+            Términos de Uso
+          </Link>{" "}
+          y{" "}
+          <Link href="/privacy" className="underline hover:text-v2k-pink-hot">
+            Política de Privacidad
+          </Link>
+          .
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

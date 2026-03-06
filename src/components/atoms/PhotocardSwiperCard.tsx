@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "./Image";
 import Jersey from "./texts/Jersey";
 
@@ -17,7 +17,7 @@ export const PhotocardSwiperCard = ({
   return (
     <div className="flex-shrink-0 w-40 md:w-52 flex flex-col items-center gap-3 transform-gpu">
       {/* LA IMAGEN DE LA PHOTOCARD */}
-      <motion.button
+      <m.button
         type="button"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -28,11 +28,12 @@ export const PhotocardSwiperCard = ({
           src={imageURL}
           alt={title}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover pointer-events-none"
           priority={false}
         />
         <div className="absolute inset-0 bg-v2k-pink-hot/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-      </motion.button>
+      </m.button>
 
       {/* LA ETIQUETA DE TEXTO (AQUÍ ESTÁ EL CAMBIO) */}
       <div className="w-full bg-v2k-pink border-[3px] border-black py-2 rounded-xl text-center shadow-[inset_2px_2px_0px_rgba(255,255,255,0.5)]">

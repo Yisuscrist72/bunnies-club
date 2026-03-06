@@ -3,7 +3,7 @@
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Window from "@/components/molecules/Window";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export default function TermsPage() {
   const sections = [
@@ -41,7 +41,7 @@ export default function TermsPage() {
 
   return (
     <div className="container mx-auto px-4 py-20 min-h-screen flex items-center justify-center">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -63,7 +63,7 @@ export default function TermsPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {sections.map((section) => (
-                <motion.div
+                <m.div
                   key={section.id}
                   whileHover={{ x: 5, y: -5 }}
                   className={`${section.color} border-[3px] border-black p-5 shadow-[6px_6px_0px_#000] transition-all`}
@@ -78,7 +78,7 @@ export default function TermsPage() {
                     size="14|14"
                     className="text-black leading-relaxed"
                   />
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -91,18 +91,18 @@ export default function TermsPage() {
             </div>
             
             <div className="flex justify-center mt-4">
-              <motion.button
+              <m.button
                 whileHover={{ scale: 1.05, rotate: 1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.history.back()}
                 className="bg-v2k-accent text-black px-10 py-4 font-jersey uppercase text-2xl border-4 border-black shadow-[8px_8px_0px_#000] hover:bg-white transition-colors"
               >
                 ACEPTAR_PROTOCOLOS
-              </motion.button>
+              </m.button>
             </div>
           </div>
         </Window>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

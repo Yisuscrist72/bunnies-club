@@ -1,9 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { AnimatePresence, m } from "framer-motion";
+import { useState, useSyncExternalStore } from "react";
 import SpaceText from "../atoms/texts/SpaceText";
 import { useAudio } from "../../context/AudioContext";
+
+const emptySubscribe = () => () => {};
 
 const SpeakerGrille = ({ className }: { className?: string }) => (
   <div className={`grid grid-cols-4 gap-1 opacity-40 ${className}`}>
@@ -32,7 +34,12 @@ const HoloDisc = ({ size, hole }: { size: string; hole: string }) => (
 
 export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+
   const {
     isPlaying,
     currentTrack,
@@ -45,10 +52,6 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
     changeVolume,
     seek,
   } = useAudio();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) return null;
 
@@ -67,14 +70,14 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
       {/* DISCO FLOTANTE MÓVIL */}
       <div className="lg:hidden fixed bottom-20 right-5 z-[100]">
         {!isOpen && (
-          <motion.button
+          <m.button
             type="button"
             onClick={() => setIsOpen(true)}
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             whileTap={{ scale: 0.8 }}
           >
-            <motion.div
+            <m.div
               animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
               transition={
                 isPlaying
@@ -83,23 +86,23 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
               }
             >
               <HoloDisc size="w-16 h-16" hole="w-5 h-5" />
-            </motion.div>
-          </motion.button>
+            </m.div>
+          </m.button>
         )}
       </div>
 
       <AnimatePresence>
         {showPlayer && (
-          <motion.div
+          <m.div
             key="player"
             initial={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: 150, rotate: 10 }}
-            transition={{ 
-              type: "spring", 
-              damping: 20, 
+            transition={{
+              type: "spring",
+              damping: 20,
               stiffness: 250,
-              opacity: { duration: 0.4 }
+              opacity: { duration: 0.4 },
             }}
             className={`
                             ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
@@ -109,7 +112,7 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
           >
             {/* BOTÓN DE CIERRE MEJORADO (SOLO MOBILE) */}
             {isOpen && (
-              <motion.button
+              <m.button
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(false)}
                 className="lg:hidden absolute -top-3 -right-3 w-10 h-10 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_var(--color-v2k-black)] z-[120]"
@@ -117,7 +120,7 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
                 <span className="text-black font-black text-xl leading-none mt-[-2px]">
                   ✕
                 </span>
-              </motion.button>
+              </m.button>
             )}
 
             {/* PANTALLA LCD ANIMADA */}
@@ -127,13 +130,13 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
 
               <div className="flex justify-between items-center relative z-10">
                 <div className="flex items-center gap-1.5">
-                  <motion.div
+                  <m.div
                     animate={{ opacity: isPlaying ? [1, 0, 1] : 1 }}
                     transition={{ duration: 1, repeat: Infinity }}
                     className={`w-2.5 h-2.5 rounded-full border border-black ${isPlaying ? "bg-v2k-pink-hot" : "bg-gray-400"}`}
                   />
                   <div className="w-32 overflow-hidden whitespace-nowrap relative">
-                    <motion.div
+                    <m.div
                       animate={{ x: [120, -220] }}
                       transition={{
                         duration: 7,
@@ -151,13 +154,13 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
                         size="12|12"
                         className="text-black font-black tracking-widest"
                       />
-                    </motion.div>
+                    </m.div>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col items-center gap-4 relative z-10">
-                <motion.div
+                <m.div
                   animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
                   transition={
                     isPlaying
@@ -166,9 +169,9 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
                   }
                 >
                   <HoloDisc size="w-24 h-24" hole="w-8 h-8" />
-                </motion.div>
+                </m.div>
                 <div className="w-full text-center px-1">
-                  <motion.div
+                  <m.div
                     animate={isPlaying ? { scale: [1, 1.03, 1] } : {}}
                     transition={{ duration: 0.5, repeat: Infinity }}
                   >
@@ -177,7 +180,7 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
                       size="14|14"
                       className="text-black font-black uppercase truncate"
                     />
-                  </motion.div>
+                  </m.div>
                   <div className="h-0.5 w-full bg-black/10 mt-1" />
                 </div>
               </div>
@@ -268,7 +271,7 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

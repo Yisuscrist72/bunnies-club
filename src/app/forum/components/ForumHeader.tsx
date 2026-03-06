@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 
@@ -10,7 +10,7 @@ interface ForumHeaderProps {
 
 export default function ForumHeader({ onlineUsers }: ForumHeaderProps) {
   return (
-    <motion.div 
+    <m.div 
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       className="text-center mb-8 md:mb-12 relative"
@@ -25,6 +25,6 @@ export default function ForumHeader({ onlineUsers }: ForumHeaderProps) {
          </span>
          <SpaceText text={`${onlineUsers} BUNNIES CONNECTED`} size="12|12" className="font-black" />
       </div>
-    </motion.div>
+    </m.div>
   );
 }
