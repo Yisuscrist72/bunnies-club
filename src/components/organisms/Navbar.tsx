@@ -34,10 +34,17 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   useEffect(() => {
-    const handleModalEvent = (e: CustomEvent<boolean>) => setIsFreebiesModalOpen(e.detail);
-    window.addEventListener("toggleFreebiesModal", handleModalEvent as EventListener);
+    const handleModalEvent = (e: CustomEvent<boolean>) =>
+      setIsFreebiesModalOpen(e.detail);
+    window.addEventListener(
+      "toggleFreebiesModal",
+      handleModalEvent as EventListener,
+    );
     return () =>
-      window.removeEventListener("toggleFreebiesModal", handleModalEvent as EventListener);
+      window.removeEventListener(
+        "toggleFreebiesModal",
+        handleModalEvent as EventListener,
+      );
   }, []);
 
   return (
@@ -84,10 +91,13 @@ export default function Navbar() {
               >
                 <Link
                   href={
-                    item === "MÚSICA" ? "/music" :
-                    item === "TIENDA" ? "/shop" :
-                    item === "FORO"   ? "/forum" :
-                    `/${item.toLowerCase()}`
+                    item === "MÚSICA"
+                      ? "/music"
+                      : item === "TIENDA"
+                        ? "/shop"
+                        : item === "FORO"
+                          ? "/forum"
+                          : `/${item.toLowerCase()}`
                   }
                   className="hover:text-v2k-pink-hot transition-colors flex items-center gap-1"
                 >
@@ -202,7 +212,7 @@ export default function Navbar() {
 
             {/* Rank Bubble (Solo escritorio por ahora) */}
             {user && profile ? (
-              <m.div 
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-black border-2 border-white rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
@@ -212,7 +222,7 @@ export default function Navbar() {
                 </span>
               </m.div>
             ) : (
-              <m.div 
+              <m.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-v2k-red-soft border-2 border-black rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
@@ -226,24 +236,33 @@ export default function Navbar() {
             {/* Hover tooltip with XP or Login prompt */}
             {user && profile ? (
               <div className="absolute top-14 right-0 bg-white border-2 border-black p-2 shadow-[4px_4px_0px_#000] hidden group-hover:block z-50 min-w-[120px]">
-                <p className="text-[10px] font-black uppercase text-black">{profile.rank}</p>
+                <p className="text-[10px] font-black uppercase text-black">
+                  {profile.rank}
+                </p>
                 <div className="h-1 bg-gray-100 mt-1 mb-1">
-                  <div 
-                    className="h-full bg-v2k-pink-hot" 
+                  <div
+                    className="h-full bg-v2k-pink-hot"
                     style={{ width: `${(profile.points || 0) % 100}%` }}
                   />
                 </div>
-                <p className="text-[9px] font-bold text-black">{profile.points} XP TOTAL</p>
+                <p className="text-[9px] font-bold text-black">
+                  {profile.points} XP TOTAL
+                </p>
               </div>
             ) : (
               <div className="absolute top-14 right-0 bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] hidden group-hover:block z-50 min-w-[160px]">
-                <p className="text-[10px] font-black uppercase text-black">MODO INVITADO</p>
+                <p className="text-[10px] font-black uppercase text-black">
+                  MODO INVITADO
+                </p>
                 <div className="h-0.5 bg-black/10 my-2" />
                 <p className="text-[9px] font-bold text-v2k-black leading-tight">
                   LOGUEATE PARA GANAR XP Y SUBIR DE NIVEL 🐰✨
                 </p>
                 <Link href="/login">
-                  <button type="button" className="w-full mt-2 bg-v2k-accent border-2 border-black py-1 text-[9px] font-black shadow-[2px_2px_0px_#000] active:shadow-none translate-y-0 active:translate-y-1 transition-all">
+                  <button
+                    type="button"
+                    className="w-full mt-2 bg-v2k-accent border-2 border-black py-1 text-[9px] font-black shadow-[2px_2px_0px_#000] active:shadow-none translate-y-0 active:translate-y-1 transition-all"
+                  >
                     ENTRAR AHORA
                   </button>
                 </Link>

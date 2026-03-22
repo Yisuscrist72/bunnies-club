@@ -6,6 +6,7 @@ export type TextSize =
   | "12|12"
   | "14|14"
   | "16|16"
+  | "16|20"
   | "18|22"
   | "20|24"
   | "24|28"
@@ -22,12 +23,14 @@ export interface TextProps {
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
   size?: TextSize;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const SIZE_MAP: Record<TextSize, string> = {
   "12|12": "text-[0.75rem] leading-[120%]",
   "14|14": "text-[0.875rem] leading-[120%]",
   "16|16": "text-[1rem] leading-[120%]",
+  "16|20": "text-[1rem] lg:text-[1.25rem] leading-[120%]",
   "18|22": "text-[1.125rem] lg:text-[1.375rem] leading-[120%]",
   "20|24": "text-[1.25rem] lg:text-[1.5rem] leading-[120%]",
   "24|28": "text-[1.5rem] lg:text-[1.75rem] leading-[120%]",
@@ -45,6 +48,7 @@ export default function Text({
   tag = "p",
   size = "14|14",
   className = "",
+  style = {},
 }: TextProps) {
   const textRef = useRef<HTMLElement>(null);
 
@@ -59,6 +63,7 @@ export default function Text({
     <Component
       ref={textRef}
       className={`${fontStyle} ${sizeStyle} antialiased ${className}`}
+      style={style}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: El contenido ya está sanitizado con DOMPurify
       dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
     />

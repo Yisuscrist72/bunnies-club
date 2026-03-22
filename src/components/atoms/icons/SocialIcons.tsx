@@ -60,6 +60,32 @@ export const IconFacebook = ({ className = "w-6 h-6" }) => (
   </svg>
 );
 
+export const IconAppleMusic = ({ className = "w-6 h-6" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    role="img"
+    aria-label="Apple Music"
+  >
+    <title>Apple Music</title>
+    <path d="M17.05 20.28c-.96.78-2.1 1.24-3.89 1.24-3.1 0-5.18-2.1-5.18-5.12 0-3.1 2.15-5.18 4.95-5.18 1.44 0 2.5.4 3.2 1.08l-.16-.3V6.62h2.2v14.46h-1.12v-.8zm-2.82-1.28c1.36 0 2.4-.64 2.82-1.6V12.7c-.42-.68-1.46-1.16-2.82-1.16-1.84 0-3.08 1.28-3.08 3.32.02 2.04 1.26 3.14 3.08 3.14zM16.17 2.14v3.1h1.56V2.14h-1.56z" />
+  </svg>
+);
+
+export const IconYouTube = ({ className = "w-6 h-6" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    role="img"
+    aria-label="YouTube"
+  >
+    <title>YouTube</title>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
+
 export const IconUser = ({ className = "w-6 h-6" }) => (
   <svg
     viewBox="0 0 24 24"
@@ -77,3 +103,4 @@ export const IconUser = ({ className = "w-6 h-6" }) => (
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
+

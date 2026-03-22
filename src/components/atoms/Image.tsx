@@ -15,21 +15,28 @@ export default function Image({
   pixelated = false,
   className,
   wrapperClassName,
-  fill = true, // Por defecto, la imagen rellenará su contenedor
+  fill,
+  width,
+  height,
   ...props
 }: CustomImageProps) {
+  // Si se pasa width o height, no usamos fill por defecto
+  const isFill = fill ?? (!width && !height);
+  
   return (
-    // El contenedor es la clave del responsive.
+    // El contenedor solo debe ser relative h-full w-full si estamos en modo fill
     <div
       className={clsx(
-        "relative w-full h-full overflow-hidden",
+        isFill && "relative w-full h-full overflow-hidden",
         wrapperClassName,
       )}
     >
       <NextImage
         src={src}
         alt={alt}
-        fill={fill}
+        fill={isFill}
+        width={width}
+        height={height}
         // Magia Y2K: Si pasas pixelated={true}, la imagen mantiene los bordes duros
         style={{ imageRendering: pixelated ? "pixelated" : "auto" }}
         className={clsx("object-cover transition-all duration-300", className)}

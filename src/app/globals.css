@@ -53,10 +53,14 @@
   --color-v2k-blue-deep: #80c8f0;
   --color-v2k-pink-hover: #fce4ec;
 
-  /* Colores con transparencia */
-  --color-v2k-shadow-dark: rgba(0, 0, 0, 0.6);
-  --color-v2k-shadow-light: rgba(0, 0, 0, 0.1);
-  --color-v2k-shadow-white: rgba(255, 255, 255, 0.4);
+  /* Animaciones */
+  --animate-shimmer: shimmer 2s infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+  }
 }
 
 /* --- ESTILOS BASE --- */
@@ -68,9 +72,18 @@ body {
   background: linear-gradient(to bottom, #c9e9f6 0%, #f4d8ed 47%, #f9f1c3 100%)
     no-repeat fixed;
   background-size: cover;
+  position: relative;
 }
 
-/* Custom Scrollbar para el estilo Retro */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Custom Scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -93,4 +106,18 @@ body {
     -3px 3px 0 #000,
     3px 3px 0 #000,
     4px 4px 0px #000000;
+}
+
+@utility scanlines {
+  @apply relative overflow-hidden;
+  &::after {
+    content: "";
+    @apply absolute inset-0 pointer-events-none z-50;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.05) 50%
+    );
+    background-size: 100% 4px;
+    opacity: 0.15;
+  }
 }
