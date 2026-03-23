@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { Send, LogOut, User as UserIcon } from "lucide-react";
 import Window from "@/components/molecules/Window";
@@ -46,7 +46,7 @@ export default function ForumGuestbook({
           </div>
         ) : (
           messages.map((msg) => (
-            <m.div 
+            <motion.div 
               key={msg.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -72,7 +72,7 @@ export default function ForumGuestbook({
                   </p>
                 </div>
               </div>
-            </m.div>
+            </motion.div>
           ))
         )}
       </div>
