@@ -82,6 +82,14 @@ export default function MusicCard({ album }: { album: Album }) {
   const cardBg = album.color || "bg-[#E5E7EB]";
   const headerBg = album.headerColor || "bg-v2k-accent";
 
+  // Efecto de Brillo (Shine) Intenso
+  const shineX = useTransform(mouseXSpring, [-0.5, 0.5], ["-30%", "130%"]);
+  const shineY = useTransform(mouseYSpring, [-0.5, 0.5], ["-30%", "130%"]);
+  const shineOpacity = useTransform([mouseXSpring, mouseYSpring], ([mx, my]) => {
+    const dist = Math.sqrt((mx as number)**2 + (my as number)**2);
+    return 0.2 + dist * 0.5; // Base de 0.2 y sube hasta 0.7 en los bordes
+  });
+
   return (
     <div 
       className="group h-[220px] sm:h-[240px] w-full max-w-[400px] mx-auto perspective-[1000px] cursor-default"
@@ -104,9 +112,20 @@ export default function MusicCard({ album }: { album: Album }) {
         <div
           className={`absolute inset-0 backface-hidden flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden scanlines`}
         >
+          {/* Capa de Brillo Holográfico / Iridiscente */}
+          <motion.div 
+             style={{ 
+               opacity: shineOpacity,
+               left: shineX,
+               top: shineY,
+               background: "radial-gradient(circle at center, rgba(255,255,255,0.95) 0%, rgba(165,243,252,0.3) 30%, rgba(253,192,236,0.3) 60%, transparent 85%)"
+             }}
+             className="absolute w-[140%] h-[140%] pointer-events-none z-30 blur-2xl"
+          />
+
           {/* Window Header */}
           <div
-            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0`}
+            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}
           >
             <Jersey
               tag="span"
@@ -123,7 +142,7 @@ export default function MusicCard({ album }: { album: Album }) {
             </div>
           </div>
 
-          <div className="flex-1 flex bg-white/40 overflow-hidden">
+          <div className="flex-1 flex bg-white/40 overflow-hidden relative z-10">
             <div className="p-3 shrink-0">
               <div className="relative aspect-square w-32 border-2 border-black shadow-v2k-xs bg-white transition-transform overflow-hidden">
                 <Image
@@ -153,7 +172,7 @@ export default function MusicCard({ album }: { album: Album }) {
                   e.stopPropagation();
                   toggleFlip();
                 }}
-                className="group/btn relative w-fit mt-1 sm:mt-2 cursor-pointer"
+                className="group/btn relative w-fit mt-1 sm:mt-2 cursor-pointer z-50"
               >
                 {/* 3D Offset Shadow */}
                 <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm transition-transform group-hover/btn:translate-x-1.5 group-hover/btn:translate-y-1.5" />
@@ -174,9 +193,20 @@ export default function MusicCard({ album }: { album: Album }) {
         <div
           className={`absolute inset-0 backface-hidden transform-[rotateY(180deg)] flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden`}
         >
+          {/* Brillo Dinámico (Trasera) - Holográfico */}
+          <motion.div 
+             style={{ 
+               opacity: useTransform(shineOpacity, o => (o as number) * 0.5),
+               left: shineX,
+               top: shineY,
+               background: "radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(165,243,252,0.4) 30%, rgba(253,192,236,0.4) 60%, transparent 80%)"
+             }}
+             className="absolute w-[140%] h-[140%] pointer-events-none z-30 blur-2xl"
+          />
+
           {/* Window Header */}
           <div
-            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0`}
+            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}
           >
             <button
               type="button"
@@ -189,7 +219,7 @@ export default function MusicCard({ album }: { album: Album }) {
                 e.stopPropagation();
                 toggleFlip();
               }}
-              className="px-2 py-0.5 bg-white/40 hover:bg-white border border-transparent hover:border-black rounded text-black font-black text-xs cursor-pointer transition-all active:scale-95 flex items-center gap-1 group/back z-20"
+              className="px-2 py-0.5 bg-white/40 hover:bg-white border border-transparent hover:border-black rounded text-black font-black text-xs cursor-pointer transition-all active:scale-95 flex items-center gap-1 group/back"
             >
               <span className="group-hover/back:-translate-x-0.5 transition-transform">←</span>
               VOLVER
@@ -199,7 +229,7 @@ export default function MusicCard({ album }: { album: Album }) {
             </div>
           </div>
 
-          <div className="flex-1 flex bg-white/30 overflow-hidden">
+          <div className="flex-1 flex bg-white/30 overflow-hidden relative z-10">
             <div className="w-32 shrink-0 flex items-center justify-center p-2 bg-black/5">
               <div className="relative w-full aspect-square rounded-full border-2 border-black overflow-hidden bg-black animate-[spin_10s_linear_infinite]">
                 <Image
