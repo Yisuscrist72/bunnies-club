@@ -11,85 +11,91 @@ const ALBUMS: Album[] = [
     id: 1,
     title: "NEW JEANS",
     type: "1ST EP",
-    cover: "https://upload.wikimedia.org/wikipedia/en/2/2e/New_Jeans_%28EP%29_cover.jpg",
+    cover: "/images/music/newjeans.avif",
     tracks: ["Attention", "Hype Boy", "Cookie", "Hurt"],
+    durations: ["3:00", "2:59", "3:55", "2:57"],
     links: {
       spotify: "https://open.spotify.com/album/488vX7HNo9MvALTh9vYFv0",
       apple: "https://music.apple.com/us/album/new-jeans-ep/1635003316",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-[#e0f2fe]", // Sky Blue
-    headerColor: "bg-[#bae6fd]"
+    color: "bg-album-sky-bg",
+    headerColor: "bg-album-sky-header"
   },
   {
     id: 2,
     title: "OMG & DITTO",
     type: "SINGLE ALBUM",
-    cover: "https://upload.wikimedia.org/wikipedia/en/9/9e/New_Jeans_OMG_cover.jpg",
+    cover: "/images/music/omg-ditto.avif",
     tracks: ["OMG", "Ditto"],
+    durations: ["3:32", "3:05"],
     links: {
       spotify: "https://open.spotify.com/album/58674514589254848",
       apple: "https://music.apple.com/us/album/omg-single/1653833215",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_l_7p_8_v_s_v_v_v"
     },
-    color: "bg-[#fdf2f8]", // Pink
-    headerColor: "bg-[#fbcfe8]"
+    color: "bg-album-pink-bg",
+    headerColor: "bg-album-pink-header"
   },
   {
     id: 3,
     title: "GET UP",
     type: "2ND EP",
-    cover: "https://upload.wikimedia.org/wikipedia/en/1/14/New_Jeans_Get_Up_cover.jpg",
+    cover: "/images/music/get-up.avif",
     tracks: ["New Jeans", "Super Shy", "ETA", "Cool With You", "Get Up", "ASAP"],
+    durations: ["1:48", "2:34", "2:31", "2:27", "0:36", "2:14"],
     links: {
       spotify: "https://open.spotify.com/album/2873495823749",
       apple: "https://music.apple.com/us/album/get-up-ep/1691234912",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-[#f0fdf4]", // Green
-    headerColor: "bg-[#dcfce7]"
+    color: "bg-album-green-bg",
+    headerColor: "bg-album-green-header"
   },
   {
     id: 4,
     title: "HOW SWEET",
     type: "SINGLE ALBUM",
-    cover: "https://upload.wikimedia.org/wikipedia/en/c/c2/New_Jeans_How_Sweet_cover.jpg",
+    cover: "/images/music/howsweet.avif",
     tracks: ["How Sweet", "Bubble Gum"],
+    durations: ["3:39", "3:20"],
     links: {
       spotify: "https://open.spotify.com/album/4892374982374",
       apple: "https://music.apple.com/us/album/how-sweet-single/174492349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-[#fffbeb]", // Yellow
-    headerColor: "bg-[#fef3c7]"
+    color: "bg-album-yellow-bg",
+    headerColor: "bg-album-yellow-header"
   },
   {
     id: 5,
     title: "SUPERNATURAL",
     type: "EP / SINGLE",
-    cover: "https://upload.wikimedia.org/wikipedia/en/5/52/New_Jeans_Supernatural_cover.jpg",
+    cover: "/images/music/supernatural.avif",
     tracks: ["Supernatural", "Right Now"],
+    durations: ["3:12", "2:40"],
     links: {
       spotify: "https://open.spotify.com/album/4892374982374",
       apple: "https://music.apple.com/us/album/supernatural-single/174492349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-[#faf5ff]", // Purple
-    headerColor: "bg-[#f3e8ff]"
+    color: "bg-album-purple-bg",
+    headerColor: "bg-album-purple-header"
   },
   {
     id: 6,
     title: "GODS",
     type: "SENCILLO",
-    cover: "https://upload.wikimedia.org/wikipedia/en/4/4c/New_Jeans_Gods_cover.jpg",
+    cover: "/images/music/gods.avif",
     tracks: ["GODS (League of Legends World Championship)"],
+    durations: ["3:40"],
     links: {
       spotify: "https://open.spotify.com/album/4892374982374",
       apple: "https://music.apple.com/us/album/gods-single/171092349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-[#ecfeff]", // Cyan
-    headerColor: "bg-[#cffafe]"
+    color: "bg-album-cyan-bg",
+    headerColor: "bg-album-cyan-header"
   }
 ];
 
@@ -109,7 +115,7 @@ export default function MusicPage() {
                 tag="h1"
                 text="MÚSICA"
                 size="68|94"
-                className="sticker-title text-v2k-accent !text-[3rem] sm:!text-[5rem] lg:!text-[6rem] drop-shadow-[4px_4px_0px_#000]"
+                className="sticker-title text-v2k-accent text-[3rem]! sm:text-[5rem]! lg:text-[6rem]! drop-shadow-[4px_4px_0px_#000]"
                 style={{
                   textShadow: "-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 6px 6px 0px #000"
                 }}
@@ -120,7 +126,7 @@ export default function MusicPage() {
            initial={{ scale: 0.9, opacity: 0 }}
            animate={{ scale: 1, opacity: 1 }}
            transition={{ delay: 0.1 }}
-           className="bg-v2k-pink-hot border-[4px] border-black px-6 sm:px-8 py-2.5 sm:py-3 shadow-v2k-sm -rotate-1 mb-10 sm:mb-12 relative"
+           className="bg-v2k-pink-hot border-4 border-black px-6 sm:px-8 py-2.5 sm:py-3 shadow-v2k-sm -rotate-1 mb-10 sm:mb-12 relative"
         >
            <Jersey
               text="DISCOGRAFÍA (ALBUMS & EPS)"
@@ -159,17 +165,6 @@ export default function MusicPage() {
              </motion.div>
            ))}
         </div>
-      </div>
-
-      {/* Retro Bottom Navigation / UI helper */}
-      <div className="fixed bottom-10 left-10 z-20 hidden lg:block">
-         <div className="bg-white border-[3px] border-black p-3 shadow-v2k-xs flex flex-col gap-2">
-            <span className="text-[10px] font-black text-black/40">SYSTEM STATUS:</span>
-            <div className="flex items-center gap-2">
-               <div className="w-3 h-3 bg-v2k-green-soft rounded-full border border-black" />
-               <SpaceText text="AUDIO_SYNC_ACTIVE" size="12|12" className="text-black font-bold" />
-            </div>
-         </div>
       </div>
     </div>
   );

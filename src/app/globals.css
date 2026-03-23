@@ -53,6 +53,20 @@
   --color-v2k-blue-deep: #80c8f0;
   --color-v2k-pink-hover: #fce4ec;
 
+  /* --- 6. COLORES DE ÁLBUMES (Discoteca) --- */
+  --color-album-sky-bg: #e0f2fe;
+  --color-album-sky-header: #bae6fd;
+  --color-album-pink-bg: #fdf2f8;
+  --color-album-pink-header: #fbcfe8;
+  --color-album-green-bg: #f0fdf4;
+  --color-album-green-header: #dcfce7;
+  --color-album-yellow-bg: #fffbeb;
+  --color-album-yellow-header: #fef3c7;
+  --color-album-purple-bg: #faf5ff;
+  --color-album-purple-header: #f3e8ff;
+  --color-album-cyan-bg: #ecfeff;
+  --color-album-cyan-header: #cffafe;
+
   /* Animaciones */
   --animate-shimmer: shimmer 2s infinite;
   --animate-spin-slow: spin 12s linear infinite;
