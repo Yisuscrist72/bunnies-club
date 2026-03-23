@@ -1,6 +1,5 @@
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Jersey from "@/components/atoms/texts/Jersey";
-import { motion } from "framer-motion";
 
 export type FilterType = "all" | "album" | "merch";
 
@@ -38,7 +37,7 @@ export default function ShopFilters({ currentFilter, onFilterChange, counts }: S
             />
             <Jersey
               text={`${counts[filter.id]}`}
-              size="12|12"
+              size="18|22"
               className={`font-black px-1 rounded-sm ${currentFilter === filter.id ? "text-black/70 bg-black/10" : "text-black/40"}`}
             />
           </div>

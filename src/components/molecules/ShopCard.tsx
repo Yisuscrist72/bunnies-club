@@ -62,7 +62,7 @@ export default function ShopCard({ product }: { product: Product }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full aspect-[2/3] group cursor-pointer"
+      className="relative w-full aspect-2/3 group cursor-pointer"
     >
       {/* Sticker Die-cut Border (The "Peel" feel) */}
       <div className="absolute inset-[-8px] bg-v2k-cyan border-2 border-black rounded-4xl shadow-[20px_20px_0px_rgba(0,0,0,0.15)] group-hover:shadow-[30px_30px_0px_rgba(0,0,0,0.1)] transition-all duration-300 transform-gpu" />
@@ -210,7 +210,7 @@ export default function ShopCard({ product }: { product: Product }) {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-sm bg-[#cde8ff] border-4 border-black shadow-[12px_12px_0px_rgba(0,0,0,1)] flex flex-col scanlines z-10"
+              className="relative w-full max-w-sm bg-v2k-accent border-4 border-black shadow-[12px_12px_0px_rgba(0,0,0,1)] flex flex-col scanlines z-10"
             >
               <div className="bg-v2k-accent border-b-4 border-black px-3 h-10 flex justify-between items-center">
                 <SpaceText 

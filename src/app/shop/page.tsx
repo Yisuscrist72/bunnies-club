@@ -11,14 +11,12 @@ import ShopBackground from "@/components/organisms/ShopBackground";
 import { PRODUCTS } from "@/data/shop-products";
 import { motion, AnimatePresence } from "framer-motion";
 
-type SortType = "default" | "price-asc" | "price-desc";
-type ViewType = "grid" | "list";
+type SortType = "default" | "price-asc" | "price-desc" | "name-asc" | "name-desc" | "new-first";
 
 export default function ShopPage() {
   const [filter, setFilter] = useState<FilterType>("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortType>("default");
-  const [view, setView] = useState<ViewType>("grid");
 
   const counts = useMemo(() => ({
     all: PRODUCTS.length,
@@ -31,8 +29,11 @@ export default function ShopPage() {
       (p) => (filter === "all" || p.category === filter) &&
         p.name.toLowerCase().includes(search.toLowerCase())
     );
-    if (sort === "price-asc") result = [...result].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    if (sort === "price-asc")  result = [...result].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     if (sort === "price-desc") result = [...result].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    if (sort === "name-asc")   result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "name-desc")  result = [...result].sort((a, b) => b.name.localeCompare(a.name));
+    if (sort === "new-first")  result = [...result].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
     return result;
   }, [filter, search, sort]);
 
@@ -77,33 +78,20 @@ export default function ShopPage() {
               className="relative border-2 border-black bg-white font-space font-black text-xs tracking-widest uppercase px-4 py-2.5 rounded-sm outline-none cursor-pointer appearance-none pr-8"
             >
               <option value="default">ORDENAR: DEFAULT</option>
+              <option value="new-first">✨ NOVEDADES PRIMERO</option>
               <option value="price-asc">PRECIO: MENOR → MAYOR</option>
               <option value="price-desc">PRECIO: MAYOR → MENOR</option>
+              <option value="name-asc">NOMBRE: A → Z</option>
+              <option value="name-desc">NOMBRE: Z → A</option>
             </select>
             <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs">▼</span>
-          </div>
-
-          {/* View Toggle */}
-          <div className="relative flex border-2 border-black bg-white rounded-sm overflow-hidden shrink-0">
-            <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm -z-10" />
-            {(["grid", "list"] as ViewType[]).map((v) => (
-              <button
-                key={v}
-                type="button"
-                onClick={() => setView(v)}
-                className={`px-4 py-2.5 font-space font-black text-xs tracking-widest uppercase transition-all
-                  ${view === v ? "bg-v2k-accent text-black" : "bg-transparent text-black/40 hover:bg-black/5"}`}
-              >
-                {v === "grid" ? "⊞ GRID" : "☰ LISTA"}
-              </button>
-            ))}
           </div>
         </div>
 
         {/* Results count */}
         <div className="w-full mb-6 flex items-center gap-2">
           <div className="flex-1 h-px bg-black/20" />
-          <Jersey text={`${filteredProducts.length} RESULTADOS`} size="12|12" className="text-black/40 font-black tracking-widest" />
+          <Jersey text={`${filteredProducts.length} RESULTADOS`} size="20|24" className="text-black/40 font-black tracking-widest" />
           <div className="flex-1 h-px bg-black/20" />
         </div>
 
@@ -111,10 +99,7 @@ export default function ShopPage() {
         <div className="relative w-full min-h-[400px] mb-20">
           <motion.div
             layout
-            className={view === "grid"
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14 w-full"
-              : "flex flex-col gap-6 w-full"
-            }
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14 w-full"
           >
             <AnimatePresence>
               {filteredProducts.map((product) => (
@@ -125,7 +110,6 @@ export default function ShopPage() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.15 } }}
                   transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
-                  className={view === "list" ? "w-full max-w-2xl mx-auto" : ""}
                 >
                   <ShopCard product={product} />
                 </motion.div>
