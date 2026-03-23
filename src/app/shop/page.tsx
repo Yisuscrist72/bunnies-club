@@ -5,94 +5,10 @@ import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import ShopHeader from "@/components/organisms/ShopHeader";
 import ShopFilters, { type FilterType } from "@/components/organisms/ShopFilters";
-import ShopCard, { type Product } from "@/components/molecules/ShopCard";
+import ShopCard from "@/components/molecules/ShopCard";
 import ShopBackground from "@/components/organisms/ShopBackground";
+import { PRODUCTS } from "@/data/shop-products";
 import { motion, AnimatePresence } from "framer-motion";
-
-const PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: "ALBUM GET UP",
-    price: "30€",
-    image: "/images/shop/Get_Up_Album_Venta.avif",
-    fileExtension: "BINK",
-    color: "bg-[#f9f1c3]", // Yellowish
-    headerColor: "bg-v2k-pink-light",
-    category: "album",
-    shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" },
-      { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" },
-      { name: "Yes24", url: "http://www.yes24.com/" }
-    ]
-  },
-  {
-    id: 2,
-    name: "ALBUM HOW SWEET",
-    price: "26€",
-    image: "/images/shop/How_Sweet_Album_Venta.avif",
-    fileExtension: "BMP",
-    color: "bg-[#e2e8f0]", // Grayish/neutral
-    headerColor: "bg-v2k-accent",
-    category: "album",
-    shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" }
-    ]
-  },
-  {
-    id: 3,
-    name: "NEW JEANS 1ST EP",
-    price: "28€",
-    image: "/images/shop/NewJeans1EP_Album_Venta.avif",
-    fileExtension: "JPG",
-    color: "bg-[#c9e9f6]", // Bluish
-    headerColor: "bg-v2k-yellow-soft",
-    category: "album",
-    shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" },
-      { name: "Aladin", url: "https://www.aladin.co.kr/" }
-    ]
-  },
-  {
-    id: 4,
-    name: "OFFICIAL LIGHT STICK",
-    price: "45€",
-    image: "/images/shop/NewJeans - Official Light Stick.avif",
-    fileExtension: "EXE",
-    color: "bg-[#ffffff]", // White/clean
-    headerColor: "bg-v2k-pink-hot/40",
-    category: "merch",
-    shops: [
-      { name: "Weverse Shop", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218" }
-    ]
-  },
-  {
-    id: 5,
-    name: "ALBUM OMG & DITTO",
-    price: "25€",
-    image: "/images/shop/OMG_DITTO_Album_Venta.avif",
-    fileExtension: "ICO",
-    color: "bg-[#f4d8ed]", // Pinkish
-    headerColor: "bg-v2k-green-soft",
-    category: "album",
-    shops: [
-      { name: "Weverse Shop", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218" },
-      { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" }
-    ]
-  },
-  {
-    id: 6,
-    name: "SUPERNATURAL EP",
-    price: "24€",
-    image: "/images/shop/Supernatural_Album_Venta.avif",
-    fileExtension: "TIFF",
-    color: "bg-[#fffce0]",
-    headerColor: "bg-v2k-blue-deep/30",
-    category: "album",
-    shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" }
-    ]
-  }
-];
 
 export default function ShopPage() {
   const [filter, setFilter] = useState<FilterType>("all");
