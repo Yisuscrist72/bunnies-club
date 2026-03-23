@@ -106,6 +106,20 @@ body::before {
   scrollbar-width: none;
 }
 
+/* --- UTILIDADES DE ÁLBUMES (Forzadas para V4) --- */
+@utility bg-album-sky { background-color: var(--color-album-sky); }
+@utility bg-album-sky-header { background-color: var(--color-album-sky-header); }
+@utility bg-album-pink { background-color: var(--color-album-pink); }
+@utility bg-album-pink-header { background-color: var(--color-album-pink-header); }
+@utility bg-album-green { background-color: var(--color-album-green); }
+@utility bg-album-green-header { background-color: var(--color-album-green-header); }
+@utility bg-album-yellow { background-color: var(--color-album-yellow); }
+@utility bg-album-yellow-header { background-color: var(--color-album-yellow-header); }
+@utility bg-album-purple { background-color: var(--color-album-purple); }
+@utility bg-album-purple-header { background-color: var(--color-album-purple-header); }
+@utility bg-album-cyan { background-color: var(--color-album-cyan); }
+@utility bg-album-cyan-header { background-color: var(--color-album-cyan-header); }
+
 /* --- UTILIDADES REUTILIZABLES --- */
 
 @utility btn-y2k {
