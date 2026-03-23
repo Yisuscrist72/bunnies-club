@@ -115,7 +115,7 @@ export default function MusicPage() {
                 tag="h1"
                 text="MÚSICA"
                 size="68|94"
-                className="sticker-title text-v2k-accent text-[3rem]! sm:text-[5rem]! lg:text-[6rem]! drop-shadow-[4px_4px_0px_#000]"
+                className="sticker-title text-v2k-pink-hot text-[3rem]! sm:text-[5rem]! lg:text-[6rem]! drop-shadow-[4px_4px_0px_#000]"
                 style={{
                   textShadow: "-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 6px 6px 0px #000"
                 }}
@@ -126,7 +126,7 @@ export default function MusicPage() {
            initial={{ scale: 0.9, opacity: 0 }}
            animate={{ scale: 1, opacity: 1 }}
            transition={{ delay: 0.1 }}
-           className="bg-v2k-pink-hot border-4 border-black px-6 sm:px-8 py-2.5 sm:py-3 shadow-v2k-sm -rotate-1 mb-10 sm:mb-12 relative"
+           className="bg-v2k-blue-deep border-4 border-black px-6 sm:px-8 py-2.5 sm:py-3 shadow-v2k-sm -rotate-1 mb-10 sm:mb-12 relative"
         >
            <Jersey
               text="DISCOGRAFÍA (ALBUMS & EPS)"

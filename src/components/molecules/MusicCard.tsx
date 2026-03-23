@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState } from "react";
 import Jersey from "../atoms/texts/Jersey";
 import SpaceText from "../atoms/texts/SpaceText";
@@ -31,9 +29,53 @@ export default function MusicCard({ album }: { album: Album }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Valores de movimiento para el efecto de inclinación (Tilt)
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Suavizado de la transición (Spring)
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  // Transformación de coordenadas a grados de rotación
+  // Invertimos la rotación y para que parezca que la tarjeta se inclina hacia el ratón
+  // Reducimos la intensidad en el eje X para mayor comodidad al leer el tracklist
+  const rotateX = useTransform(mouseYSpring, (val) => {
+     const intensity = isFlipped ? 3 : 7; // Mucho menos intenso detrás para no marear
+     return val * -intensity;
+  });
+  
+  // Para rotateY, combinamos el estado isFlipped con el mouseXSpring
+  const rotateY = useTransform(mouseXSpring, (val) => {
+     const intensity = isFlipped ? 5 : 14; // Menos intenso detrás
+     const tilt = val * intensity;
+     // Si está girada, la base es 180 y la inclinación debe invertirse visualmente
+     return isFlipped ? 180 - tilt : tilt;
+  });
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Normalizar a rango -0.5 a 0.5
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   const toggleFlip = () => {
     if (isAnimating) return;
     setIsAnimating(true);
+    // Limpiamos la inclinación al girar para que la transición sea limpia
+    x.set(0);
+    y.set(0);
     setIsFlipped(!isFlipped);
   };
 
@@ -41,12 +83,20 @@ export default function MusicCard({ album }: { album: Album }) {
   const headerBg = album.headerColor || "bg-v2k-accent";
 
   return (
-    <div className="group h-[220px] sm:h-[240px] w-full max-w-[400px] mx-auto perspective-[1000px]">
+    <div 
+      className="group h-[220px] sm:h-[240px] w-full max-w-[400px] mx-auto perspective-[1000px] cursor-default"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      role="presentation"
+    >
       <motion.div
-        className="relative h-full w-full transition-all duration-700 transform-3d"
+        className="relative h-full w-full transition-all transform-3d"
+        style={{
+          rotateX,
+          rotateY,
+        }}
         animate={{
-          rotateY: isFlipped ? 180 : 0,
-          scale: isFlipped ? [1, 0.96, 1] : [1, 0.96, 1],
+          scale: isFlipped ? [1, 0.96, 1] : [1, 1.02, 1],
         }}
         onAnimationComplete={() => setIsAnimating(false)}
         transition={{ duration: 0.6, ease: "easeInOut" }}
@@ -67,7 +117,7 @@ export default function MusicCard({ album }: { album: Album }) {
               <div className="w-5 h-4 bg-white/40 border-2.5 border-black flex items-center justify-center text-[10px]">
                 -
               </div>
-              <div className="w-5 h-4 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] select-none">
+              <div className="w-5 h-4 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] select-none text-black">
                 ✕
               </div>
             </div>
@@ -75,7 +125,7 @@ export default function MusicCard({ album }: { album: Album }) {
 
           <div className="flex-1 flex bg-white/40 overflow-hidden">
             <div className="p-3 shrink-0">
-              <div className="relative aspect-square w-32 border-2 border-black shadow-v2k-xs bg-white group-hover:rotate-1 transition-transform overflow-hidden">
+              <div className="relative aspect-square w-32 border-2 border-black shadow-v2k-xs bg-white transition-transform overflow-hidden">
                 <Image
                   src={album.cover}
                   alt={album.title}
@@ -130,12 +180,21 @@ export default function MusicCard({ album }: { album: Album }) {
           >
             <button
               type="button"
-              onClick={toggleFlip}
-              className="font-black text-xs hover:underline cursor-pointer"
+              onMouseEnter={() => {
+                // Estabilizar la tarjeta al intentar pulsar el botón
+                x.set(0);
+                y.set(0);
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFlip();
+              }}
+              className="px-2 py-0.5 bg-white/40 hover:bg-white border border-transparent hover:border-black rounded text-black font-black text-xs cursor-pointer transition-all active:scale-95 flex items-center gap-1 group/back z-20"
             >
-              ← VOLVER
+              <span className="group-hover/back:-translate-x-0.5 transition-transform">←</span>
+              VOLVER
             </button>
-            <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none">
+            <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none text-black">
               ✕
             </div>
           </div>
@@ -162,7 +221,7 @@ export default function MusicCard({ album }: { album: Album }) {
                     className="flex gap-2 items-center text-[13px] font-black uppercase group/track"
                   >
                     <span className="text-v2k-pink-hot shrink-0">{i + 1}.</span>
-                    <span className="flex-1 truncate group-hover/track:translate-x-1 transition-transform">
+                    <span className="flex-1 truncate group-hover/track:translate-x-1 transition-transform text-black">
                       {track}
                     </span>
                     {album.durations?.[i] && (
