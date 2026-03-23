@@ -38,19 +38,12 @@ export default function MusicCard({ album }: { album: Album }) {
   const mouseYSpring = useSpring(y);
 
   // Transformación de coordenadas a grados de rotación
-  // Invertimos la rotación y para que parezca que la tarjeta se inclina hacia el ratón
-  // Reducimos la intensidad en el eje X para mayor comodidad al leer el tracklist
   const rotateX = useTransform(mouseYSpring, (val) => {
-     const intensity = isFlipped ? 3 : 7; // Mucho menos intenso detrás para no marear
-     return val * -intensity;
+     return (val as number) * -7;
   });
   
-  // Para rotateY, combinamos el estado isFlipped con el mouseXSpring
-  const rotateY = useTransform(mouseXSpring, (val) => {
-     const intensity = isFlipped ? 5 : 14; // Menos intenso detrás
-     const tilt = val * intensity;
-     // Si está girada, la base es 180 y la inclinación debe invertirse visualmente
-     return isFlipped ? 180 - tilt : tilt;
+  const tiltRotateY = useTransform(mouseXSpring, (val) => {
+     return (val as number) * 14;
   });
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -60,7 +53,6 @@ export default function MusicCard({ album }: { album: Album }) {
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
 
-    // Normalizar a rango -0.5 a 0.5
     x.set(mouseX / width - 0.5);
     y.set(mouseY / height - 0.5);
   };
@@ -73,7 +65,6 @@ export default function MusicCard({ album }: { album: Album }) {
   const toggleFlip = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    // Limpiamos la inclinación al girar para que la transición sea limpia
     x.set(0);
     y.set(0);
     setIsFlipped(!isFlipped);
@@ -87,7 +78,7 @@ export default function MusicCard({ album }: { album: Album }) {
   const shineY = useTransform(mouseYSpring, [-0.5, 0.5], ["-30%", "130%"]);
   const shineOpacity = useTransform([mouseXSpring, mouseYSpring], ([mx, my]) => {
     const dist = Math.sqrt((mx as number)**2 + (my as number)**2);
-    return 0.2 + dist * 0.5; // Base de 0.2 y sube hasta 0.7 en los bordes
+    return 0.2 + dist * 0.5;
   });
 
   return (
@@ -98,21 +89,23 @@ export default function MusicCard({ album }: { album: Album }) {
       role="presentation"
     >
       <motion.div
-        className="relative h-full w-full transition-all transform-3d"
-        style={{
-          rotateX,
-          rotateY,
-        }}
-        animate={{
-          scale: isFlipped ? [1, 0.96, 1] : [1, 1.02, 1],
+        className="relative h-full w-full transform-3d will-change-transform"
+        animate={{ 
+          rotateY: isFlipped ? 180 : 0 
         }}
         onAnimationComplete={() => setIsAnimating(false)}
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
-        <div
-          className={`absolute inset-0 backface-hidden flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden scanlines`}
+        {/* CARA FRONTAL - Con Tilt */}
+        <motion.div
+          style={{ 
+            rotateX: isFlipped ? 0 : rotateX, 
+            rotateY: isFlipped ? 0 : tiltRotateY,
+            z: !isFlipped ? 10 : 0 // Empujón sutil hacia adelante
+          }}
+          className={`absolute inset-0 backface-hidden flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden scanlines transition-opacity duration-300 ${!isFlipped ? "z-50 pointer-events-auto opacity-100" : "z-0 pointer-events-none opacity-0"}`}
         >
-          {/* Capa de Brillo Holográfico / Iridiscente */}
+          {/* Capa de Brillo Holográfico */}
           <motion.div 
              style={{ 
                opacity: shineOpacity,
@@ -123,121 +116,63 @@ export default function MusicCard({ album }: { album: Album }) {
              className="absolute w-[140%] h-[140%] pointer-events-none z-30 blur-2xl"
           />
 
-          {/* Window Header */}
-          <div
-            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}
-          >
-            <Jersey
-              tag="span"
-              text={`(0${album.id}.BMP)`}
-              className="text-black font-bold truncate text-sm"
-            />
+          <div className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}>
+            <Jersey tag="span" text={`(0${album.id}.BMP)`} className="text-black font-bold truncate text-sm" />
             <div className="flex gap-1.5 items-center">
-              <div className="w-5 h-4 bg-white/40 border-2.5 border-black flex items-center justify-center text-[10px]">
-                -
-              </div>
-              <div className="w-5 h-4 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] select-none text-black">
-                ✕
-              </div>
+              <div className="w-5 h-4 bg-white/40 border-2.5 border-black flex items-center justify-center text-[10px]">-</div>
+              <div className="w-5 h-4 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] select-none text-black">✕</div>
             </div>
           </div>
 
           <div className="flex-1 flex bg-white/40 overflow-hidden relative z-10">
             <div className="p-3 shrink-0">
               <div className="relative aspect-square w-32 border-2 border-black shadow-v2k-xs bg-white transition-transform overflow-hidden">
-                <Image
-                  src={album.cover}
-                  alt={album.title}
-                  fill
-                  className="object-cover"
-                />
+                <Image src={album.cover} alt={album.title} fill className="object-cover" />
               </div>
             </div>
             <div className="flex-1 p-3 flex flex-col justify-center gap-2">
               <div className="space-y-0.5">
-                <Jersey
-                  tag="h3"
-                  text={album.title}
-                  size="24|28"
-                  className="text-black uppercase leading-tight font-black sm:text-[1.5rem]!"
-                />
-                <SpaceText
-                  text={album.type}
-                  className="text-black/60 font-black tracking-widest text-[10px] uppercase"
-                />
+                <Jersey tag="h3" text={album.title} size="24|28" className="text-black uppercase leading-tight font-black sm:text-[1.5rem]!" />
+                <SpaceText text={album.type} className="text-black/60 font-black tracking-widest text-[10px] uppercase" />
               </div>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFlip();
-                }}
+                onClick={(e) => { e.stopPropagation(); toggleFlip(); }}
                 className="group/btn relative w-fit mt-1 sm:mt-2 cursor-pointer z-50"
               >
-                {/* 3D Offset Shadow */}
                 <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm transition-transform group-hover/btn:translate-x-1.5 group-hover/btn:translate-y-1.5" />
-                {/* Button Body */}
                 <div className="relative bg-white border-2 border-black px-4 py-1.5 flex items-center gap-2 transition-transform group-hover/btn:-translate-x-0.5 group-hover/btn:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black">
-                    VER TRACKLIST
-                  </span>
-                  <span className="text-xs sm:text-sm text-v2k-pink-hot group-hover/btn:rotate-180 transition-transform duration-500 font-bold">
-                    ↺
-                  </span>
+                  <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black">VER TRACKLIST</span>
+                  <span className="text-xs sm:text-sm text-v2k-pink-hot group-hover/btn:rotate-180 transition-transform duration-500 font-bold">↺</span>
                 </div>
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
+        {/* CARA TRASERA - Plana y Estática */}
         <div
-          className={`absolute inset-0 backface-hidden transform-[rotateY(180deg)] flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden`}
+          style={{ 
+            transform: `rotateY(180deg) translateZ(${isFlipped ? "10px" : "0px"})` 
+          }}
+          className={`absolute inset-0 backface-hidden flex flex-col ${cardBg} border-2 border-black shadow-v2k-sm rounded-xl overflow-hidden transition-opacity duration-300 ${isFlipped ? "z-50 pointer-events-auto opacity-100" : "z-0 pointer-events-none opacity-0"}`}
         >
-          {/* Brillo Dinámico (Trasera) - Holográfico */}
-          <motion.div 
-             style={{ 
-               opacity: useTransform(shineOpacity, o => (o as number) * 0.5),
-               left: shineX,
-               top: shineY,
-               background: "radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(165,243,252,0.4) 30%, rgba(253,192,236,0.4) 60%, transparent 80%)"
-             }}
-             className="absolute w-[140%] h-[140%] pointer-events-none z-30 blur-2xl"
-          />
-
-          {/* Window Header */}
-          <div
-            className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}
-          >
+          <div className={`${headerBg} border-b-2 border-black px-3 h-8 flex justify-between items-center shrink-0 relative z-40`}>
             <button
               type="button"
-              onMouseEnter={() => {
-                // Estabilizar la tarjeta al intentar pulsar el botón
-                x.set(0);
-                y.set(0);
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleFlip();
-              }}
+              onClick={(e) => { e.stopPropagation(); toggleFlip(); }}
               className="px-2 py-0.5 bg-white/40 hover:bg-white border border-transparent hover:border-black rounded text-black font-black text-xs cursor-pointer transition-all active:scale-95 flex items-center gap-1 group/back"
             >
               <span className="group-hover/back:-translate-x-0.5 transition-transform">←</span>
               VOLVER
             </button>
-            <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none text-black">
-              ✕
-            </div>
+            <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none text-black">✕</div>
           </div>
 
           <div className="flex-1 flex bg-white/30 overflow-hidden relative z-10">
             <div className="w-32 shrink-0 flex items-center justify-center p-2 bg-black/5">
               <div className="relative w-full aspect-square rounded-full border-2 border-black overflow-hidden bg-black animate-[spin_10s_linear_infinite]">
-                <Image
-                  src={album.cover}
-                  alt="disc"
-                  fill
-                  className="object-cover"
-                />
+                <Image src={album.cover} alt="disc" fill className="object-cover" />
                 <div className="absolute inset-0 bg-[repeating-radial-gradient(circle,rgba(0,0,0,0.1)_0,rgba(0,0,0,0.1)_1px,transparent_1px,transparent_2px)] opacity-30" />
                 <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.4)_0%,transparent_50%,rgba(0,0,0,0.1)_100%)]" />
                 <div className="absolute inset-0 m-auto w-8 h-8 rounded-full bg-white border-2 border-black shadow-inner" />
@@ -246,47 +181,17 @@ export default function MusicCard({ album }: { album: Album }) {
             <div className="flex-1 p-3 bg-white/60 border-l-2 border-black border-dashed flex flex-col justify-between overflow-hidden">
               <div className="space-y-1 overflow-y-auto no-scrollbar">
                 {album.tracks.slice(0, 7).map((track, i) => (
-                  <div
-                    key={`${album.id}-${i}`}
-                    className="flex gap-2 items-center text-[13px] font-black uppercase group/track"
-                  >
+                  <div key={`${album.id}-${i}`} className="flex gap-2 items-center text-[13px] font-black uppercase group/track">
                     <span className="text-v2k-pink-hot shrink-0">{i + 1}.</span>
-                    <span className="flex-1 truncate group-hover/track:translate-x-1 transition-transform text-black">
-                      {track}
-                    </span>
-                    {album.durations?.[i] && (
-                      <span className="text-[10px] text-black/40 font-bold shrink-0">
-                        {album.durations[i]}
-                      </span>
-                    )}
+                    <span className="flex-1 truncate group-hover/track:translate-x-1 transition-transform text-black">{track}</span>
+                    {album.durations?.[i] && <span className="text-[10px] text-black/40 font-bold shrink-0">{album.durations[i]}</span>}
                   </div>
                 ))}
               </div>
               <div className="flex gap-3 pt-2 border-t border-black/10 shrink-0">
-                <a
-                  href={album.links.spotify}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:scale-110 transition-all text-[#1DB954]"
-                >
-                  <IconSpotify className="w-5 h-5" />
-                </a>
-                <a
-                  href={album.links.apple}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:scale-110 transition-all text-[#FA243C]"
-                >
-                  <IconAppleMusic className="w-5 h-5" />
-                </a>
-                <a
-                  href={album.links.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:scale-110 transition-all text-[#FF0000]"
-                >
-                  <IconYouTube className="w-5 h-5" />
-                </a>
+                <a href={album.links.spotify} target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all text-[#1DB954]"><IconSpotify className="w-5 h-5" /></a>
+                <a href={album.links.apple} target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all text-[#FA243C]"><IconAppleMusic className="w-5 h-5" /></a>
+                <a href={album.links.youtube} target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-all text-[#FF0000]"><IconYouTube className="w-5 h-5" /></a>
               </div>
             </div>
           </div>
