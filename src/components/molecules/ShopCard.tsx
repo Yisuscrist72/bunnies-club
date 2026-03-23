@@ -61,7 +61,7 @@ export default function ShopCard({ product }: { product: Product }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full aspect-3/4 group cursor-pointer"
+      className="relative w-full aspect-[2/3] group cursor-pointer"
     >
       {/* Sticker Die-cut Border (The "Peel" feel) */}
       <div className="absolute inset-[-8px] bg-v2k-cyan border-2 border-black rounded-4xl shadow-[20px_20px_0px_rgba(0,0,0,0.15)] group-hover:shadow-[30px_30px_0px_rgba(0,0,0,0.1)] transition-all duration-300 transform-gpu" />
@@ -71,12 +71,12 @@ export default function ShopCard({ product }: { product: Product }) {
         className={`relative h-full w-full rounded-[1.8rem] border-4 border-black overflow-hidden flex flex-col ${product.color} scanlines z-10`}
       >
         {/* Full-Bleed Image Section */}
-        <div className="flex-1 relative overflow-hidden bg-white/20">
+        <div className="flex-1 relative overflow-hidden bg-white">
           <Image
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover brightness-110 contrast-110 saturate-110"
+            className="object-cover scale-[1.15] object-center"
           />
 
           {/* Holographic Overlays (Intensified) */}
@@ -85,8 +85,6 @@ export default function ShopCard({ product }: { product: Product }) {
             className="absolute -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] pointer-events-none z-20 
                        bg-[radial-gradient(circle_at_center,rgba(255,255,255,1)_0%,rgba(165,243,252,0.5)_20%,rgba(253,192,236,0.5)_50%,transparent_80%)] mix-blend-overlay"
           />
-
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent z-10" />
 
           {/* Floating Price Tag Sticker */}
           <div className="absolute top-4 right-4 z-40 rotate-12 group-hover:rotate-0 transition-transform">

@@ -14,8 +14,8 @@ const PRODUCTS: Product[] = [
     id: 1,
     name: "ALBUM GET UP",
     price: "30€",
-    image: "/images/music/get-up.avif",
-    fileExtension: "GIF",
+    image: "/images/shop/Get_Up_Album_Venta.avif",
+    fileExtension: "BINK",
     color: "bg-[#f9f1c3]", // Yellowish
     headerColor: "bg-v2k-pink-light",
     category: "album",
@@ -27,11 +27,11 @@ const PRODUCTS: Product[] = [
   },
   {
     id: 2,
-    name: "ALBUM OMG & DITTO",
-    price: "25€",
-    image: "/images/music/omg-ditto.avif",
+    name: "ALBUM HOW SWEET",
+    price: "26€",
+    image: "/images/shop/How_Sweet_Album_Venta.avif",
     fileExtension: "BMP",
-    color: "bg-[#f4d8ed]", // Pinkish
+    color: "bg-[#e2e8f0]", // Grayish/neutral
     headerColor: "bg-v2k-accent",
     category: "album",
     shops: [
@@ -42,7 +42,7 @@ const PRODUCTS: Product[] = [
     id: 3,
     name: "NEW JEANS 1ST EP",
     price: "28€",
-    image: "/images/music/newjeans.avif",
+    image: "/images/shop/NewJeans1EP_Album_Venta.avif",
     fileExtension: "JPG",
     color: "bg-[#c9e9f6]", // Bluish
     headerColor: "bg-v2k-yellow-soft",
@@ -54,11 +54,11 @@ const PRODUCTS: Product[] = [
   },
   {
     id: 4,
-    name: "NJ BUNNY TOTE BAG",
-    price: "15€",
-    image: "/images/forum/bunny.avif",
-    fileExtension: "PNG",
-    color: "bg-[#e0f7fa]",
+    name: "OFFICIAL LIGHT STICK",
+    price: "45€",
+    image: "/images/shop/NewJeans - Official Light Stick.avif",
+    fileExtension: "EXE",
+    color: "bg-[#ffffff]", // White/clean
     headerColor: "bg-v2k-pink-hot/40",
     category: "merch",
     shops: [
@@ -67,23 +67,23 @@ const PRODUCTS: Product[] = [
   },
   {
     id: 5,
-    name: "KEYCHAIN SET",
-    price: "12€",
-    image: "/images/home/about-left.avif",
+    name: "ALBUM OMG & DITTO",
+    price: "25€",
+    image: "/images/shop/OMG_DITTO_Album_Venta.avif",
     fileExtension: "ICO",
-    color: "bg-[#f3f4f6]",
+    color: "bg-[#f4d8ed]", // Pinkish
     headerColor: "bg-v2k-green-soft",
-    category: "merch",
+    category: "album",
     shops: [
       { name: "Weverse Shop", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218" },
-      { name: "Etsy (Fanmade)", url: "https://www.etsy.com/search?q=newjeans+keychain" }
+      { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" }
     ]
   },
   {
     id: 6,
     name: "SUPERNATURAL EP",
     price: "24€",
-    image: "/images/music/supernatural.avif",
+    image: "/images/shop/Supernatural_Album_Venta.avif",
     fileExtension: "TIFF",
     color: "bg-[#fffce0]",
     headerColor: "bg-v2k-blue-deep/30",
