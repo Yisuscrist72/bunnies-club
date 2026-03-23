@@ -1,5 +1,5 @@
 "use client";
-import { m } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   IconFacebook,
@@ -76,14 +76,14 @@ export default function Footer() {
                   { icon: <IconFacebook className="w-6 h-6" />, key: "fb", href: "https://www.facebook.com/official.newjeans/" },
                 ].map((item) => (
                   <Link key={item.key} href={item.href} target="_blank">
-                    <m.div
+                    <motion.div
                       whileHover={{ scale: 1.1, backgroundColor: "#FFF" }}
                       whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                       transition={{ duration: 0.1 }}
                       className="w-12 h-12 bg-white border-[3px] border-black flex items-center justify-center shadow-v2k-sm cursor-pointer text-black"
                     >
                       {item.icon}
-                    </m.div>
+                    </motion.div>
                   </Link>
                 ))}
               </div>
@@ -109,7 +109,7 @@ export default function Footer() {
               </div>
 
               <div className="flex flex-col items-start md:items-end gap-8">
-                <m.button
+                <motion.button
                   onClick={scrollToTop}
                   initial={{ backgroundColor: "#FFF", color: "#000" }}
                   whileHover={{
@@ -122,7 +122,7 @@ export default function Footer() {
                   className="px-8 py-2 border-[3px] border-black shadow-v2k-sm flex items-center justify-center bg-white"
                 >
                   <Jersey tag="span" text="VOLVER_ARRIBA ▲" size="14|14" />
-                </m.button>
+                </motion.button>
 
                 <div className="flex flex-col items-start md:items-end gap-1.5">
                   <SpaceText

@@ -1,5 +1,5 @@
 "use client";
-import { AnimatePresence, m, type Variants } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import Image from "../atoms/Image";
 import {
@@ -44,7 +44,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <m.div
+        <motion.div
           variants={menuVariants}
           initial="closed"
           animate="open"
@@ -62,7 +62,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 className="text-black tracking-tighter font-bold"
               />
             </div>
-            <m.button
+            <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ x: 2, y: 2, boxShadow: "0px 0px 0px #000" }}
               onClick={onClose}
@@ -74,7 +74,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 size="14|14"
                 className="font-bold text-black"
               />
-            </m.button>
+            </motion.button>
           </div>
 
           {/* CONTENIDO PRINCIPAL */}
@@ -97,13 +97,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 { label: "FORO", href: "/forum" },
                 { label: user ? "PERFIL" : "LOGIN", href: user ? "/profile" : "/login", userIcon: true },
               ].map((item) => (
-                <m.li
+                <motion.li
                   key={item.label}
                   variants={itemVariants}
                   className="w-full"
                 >
                   <Link href={item.href} onClick={onClose}>
-                    <m.div
+                    <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ x: 6, y: 6, boxShadow: "0px 0px 0px #000" }}
                       className="group flex items-center justify-center bg-white border-[3px] border-black p-4 shadow-[6px_6px_0px_#000] cursor-pointer transition-all"
@@ -127,16 +127,16 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         />
                         {item.sparkles && <span className="text-xl">✨</span>}
                       </div>
-                    </m.div>
+                    </motion.div>
                   </Link>
-                </m.li>
+                </motion.li>
               ))}
             </ul>
           </div>
 
           {/* FOOTER - ICONOS Y IDIOMA */}
           <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-2 border-black/10 z-10">
-            <m.div variants={itemVariants} className="flex gap-4">
+            <motion.div variants={itemVariants} className="flex gap-4">
               {[
                 { icon: <IconInstagram key="ig" className="w-5 h-5" />, href: "https://www.instagram.com/newjeans_official/" },
                 { icon: <IconSpotify key="spotify" className="w-5 h-5" />, href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC" },
@@ -144,18 +144,18 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 { icon: <IconFacebook key="fb" className="w-5 h-5" />, href: "https://www.facebook.com/official.newjeans/" },
               ].map((item) => (
                 <Link key={item.href} href={item.href} target="_blank">
-                  <m.div
+                  <motion.div
                     whileHover={{ scale: 1.1, backgroundColor: "var(--color-v2k-pink-hover)" }}
                     whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
                     className="w-12 h-12 bg-v2k-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_var(--color-v2k-black)] cursor-pointer transition-colors text-black"
                   >
                     {item.icon}
-                  </m.div>
+                  </motion.div>
                 </Link>
               ))}
-            </m.div>
+            </motion.div>
 
-            <m.button
+            <motion.button
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
@@ -167,7 +167,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 size="16|16"
                 className="text-black"
               />
-            </m.button>
+            </motion.button>
           </div>
 
           {/* BARRA DE ESTADO */}
@@ -188,7 +188,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               />
             </div>
           </div>
-        </m.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

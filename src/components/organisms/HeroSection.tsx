@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "../atoms/Image";
 import Jersey from "../atoms/texts/Jersey";
@@ -46,7 +46,7 @@ export default function HeroSection() {
           priority={true}
         />
 
-        <m.div
+        <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -55,12 +55,12 @@ export default function HeroSection() {
           <h1 className="sticker-title text-[4.5rem] md:text-[6.5rem] lg:text-[10rem]">
             NEW JEANS
           </h1>
-        </m.div>
+        </motion.div>
       </section>
 
       <AnimatePresence>
         {showPopup && (
-          <m.div
+          <motion.div
             drag
             dragMomentum={false}
             initial={{ opacity: 0, scale: 0.5 }}
@@ -101,7 +101,7 @@ export default function HeroSection() {
                   </label>
                 </div>
 
-                <m.button
+                <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95, translateX: 2, translateY: 2 }}
                   className="mt-2 bg-v2k-accent border-[3px] border-black p-3 shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all relative"
@@ -118,12 +118,13 @@ export default function HeroSection() {
                         {user ? "+XP" : "🔒 +XP"}
                       </span>
                   </div>
-                </m.button>
+                </motion.button>
               </div>
             </Window>
-          </m.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
   );
 }
+
