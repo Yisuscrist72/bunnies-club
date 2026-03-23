@@ -107,11 +107,7 @@ export default function MusicPage() {
       
       {/* Header Stickers / Titles */}
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center mb-16">
-        <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="mb-6"
-        >
+        <div className="mb-6">
              <Jersey
                 tag="h1"
                 text="MÚSICA"
@@ -121,7 +117,7 @@ export default function MusicPage() {
                   textShadow: "-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 6px 6px 0px #000"
                 }}
              />
-        </motion.div>
+        </div>
         
         <motion.div
            initial={{ scale: 0.9, opacity: 0 }}
@@ -152,8 +148,44 @@ export default function MusicPage() {
         {/* Music Cards Grid: 3 columns for better usage of white space */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12 w-full relative z-10 px-4">
            {/* Decorations */}
-           <div className="absolute top-1/2 -left-32 text-4xl opacity-10 animate-pulse hidden 2xl:block">🎵</div>
-           <div className="absolute top-1/4 -right-32 text-6xl opacity-10 animate-spin-slow hidden 2xl:block">💿</div>
+               {/* Improved Background Decorations */}
+           <div className="absolute inset-0 pointer-events-none overflow-visible hidden 2xl:block">
+             <motion.div 
+               animate={{ y: [0, -30, 0], rotate: 360 }}
+               transition={{ y: { duration: 6, repeat: Infinity, ease: "easeInOut" }, rotate: { duration: 20, repeat: Infinity, ease: "linear" } }}
+               className="absolute top-1/4 -left-40 text-7xl opacity-15"
+             >
+               💿
+             </motion.div>
+             <motion.div 
+               animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
+               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute top-2/3 -right-32 text-6xl opacity-10"
+             >
+               🎵
+             </motion.div>
+             <motion.div 
+               animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.15, 0.05] }}
+               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute top-10 right-0 text-5xl"
+             >
+               ✨
+             </motion.div>
+             <motion.div 
+               animate={{ rotate: [0, 15, -15, 0] }}
+               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute bottom-1/4 -left-20 text-6xl opacity-10"
+             >
+               🎧
+             </motion.div>
+             <motion.div 
+               animate={{ scale: [0.8, 1, 0.8] }}
+               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+               className="absolute top-1/2 left-1/4 text-3xl opacity-5"
+             >
+               ⭐
+             </motion.div>
+           </div>
            
            {ALBUMS.map((album, idx) => (
              <motion.div
