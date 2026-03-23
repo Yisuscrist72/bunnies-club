@@ -6,6 +6,7 @@ import SpaceText from "@/components/atoms/texts/SpaceText";
 import MusicCard, { type Album } from "@/components/molecules/MusicCard";
 import { motion } from "framer-motion";
 
+
 const ALBUMS: Album[] = [
   {
     id: 1,
@@ -19,7 +20,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/new-jeans-ep/1635003316",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-album-sky-bg",
+    color: "bg-album-sky",
     headerColor: "bg-album-sky-header"
   },
   {
@@ -34,7 +35,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/omg-single/1653833215",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_l_7p_8_v_s_v_v_v"
     },
-    color: "bg-album-pink-bg",
+    color: "bg-album-pink",
     headerColor: "bg-album-pink-header"
   },
   {
@@ -49,7 +50,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/get-up-ep/1691234912",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-album-green-bg",
+    color: "bg-album-green",
     headerColor: "bg-album-green-header"
   },
   {
@@ -64,7 +65,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/how-sweet-single/174492349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-album-yellow-bg",
+    color: "bg-album-yellow",
     headerColor: "bg-album-yellow-header"
   },
   {
@@ -79,7 +80,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/supernatural-single/174492349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-album-purple-bg",
+    color: "bg-album-purple",
     headerColor: "bg-album-purple-header"
   },
   {
@@ -94,7 +95,7 @@ const ALBUMS: Album[] = [
       apple: "https://music.apple.com/us/album/gods-single/171092349",
       youtube: "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w"
     },
-    color: "bg-album-cyan-bg",
+    color: "bg-album-cyan",
     headerColor: "bg-album-cyan-header"
   }
 ];

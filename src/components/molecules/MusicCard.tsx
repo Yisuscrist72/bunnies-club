@@ -78,7 +78,7 @@ export default function MusicCard({ album }: { album: Album }) {
   const shineY = useTransform(mouseYSpring, [-0.5, 0.5], ["-30%", "130%"]);
   const shineOpacity = useTransform([mouseXSpring, mouseYSpring], ([mx, my]) => {
     const dist = Math.sqrt((mx as number)**2 + (my as number)**2);
-    return 0.2 + dist * 0.5;
+    return 0.1 + dist * 0.3;
   });
 
   return (
@@ -111,7 +111,7 @@ export default function MusicCard({ album }: { album: Album }) {
                opacity: shineOpacity,
                left: shineX,
                top: shineY,
-               background: "radial-gradient(circle at center, rgba(255,255,255,0.95) 0%, rgba(165,243,252,0.3) 30%, rgba(253,192,236,0.3) 60%, transparent 85%)"
+               background: "radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(165,243,252,0.15) 30%, rgba(253,192,236,0.15) 60%, transparent 85%)"
              }}
              className="absolute w-[140%] h-[140%] pointer-events-none z-30 blur-2xl"
           />
@@ -124,7 +124,7 @@ export default function MusicCard({ album }: { album: Album }) {
             </div>
           </div>
 
-          <div className="flex-1 flex bg-white/40 overflow-hidden relative z-10">
+          <div className="flex-1 flex bg-white/10 overflow-hidden relative z-10">
             <div className="p-3 shrink-0">
               <div className="relative aspect-square w-32 border-2 border-black shadow-v2k-xs bg-white transition-transform overflow-hidden">
                 <Image src={album.cover} alt={album.title} fill className="object-cover" />
@@ -169,7 +169,7 @@ export default function MusicCard({ album }: { album: Album }) {
             <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none text-black">✕</div>
           </div>
 
-          <div className="flex-1 flex bg-white/30 overflow-hidden relative z-10">
+          <div className="flex-1 flex bg-white/10 overflow-hidden relative z-10">
             <div className="w-32 shrink-0 flex items-center justify-center p-2 bg-black/5">
               <div className="relative w-full aspect-square rounded-full border-2 border-black overflow-hidden bg-black animate-[spin_10s_linear_infinite]">
                 <Image src={album.cover} alt="disc" fill className="object-cover" />
