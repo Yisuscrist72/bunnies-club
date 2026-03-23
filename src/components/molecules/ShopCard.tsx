@@ -19,6 +19,7 @@ export interface Product {
   headerColor: string;
   category: "album" | "merch";
   shops: StoreLink[];
+  isNew?: boolean;
 }
 
 export default function ShopCard({ product }: { product: Product }) {
@@ -86,6 +87,17 @@ export default function ShopCard({ product }: { product: Product }) {
                        bg-[radial-gradient(circle_at_center,rgba(255,255,255,1)_0%,rgba(165,243,252,0.5)_20%,rgba(253,192,236,0.5)_50%,transparent_80%)] mix-blend-overlay"
           />
 
+          {/* NEW Badge */}
+          {product.isNew && (
+            <div className="absolute top-4 left-4 z-40">
+              <div className="absolute inset-0 bg-black translate-x-0.5 translate-y-0.5 rounded-sm" />
+              <div className="relative bg-v2k-pink-hot border-2 border-black px-2 py-0.5 flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                <Jersey text="NEW" size="12|12" className="text-white font-black tracking-widest" />
+              </div>
+            </div>
+          )}
+
           {/* Floating Price Tag Sticker */}
           <div className="absolute top-4 right-4 z-40 rotate-12 group-hover:rotate-0 transition-transform">
             <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm" />
@@ -119,6 +131,17 @@ export default function ShopCard({ product }: { product: Product }) {
                 size="16|16"
                 className="text-v2k-black"
               />
+            </div>
+            {/* Shop Pills */}
+            <div className="flex flex-wrap gap-1 mt-1">
+              {product.shops.map((shop) => (
+                <span
+                  key={shop.name}
+                  className="font-space text-[9px] font-black uppercase tracking-widest bg-black/10 border border-black/20 px-1.5 py-0.5 rounded-sm text-black/70"
+                >
+                  {shop.name.split(" ")[0]}
+                </span>
+              ))}
             </div>
           </div>
 

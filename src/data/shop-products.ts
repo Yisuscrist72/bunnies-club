@@ -23,7 +23,8 @@ export const PRODUCTS: Product[] = [
       { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" },
       { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" },
       { name: "Yes24", url: "http://www.yes24.com/" }
-    ]
+    ],
+    isNew: true
   },
   {
     id: 2,
@@ -36,7 +37,8 @@ export const PRODUCTS: Product[] = [
     category: "album",
     shops: [
       { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" }
-    ]
+    ],
+    isNew: true
   },
   {
     id: 3,
