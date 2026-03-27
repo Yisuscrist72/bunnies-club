@@ -22,6 +22,7 @@ export interface TextProps {
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
   size?: TextSize;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const SIZE_MAP: Record<TextSize, string> = {
@@ -45,6 +46,7 @@ export default function Text({
   tag = "p",
   size = "14|14",
   className = "",
+  style,
 }: TextProps) {
   const textRef = useRef<HTMLElement>(null);
 
@@ -59,6 +61,7 @@ export default function Text({
     <Component
       ref={textRef}
       className={`${fontStyle} ${sizeStyle} antialiased ${className}`}
+      style={style}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: El contenido ya está sanitizado con DOMPurify
       dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
     />
