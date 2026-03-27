@@ -53,10 +53,28 @@
   --color-v2k-blue-deep: #80c8f0;
   --color-v2k-pink-hover: #fce4ec;
 
-  /* Colores con transparencia */
-  --color-v2k-shadow-dark: rgba(0, 0, 0, 0.6);
-  --color-v2k-shadow-light: rgba(0, 0, 0, 0.1);
-  --color-v2k-shadow-white: rgba(255, 255, 255, 0.4);
+  /* --- 6. COLORES DE ÁLBUMES --- */
+  --color-album-sky: #e0f2fe;
+  --color-album-sky-header: #bae6fd;
+  --color-album-pink: #fdf2f8;
+  --color-album-pink-header: #fbcfe8;
+  --color-album-green: #f0fdf4;
+  --color-album-green-header: #dcfce7;
+  --color-album-yellow: #fffbeb;
+  --color-album-yellow-header: #fef3c7;
+  --color-album-purple: #faf5ff;
+  --color-album-purple-header: #f3e8ff;
+  --color-album-cyan: #ecfeff;
+  --color-album-cyan-header: #cffafe;
+
+  /* Animaciones */
+  --animate-shimmer: shimmer 2s infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+  
+  @keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+  }
 }
 
 /* --- ESTILOS BASE --- */
@@ -68,9 +86,18 @@ body {
   background: linear-gradient(to bottom, #c9e9f6 0%, #f4d8ed 47%, #f9f1c3 100%)
     no-repeat fixed;
   background-size: cover;
+  position: relative;
 }
 
-/* Custom Scrollbar para el estilo Retro */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Custom Scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -78,6 +105,20 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* --- UTILIDADES DE ÁLBUMES (Forzadas para V4) --- */
+@utility bg-album-sky { background-color: var(--color-album-sky); }
+@utility bg-album-sky-header { background-color: var(--color-album-sky-header); }
+@utility bg-album-pink { background-color: var(--color-album-pink); }
+@utility bg-album-pink-header { background-color: var(--color-album-pink-header); }
+@utility bg-album-green { background-color: var(--color-album-green); }
+@utility bg-album-green-header { background-color: var(--color-album-green-header); }
+@utility bg-album-yellow { background-color: var(--color-album-yellow); }
+@utility bg-album-yellow-header { background-color: var(--color-album-yellow-header); }
+@utility bg-album-purple { background-color: var(--color-album-purple); }
+@utility bg-album-purple-header { background-color: var(--color-album-purple-header); }
+@utility bg-album-cyan { background-color: var(--color-album-cyan); }
+@utility bg-album-cyan-header { background-color: var(--color-album-cyan-header); }
 
 /* --- UTILIDADES REUTILIZABLES --- */
 
@@ -93,4 +134,18 @@ body {
     -3px 3px 0 #000,
     3px 3px 0 #000,
     4px 4px 0px #000000;
+}
+
+@utility scanlines {
+  @apply relative overflow-hidden;
+  &::after {
+    content: "";
+    @apply absolute inset-0 pointer-events-none z-50;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.05) 50%
+    );
+    background-size: 100% 4px;
+    opacity: 0.15;
+  }
 }
