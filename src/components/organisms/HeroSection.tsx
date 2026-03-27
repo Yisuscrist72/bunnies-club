@@ -70,7 +70,7 @@ export default function HeroSection() {
           >
             <Window
               title="( NEWJEANS_MATCH.EXE )"
-              onClose={handleClose}
+              onClose={() => handleClose(false)}
             >
               <div className="flex flex-col items-center gap-4 p-5 min-w-[280px] bg-v2k-gray-med">
                 <SpaceText
