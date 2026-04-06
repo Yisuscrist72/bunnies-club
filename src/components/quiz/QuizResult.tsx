@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Jersey from "@/components/atoms/texts/Jersey";
@@ -56,6 +57,27 @@ export default function QuizResult({
   onReset,
 }: QuizResultProps) {
   const member = MEMBERS[memberKey];
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: "Bunnies Match",
+      text: `¡Soy un ${matchPercentage}% match con ${member.name} en Bunnies Club! 🐰💖 Haz el test aquí:`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch (err) {
+      console.error("Error al compartir:", err);
+    }
+  };
 
   return (
     <motion.div
@@ -236,12 +258,13 @@ export default function QuizResult({
             </motion.button>
             <motion.button
               type="button"
+              onClick={handleShare}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               className="flex-1 py-3 text-white border-[3px] border-black font-bold text-sm shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all"
-              style={{ backgroundColor: member.accent }}
+              style={{ backgroundColor: copied ? "#2ECC71" : member.accent }}
             >
-              📤 COMPARTIR RESULTADO
+              {copied ? "✅ ¡COPIADO!" : "📤 COMPARTIR RESULTADO"}
             </motion.button>
           </div>
         </div>
