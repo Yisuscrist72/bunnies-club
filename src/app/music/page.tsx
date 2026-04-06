@@ -1,10 +1,11 @@
 "use client";
 
-import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
+import { useEffect } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import MusicCard, { type Album } from "@/components/molecules/MusicCard";
 import { motion } from "framer-motion";
+import MusicDecorations from "./components/MusicDecorations";
 
 
 const ALBUMS: Album[] = [
@@ -101,11 +102,33 @@ const ALBUMS: Album[] = [
 ];
 
 export default function MusicPage() {
+  // Efecto para cambiar el fondo al estilo "Musical-Flow"
+  useEffect(() => {
+    const originalBg = document.body.style.background;
+    const originalImage = document.body.style.backgroundImage;
+    
+    document.body.style.backgroundColor = "#fffaff"; 
+    document.body.style.backgroundImage = `
+      radial-gradient(at 20% 20%, #e0f2fe 0px, transparent 40%),
+      radial-gradient(at 80% 20%, #fdf2f8 0px, transparent 40%),
+      radial-gradient(at 50% 50%, #f5f3ff 0px, transparent 50%),
+      radial-gradient(at 20% 80%, #f0fdf4 0px, transparent 40%),
+      radial-gradient(at 80% 80%, #fff7ed 0px, transparent 40%)
+    `;
+    document.body.style.backgroundSize = "100% 100%";
+    document.body.style.backgroundAttachment = "fixed";
+
+    return () => {
+      document.body.style.background = originalBg;
+      document.body.style.backgroundImage = originalImage;
+    };
+  }, []);
+
   return (
     <div className="relative min-h-screen pt-10 pb-20 px-4 md:px-8 overflow-x-hidden">
-      <BackgroundDecorations />
+      <MusicDecorations />
       
-      {/* Header Stickers / Titles */}
+      {/* Header Container */}
       <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center mb-16">
         <div className="mb-6">
              <Jersey
@@ -136,7 +159,7 @@ export default function MusicPage() {
            initial={{ x: -20, opacity: 0 }}
            animate={{ x: 0, opacity: 1 }}
            transition={{ delay: 0.2 }}
-           className="flex items-center gap-4 mb-16"
+           className="flex items-center gap-4 mb-8"
         >
            <SpaceText
               text="— EXPLORA EL UNIVERSO MUSICAL DE NEWJEANS —"
@@ -144,61 +167,22 @@ export default function MusicPage() {
               className="text-black font-black italic tracking-[0.2em]"
            />
         </motion.div>
+      </div>
 
-        {/* Music Cards Grid: 3 columns for better usage of white space */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12 w-full relative z-10 px-4">
-           {/* Decorations */}
-               {/* Improved Background Decorations */}
-           <div className="absolute inset-0 pointer-events-none overflow-visible hidden 2xl:block">
-             <motion.div 
-               animate={{ y: [0, -30, 0], rotate: 360 }}
-               transition={{ y: { duration: 6, repeat: Infinity, ease: "easeInOut" }, rotate: { duration: 20, repeat: Infinity, ease: "linear" } }}
-               className="absolute top-1/4 -left-40 text-7xl opacity-15"
-             >
-               💿
-             </motion.div>
-             <motion.div 
-               animate={{ y: [0, 20, 0], x: [0, 10, 0] }}
-               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute top-2/3 -right-32 text-6xl opacity-10"
-             >
-               🎵
-             </motion.div>
-             <motion.div 
-               animate={{ scale: [1, 1.2, 1], opacity: [0.05, 0.15, 0.05] }}
-               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute top-10 right-0 text-5xl"
-             >
-               ✨
-             </motion.div>
-             <motion.div 
-               animate={{ rotate: [0, 15, -15, 0] }}
-               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute bottom-1/4 -left-20 text-6xl opacity-10"
-             >
-               🎧
-             </motion.div>
-             <motion.div 
-               animate={{ scale: [0.8, 1, 0.8] }}
-               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-               className="absolute top-1/2 left-1/4 text-3xl opacity-5"
-             >
-               ⭐
-             </motion.div>
-           </div>
-           
-           {ALBUMS.map((album, idx) => (
-             <motion.div
-                key={album.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 + 0.3 }}
-             >
-                <MusicCard album={album} />
-             </motion.div>
-           ))}
-        </div>
+      {/* Grid Container (Outside the flex-col items-center to allow full width and proper alignment) */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12 w-full relative z-10 px-4">
+         {ALBUMS.map((album, idx) => (
+           <motion.div
+              key={album.id}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 + 0.3 }}
+           >
+              <MusicCard album={album} />
+           </motion.div>
+         ))}
       </div>
     </div>
   );
 }
+

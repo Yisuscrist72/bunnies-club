@@ -28,14 +28,6 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
             background: "linear-gradient(160deg, #c9e9f6 0%, #f4d8ed 50%, #f9f1c3 100%)",
           }}
         >
-          {/* Dots decorativos */}
-          <div
-            className="absolute inset-0 opacity-10 pointer-events-none"
-            style={{
-              backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
-              backgroundSize: "20px 20px",
-            }}
-          />
 
           {/* Icono animado */}
           <div className="relative">
