@@ -31,7 +31,8 @@ export default function RootLayout({
   const isEditor = pathname?.includes("/photocard-editor/");
 
   // No mostrar el reproductor global en Home ni en Foro (donde ya hay uno específico)
-  const showGlobalPlayer = !isEditor && pathname !== "/" && pathname !== "/forum";
+  const showGlobalPlayer =
+    !isEditor && pathname !== "/" && pathname !== "/forum";
 
   return (
     <html
@@ -46,18 +47,18 @@ export default function RootLayout({
           <AudioProvider>
             {/* Solo mostramos Navbar y Footer si NO estamos editando */}
             {!isEditor && (
-              <Navbar 
-                key={`nav-${pathname === "/quiz" ? "dark" : "light"}`} 
-                variant={pathname === "/quiz" ? "dark" : "light"} 
+              <Navbar
+                key={`nav-${pathname === "/quiz" ? "dark" : "light"}`}
+                variant={pathname === "/quiz" ? "dark" : "light"}
               />
             )}
 
             <main className="grow flex flex-col">{children}</main>
 
             {!isEditor && (
-              <Footer 
-                key={`footer-${pathname === "/quiz" ? "dark" : "light"}`} 
-                variant={pathname === "/quiz" ? "dark" : "light"} 
+              <Footer
+                key={`footer-${pathname === "/quiz" ? "dark" : "light"}`}
+                variant={pathname === "/quiz" ? "dark" : "light"}
               />
             )}
 

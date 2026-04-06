@@ -16,22 +16,29 @@ interface RecentActivityProps {
 
 export default function RecentActivity({ activities }: RecentActivityProps) {
   return (
-    <ProfileSection title="ACTIVIDAD RECIENTE 🕒" titleUnderlineColor="decoration-v2k-cyan-soft">
+    <ProfileSection
+      title="ACTIVIDAD RECIENTE 🕒"
+      titleUnderlineColor="decoration-v2k-cyan-soft"
+    >
       <div className="space-y-3">
         {activities && activities.length > 0 ? (
           activities.map((activity) => (
-            <div 
-              key={activity.id} 
+            <div
+              key={activity.id}
               className="flex items-center justify-between p-3 border-2 border-black rounded-xl bg-v2k-gray-soft/10 hover:bg-v2k-cyan-soft/5 transition-colors"
             >
               <div className="flex flex-col">
-                <SpaceText text={activity.text} size="14|14" className="font-bold text-black" />
+                <SpaceText
+                  text={activity.text}
+                  size="14|14"
+                  className="font-bold text-black"
+                />
                 <span className="text-[10px] text-gray-400 font-bold uppercase">
-                  {new Date(activity.timestamp).toLocaleDateString('es-ES', { 
-                    day: '2-digit', 
-                    month: 'short', 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
+                  {new Date(activity.timestamp).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit",
                   })}
                 </span>
               </div>
@@ -44,7 +51,11 @@ export default function RecentActivity({ activities }: RecentActivityProps) {
           ))
         ) : (
           <div className="py-8 text-center border-2 border-dashed border-black/20 rounded-2xl bg-v2k-gray-soft/5">
-            <SpaceText text="Aún no tienes actividad registrada. ¡Empieza a explorar el club!" size="14|14" className="text-gray-400 italic" />
+            <SpaceText
+              text="Aún no tienes actividad registrada. ¡Empieza a explorar el club!"
+              size="14|14"
+              className="text-gray-400 italic"
+            />
           </div>
         )}
       </div>

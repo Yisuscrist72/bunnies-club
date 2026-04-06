@@ -20,11 +20,17 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-pink-light",
     category: "album",
     shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" },
-      { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" },
-      { name: "Yes24", url: "http://www.yes24.com/" }
+      {
+        name: "Weverse Shop (Global)",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217",
+      },
+      {
+        name: "Ktown4u",
+        url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220",
+      },
+      { name: "Yes24", url: "http://www.yes24.com/" },
     ],
-    isNew: true
+    isNew: true,
   },
   {
     id: 2,
@@ -36,9 +42,12 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-accent",
     category: "album",
     shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" }
+      {
+        name: "Weverse Shop (Global)",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217",
+      },
     ],
-    isNew: true
+    isNew: true,
   },
   {
     id: 3,
@@ -50,9 +59,12 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-yellow-soft",
     category: "album",
     shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" },
-      { name: "Aladin", url: "https://www.aladin.co.kr/" }
-    ]
+      {
+        name: "Weverse Shop (Global)",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217",
+      },
+      { name: "Aladin", url: "https://www.aladin.co.kr/" },
+    ],
   },
   {
     id: 4,
@@ -64,8 +76,11 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-pink-hot/40",
     category: "merch",
     shops: [
-      { name: "Weverse Shop", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218" }
-    ]
+      {
+        name: "Weverse Shop",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218",
+      },
+    ],
   },
   {
     id: 5,
@@ -77,9 +92,15 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-green-soft",
     category: "album",
     shops: [
-      { name: "Weverse Shop", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218" },
-      { name: "Ktown4u", url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220" }
-    ]
+      {
+        name: "Weverse Shop",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1218",
+      },
+      {
+        name: "Ktown4u",
+        url: "https://www.ktown4u.com/eventsub?eve_no=5690462&biz_no=220",
+      },
+    ],
   },
   {
     id: 6,
@@ -91,8 +112,11 @@ export const PRODUCTS: Product[] = [
     headerColor: "bg-v2k-blue-deep/30",
     category: "album",
     shops: [
-      { name: "Weverse Shop (Global)", url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217" }
-    ]
+      {
+        name: "Weverse Shop (Global)",
+        url: "https://shop.weverse.io/en/shop/GL_USD/artists/82/categories/1217",
+      },
+    ],
   },
   // ─── AÑADE NUEVOS PRODUCTOS AQUÍ ───────────────────────────────────────────
   // {

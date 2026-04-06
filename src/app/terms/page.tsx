@@ -10,33 +10,38 @@ export default function TermsPage() {
     {
       id: "acceptance",
       title: "1. ACEPTACIÓN DEL PROTOCOLO",
-      content: "Al acceder a BUNNIES CLUB, te unes a una red digital dedicada al apoyo de NewJeans. Al usar este sitio, aceptas cumplir con nuestros protocolos de operación. Si no estás de acuerdo con estos términos, deberás desconectarte del servidor inmediatamente.",
-      color: "bg-v2k-blue-light"
+      content:
+        "Al acceder a BUNNIES CLUB, te unes a una red digital dedicada al apoyo de NewJeans. Al usar este sitio, aceptas cumplir con nuestros protocolos de operación. Si no estás de acuerdo con estos términos, deberás desconectarte del servidor inmediatamente.",
+      color: "bg-v2k-blue-light",
     },
     {
       id: "auth",
       title: "2. CUENTAS Y SEGURIDAD (SYSTEM_AUTH)",
-      content: "Para acceder a funciones avanzadas, el sistema podrá requerir la creación de un perfil Bunny. Utilizamos servicios de autenticación de alta seguridad (Firebase). Eres responsable de mantener la confidencialidad de tu acceso y de todas las actividades que ocurran bajo tu perfil.",
-      color: "bg-v2k-yellow-soft"
+      content:
+        "Para acceder a funciones avanzadas, el sistema podrá requerir la creación de un perfil Bunny. Utilizamos servicios de autenticación de alta seguridad (Firebase). Eres responsable de mantener la confidencialidad de tu acceso y de todas las actividades que ocurran bajo tu perfil.",
+      color: "bg-v2k-yellow-soft",
     },
     {
       id: "privacy",
       title: "3. DATOS Y PRIVACIDAD (CLOUD_DATA)",
-      content: "Tus datos (como favoritos, interacciones y preferencias) se almacenan en nuestra base de datos en la nube para mejorar tu experiencia. No vendemos tu información a terceros. Al interactuar con el 'Bunnies Club', autorizas el procesamiento de estos datos técnicos para el funcionamiento óptimo de la interfaz.",
-      color: "bg-v2k-green-soft"
+      content:
+        "Tus datos (como favoritos, interacciones y preferencias) se almacenan en nuestra base de datos en la nube para mejorar tu experiencia. No vendemos tu información a terceros. Al interactuar con el 'Bunnies Club', autorizas el procesamiento de estos datos técnicos para el funcionamiento óptimo de la interfaz.",
+      color: "bg-v2k-green-soft",
     },
     {
       id: "conduct",
       title: "4. CÓDIGO DE CONDUCTA",
-      content: "Nuestra comunidad se basa en el respeto. Queda estrictamente prohibido el uso de la plataforma para difundir odio, spam o realizar ataques contra las integrantes de NewJeans o cualquier miembro de la comunidad. El incumplimiento resultará en la terminación inmediata del acceso.",
-      color: "bg-v2k-pink-light"
+      content:
+        "Nuestra comunidad se basa en el respeto. Queda estrictamente prohibido el uso de la plataforma para difundir odio, spam o realizar ataques contra las integrantes de NewJeans o cualquier miembro de la comunidad. El incumplimiento resultará en la terminación inmediata del acceso.",
+      color: "bg-v2k-pink-light",
     },
     {
       id: "third-party",
       title: "5. CONTENIDO DE TERCEROS",
-      content: "Este sitio contiene enlaces, música y visuales que son propiedad de ADOR y HYBE. Este es un proyecto recreativo sin fines comerciales. Reconocemos y respetamos todos los derechos de autor originales.",
-      color: "bg-white"
-    }
+      content:
+        "Este sitio contiene enlaces, música y visuales que son propiedad de ADOR y HYBE. Este es un proyecto recreativo sin fines comerciales. Reconocemos y respetamos todos los derechos de autor originales.",
+      color: "bg-white",
+    },
   ];
 
   return (
@@ -56,11 +61,15 @@ export default function TermsPage() {
                 className="text-black font-bold uppercase"
               />
               <div className="flex gap-2">
-                <span className="bg-black text-white px-2 py-1 font-space text-[12px] uppercase">Estado: ACTIVO</span>
-                <span className="bg-v2k-accent text-black px-2 py-1 font-space text-[12px] uppercase font-bold">Versión: 2026.1</span>
+                <span className="bg-black text-white px-2 py-1 font-space text-[12px] uppercase">
+                  Estado: ACTIVO
+                </span>
+                <span className="bg-v2k-accent text-black px-2 py-1 font-space text-[12px] uppercase font-bold">
+                  Versión: 2026.1
+                </span>
               </div>
             </header>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {sections.map((section) => (
                 <motion.div
@@ -83,13 +92,13 @@ export default function TermsPage() {
             </div>
 
             <div className="bg-black text-v2k-accent p-6 border-[3px] border-black shadow-[6px_6px_0px_var(--v2k-pink-light)]">
-               <SpaceText
-                  text="AL PULSAR EL BOTÓN DE ABAJO, CONFIRMAS QUE HAS LEÍDO Y ACEPTADO TODOS LOS PROTOCOLOS DE SEGURIDAD Y PRIVACIDAD DEL BUNNIES CLUB. TU NODO DE ACCESO SERÁ REGISTRADO."
-                  size="14|14"
-                  className="font-bold text-center italic"
-                />
+              <SpaceText
+                text="AL PULSAR EL BOTÓN DE ABAJO, CONFIRMAS QUE HAS LEÍDO Y ACEPTADO TODOS LOS PROTOCOLOS DE SEGURIDAD Y PRIVACIDAD DEL BUNNIES CLUB. TU NODO DE ACCESO SERÁ REGISTRADO."
+                size="14|14"
+                className="font-bold text-center italic"
+              />
             </div>
-            
+
             <div className="flex justify-center mt-4">
               <motion.button
                 whileHover={{ scale: 1.05, rotate: 1 }}
@@ -106,4 +115,3 @@ export default function TermsPage() {
     </div>
   );
 }
-

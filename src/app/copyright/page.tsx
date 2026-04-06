@@ -10,21 +10,24 @@ export default function CopyrightPage() {
     {
       id: "music",
       title: "MÚSICA Y AUDIOVISUAL",
-      content: "Todos los derechos de audio, música y videos de NewJeans pertenecen a <strong>ADOR Co., Ltd.</strong> y <strong>HYBE Co., Ltd.</strong>. BUNNIES CLUB no posee ni reclama derechos sobre este material.",
-      color: "bg-v2k-yellow-soft"
+      content:
+        "Todos los derechos de audio, música y videos de NewJeans pertenecen a <strong>ADOR Co., Ltd.</strong> y <strong>HYBE Co., Ltd.</strong>. BUNNIES CLUB no posee ni reclama derechos sobre este material.",
+      color: "bg-v2k-yellow-soft",
     },
     {
       id: "media",
       title: "IMÁGENES Y LOGOTIPOS",
-      content: "Las imágenes, logotipos y nombres comerciales son propiedad exclusiva de sus respectivos dueños. Este sitio opera bajo el principio de <strong>Fair Use</strong> con fines recreativos y educativos.",
-      color: "bg-v2k-pink-light"
+      content:
+        "Las imágenes, logotipos y nombres comerciales son propiedad exclusiva de sus respectivos dueños. Este sitio opera bajo el principio de <strong>Fair Use</strong> con fines recreativos y educativos.",
+      color: "bg-v2k-pink-light",
     },
     {
       id: "dev",
       title: "DESARROLLO Y DISEÑO",
-      content: "La arquitectura, código y diseño visual V2K de este sitio han sido creados por <strong>YISUSCRIST72</strong>. Inspirado en la estética digital de principios de los 2000.",
-      color: "bg-v2k-accent"
-    }
+      content:
+        "La arquitectura, código y diseño visual V2K de este sitio han sido creados por <strong>YISUSCRIST72</strong>. Inspirado en la estética digital de principios de los 2000.",
+      color: "bg-v2k-accent",
+    },
   ];
 
   return (
@@ -35,7 +38,10 @@ export default function CopyrightPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-4xl"
       >
-        <Window title="COPYRIGHT_INFO.SYS" contentClassName="p-6 md:p-10 bg-white">
+        <Window
+          title="COPYRIGHT_INFO.SYS"
+          contentClassName="p-6 md:p-10 bg-white"
+        >
           <div className="flex flex-col gap-8">
             <header className="border-b-4 border-black pb-6 flex justify-between items-end">
               <div>
@@ -95,7 +101,7 @@ export default function CopyrightPage() {
                 size="12|12"
                 className="text-black/40 font-bold text-center uppercase tracking-widest"
               />
-              
+
               <motion.button
                 whileHover={{ scale: 1.05, x: -5 }}
                 whileTap={{ scale: 0.95 }}
@@ -111,4 +117,3 @@ export default function CopyrightPage() {
     </div>
   );
 }
-

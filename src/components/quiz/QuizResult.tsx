@@ -19,7 +19,12 @@ interface QuizResultProps {
   onReset: () => void;
 }
 
-function ScoreBar({ member, score, total, isWinner }: {
+function ScoreBar({
+  member,
+  score,
+  total,
+  isWinner,
+}: {
   member: MemberInfo;
   score: number;
   total: number;
@@ -29,7 +34,9 @@ function ScoreBar({ member, score, total, isWinner }: {
   return (
     <div className="flex items-center gap-3">
       <span className="text-lg shrink-0">{member.emoji}</span>
-      <span className={`text-xs font-black w-16 shrink-0 ${isWinner ? "text-black" : "text-black/50"}`}>
+      <span
+        className={`text-xs font-black w-16 shrink-0 ${isWinner ? "text-black" : "text-black/50"}`}
+      >
         {member.name}
       </span>
       <div className="flex-1 h-3 bg-black/10 border border-black/20 overflow-hidden rounded-full">
@@ -38,10 +45,14 @@ function ScoreBar({ member, score, total, isWinner }: {
           animate={{ width: `${pct}%` }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="h-full rounded-full"
-          style={{ backgroundColor: isWinner ? member.accent : `${member.accent}70` }}
+          style={{
+            backgroundColor: isWinner ? member.accent : `${member.accent}70`,
+          }}
         />
       </div>
-      <span className={`text-xs font-black w-8 text-right shrink-0 ${isWinner ? "text-black" : "text-black/40"}`}>
+      <span
+        className={`text-xs font-black w-8 text-right shrink-0 ${isWinner ? "text-black" : "text-black/40"}`}
+      >
         {pct}%
       </span>
     </div>
@@ -70,7 +81,9 @@ export default function QuizResult({
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+        await navigator.clipboard.writeText(
+          `${shareData.text} ${shareData.url}`,
+        );
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }
@@ -93,7 +106,6 @@ export default function QuizResult({
           className="relative flex flex-col items-center justify-center p-8 gap-4 overflow-hidden border-b-2 border-black"
           style={{ background: member.gradient }}
         >
-
           {/* Etiqueta */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -112,7 +124,11 @@ export default function QuizResult({
             className="text-center"
           >
             <div className="text-6xl mb-2">{member.emoji}</div>
-            <Jersey text={member.name} size="68|94" className="text-black leading-none" />
+            <Jersey
+              text={member.name}
+              size="68|94"
+              className="text-black leading-none"
+            />
             <p className="font-black text-sm mt-1 text-black/60 uppercase tracking-widest">
               {member.tagline}
             </p>
@@ -154,12 +170,14 @@ export default function QuizResult({
               priority
             />
             {/* Overlay degradado inferior con nombre */}
-            <div
-              className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"
-            />
+            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
               <div>
-                <Jersey text={member.name} size="40|48" className="text-white leading-none" />
+                <Jersey
+                  text={member.name}
+                  size="40|48"
+                  className="text-white leading-none"
+                />
                 <p className="text-white/80 text-xs font-bold uppercase tracking-widest mt-0.5">
                   {member.tagline}
                 </p>
@@ -172,9 +190,7 @@ export default function QuizResult({
               </div>
             </div>
             {/* Sticker de % match */}
-            <div
-              className="absolute top-3 right-3 border-[3px] border-black shadow-[3px_3px_0px_#000] bg-white px-3 py-1 rotate-2"
-            >
+            <div className="absolute top-3 right-3 border-[3px] border-black shadow-[3px_3px_0px_#000] bg-white px-3 py-1 rotate-2">
               <Jersey
                 text={`${matchPercentage}% MATCH`}
                 size="16|16"
@@ -231,8 +247,14 @@ export default function QuizResult({
             >
               <span className="text-2xl">⚡</span>
               <div>
-                <SpaceText text="+50 XP REWARD CLAIMED!" size="12|12" className="font-black text-black" />
-                <p className="text-[10px] font-bold text-black/50">Quiz completado · Bonus de primera vez</p>
+                <SpaceText
+                  text="+50 XP REWARD CLAIMED!"
+                  size="12|12"
+                  className="font-black text-black"
+                />
+                <p className="text-[10px] font-bold text-black/50">
+                  Quiz completado · Bonus de primera vez
+                </p>
               </div>
             </motion.div>
           )}

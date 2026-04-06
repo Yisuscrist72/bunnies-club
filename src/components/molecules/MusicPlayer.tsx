@@ -30,7 +30,13 @@ const HoloDisc = ({ size, hole }: { size: string; hole: string }) => (
   </div>
 );
 
-export default function MusicPlayer({ isPink = false, variant = "default" }: { isPink?: boolean; variant?: "default" | "mini" }) {
+export default function MusicPlayer({
+  isPink = false,
+  variant = "default",
+}: {
+  isPink?: boolean;
+  variant?: "default" | "mini";
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const {
@@ -56,7 +62,7 @@ export default function MusicPlayer({ isPink = false, variant = "default" }: { i
   const isMiniMode = variant === "mini";
   // En modo mini, solo mostramos el reproductor si el usuario lo abre manualmente (isOpen)
   // En modo default, lo mostramos si es escritorio o está abierto
-  const showPlayer = isMiniMode ? isOpen : (isOpen || isDesktop);
+  const showPlayer = isMiniMode ? isOpen : isOpen || isDesktop;
 
   const formatTime = (t: number) =>
     `${Math.floor(t / 60)}:${Math.floor(t % 60)
@@ -68,7 +74,9 @@ export default function MusicPlayer({ isPink = false, variant = "default" }: { i
   return (
     <>
       {/* DISCO FLOTANTE MÓVIL / MINI MODE */}
-      <div className={`${isMiniMode ? "fixed" : "lg:hidden fixed"} bottom-20 right-5 z-100`}>
+      <div
+        className={`${isMiniMode ? "fixed" : "lg:hidden fixed"} bottom-20 right-5 z-100`}
+      >
         {!isOpen && (
           <motion.button
             type="button"
@@ -98,11 +106,11 @@ export default function MusicPlayer({ isPink = false, variant = "default" }: { i
             initial={{ opacity: 0, scale: 0.8, y: 100, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: 150, rotate: 10 }}
-            transition={{ 
-              type: "spring", 
-              damping: 20, 
+            transition={{
+              type: "spring",
+              damping: 20,
               stiffness: 250,
-              opacity: { duration: 0.4 }
+              opacity: { duration: 0.4 },
             }}
             className={`
                             ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 

@@ -10,27 +10,31 @@ export default function PrivacyPage() {
     {
       id: "data-collection",
       title: "EXTRACCIÓN DE DATOS",
-      content: "Recopilamos información limitada para optimizar tu conexión: identificadores técnicos, preferencias de interfaz y logs de actividad necesarios para el funcionamiento de los retos Bunny.",
-      color: "bg-v2k-blue-light"
+      content:
+        "Recopilamos información limitada para optimizar tu conexión: identificadores técnicos, preferencias de interfaz y logs de actividad necesarios para el funcionamiento de los retos Bunny.",
+      color: "bg-v2k-blue-light",
     },
     {
       id: "firebase-storage",
       title: "CLOUD_STORAGE (FIREBASE)",
-      content: "Tus perfiles y configuraciones se sincronizan de forma segura mediante <strong>Firebase Cloud Services</strong>. Los datos están encriptados y protegidos bajo protocolos de seguridad industrial.",
-      color: "bg-v2k-pink-light"
+      content:
+        "Tus perfiles y configuraciones se sincronizan de forma segura mediante <strong>Firebase Cloud Services</strong>. Los datos están encriptados y protegidos bajo protocolos de seguridad industrial.",
+      color: "bg-v2k-pink-light",
     },
     {
       id: "cookies-cache",
       title: "COOKIES & CACHE",
-      content: "Utilizamos almacenamiento local (IndexDB/LocalStorage) para que tu experiencia sea instantánea. No rastreamos tu actividad fuera del ecosistema del BUNNIES CLUB.",
-      color: "bg-v2k-yellow-soft"
+      content:
+        "Utilizamos almacenamiento local (IndexDB/LocalStorage) para que tu experiencia sea instantánea. No rastreamos tu actividad fuera del ecosistema del BUNNIES CLUB.",
+      color: "bg-v2k-yellow-soft",
     },
     {
       id: "user-rights",
       title: "DERECHOS DEL NODO",
-      content: "Como usuario, tienes derecho a solicitar la purga total de tus datos de nuestros servidores en cualquier momento a través de la configuración de tu perfil.",
-      color: "bg-v2k-green-soft"
-    }
+      content:
+        "Como usuario, tienes derecho a solicitar la purga total de tus datos de nuestros servidores en cualquier momento a través de la configuración de tu perfil.",
+      color: "bg-v2k-green-soft",
+    },
   ];
 
   return (
@@ -41,7 +45,10 @@ export default function PrivacyPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-4xl"
       >
-        <Window title="PRIVACY_MODULE.v2.LOG" contentClassName="p-6 md:p-10 bg-white">
+        <Window
+          title="PRIVACY_MODULE.v2.LOG"
+          contentClassName="p-6 md:p-10 bg-white"
+        >
           <div className="flex flex-col gap-8">
             <header className="border-b-4 border-black pb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
               <div>
@@ -51,15 +58,23 @@ export default function PrivacyPage() {
                   className="text-black font-bold uppercase"
                 />
                 <div className="flex gap-2 mt-1">
-                  <span className="text-v2k-pink-hot font-space text-[12px] font-bold uppercase animate-pulse">● ENCRYPT_ACTIVE</span>
-                  <span className="text-black/40 font-space text-[12px] font-bold uppercase">SEC_LEVEL: ALPHA</span>
+                  <span className="text-v2k-pink-hot font-space text-[12px] font-bold uppercase animate-pulse">
+                    ● ENCRYPT_ACTIVE
+                  </span>
+                  <span className="text-black/40 font-space text-[12px] font-bold uppercase">
+                    SEC_LEVEL: ALPHA
+                  </span>
                 </div>
               </div>
               <div className="bg-v2k-accent border-2 border-black px-4 py-1 shadow-[3px_3px_0px_#000]">
-                <Jersey text="GDPR_COMPLIANT" size="14|14" className="font-bold text-black" />
+                <Jersey
+                  text="GDPR_COMPLIANT"
+                  size="14|14"
+                  className="font-bold text-black"
+                />
               </div>
             </header>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {privacyModules.map((module) => (
                 <motion.div
@@ -96,7 +111,7 @@ export default function PrivacyPage() {
                 className="text-white/80"
               />
             </section>
-            
+
             <footer className="flex flex-col md:flex-row justify-between items-center gap-6 mt-4">
               <div className="flex flex-col">
                 <SpaceText
@@ -126,4 +141,3 @@ export default function PrivacyPage() {
     </div>
   );
 }
-

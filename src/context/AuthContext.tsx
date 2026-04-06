@@ -1,12 +1,18 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { 
-  onAuthStateChanged, 
-  signInWithPopup, 
-  signOut as firebaseSignOut, 
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import {
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut as firebaseSignOut,
   updateProfile as firebaseUpdateProfile,
-  type User 
+  type User,
 } from "firebase/auth";
 import { doc, setDoc, updateDoc, onSnapshot, getDoc } from "firebase/firestore";
 import { auth, googleProvider, db, storage } from "@/lib/firebase";
@@ -47,14 +53,17 @@ interface AuthContextType {
   updateUserProfile: (data: Partial<UserProfile>) => Promise<void>;
   uploadImage: (file: File) => Promise<string>;
   addPoints: (amount: number, message?: string) => Promise<void>;
-  showSystemNotification: (message: string, type?: "success" | "error" | "info" | "warning") => void;
+  showSystemNotification: (
+    message: string,
+    type?: "success" | "error" | "info" | "warning",
+  ) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const CREATOR_EMAILS = [
   "jesus.lopeztavio72@gmail.com",
-  "contact.bunnies.dev@gmail.com"
+  "contact.bunnies.dev@gmail.com",
 ];
 
 const getRankByPoints = (points: number, email: string): string => {
@@ -70,17 +79,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [notification, setNotification] = useState<{ amount: number; message?: string } | null>(null);
-  const [systemNotification, setSystemNotification] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
+  const [notification, setNotification] = useState<{
+    amount: number;
+    message?: string;
+  } | null>(null);
+  const [systemNotification, setSystemNotification] = useState<{
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  } | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-      
+
       if (firebaseUser) {
         // Suscribirse a cambios en el perfil de Firestore
         const userDocRef = doc(db, "users", firebaseUser.uid);
-        
+
         const unsubProfile = onSnapshot(userDocRef, async (docSnap) => {
           if (docSnap.exists()) {
             setProfile(docSnap.data() as UserProfile);
@@ -94,7 +109,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               bio: "¡Hola! Soy un nuevo miembro del Bunnies Club.",
               favMembers: [],
               favSongs: [],
-              rank: CREATOR_EMAILS.includes(firebaseUser.email || "") ? "CREADOR / CEO" : "Bunny Novato",
+              rank: CREATOR_EMAILS.includes(firebaseUser.email || "")
+                ? "CREADOR / CEO"
+                : "Bunny Novato",
               points: 0,
               streak: 1,
               joinDate: new Date().toISOString(),
@@ -135,7 +152,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!user) return;
     try {
       const userDocRef = doc(db, "users", user.uid);
-      
+
       // Actualizar en Firebase Auth solo el nombre
       if (data.displayName) {
         await firebaseUpdateProfile(user, {
@@ -151,61 +168,68 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const addPoints = useCallback(async (amount: number, message?: string) => {
-    if (!user) return;
-    
-    try {
-      const userDocRef = doc(db, "users", user.uid);
-      
-      // Obtenemos los datos más recientes para evitar desfases
-      const docSnap = await getDoc(userDocRef);
-      if (!docSnap.exists()) return;
-      
-      const currentProfile = docSnap.data() as UserProfile;
-      const newPoints = (currentProfile.points || 0) + amount;
-      const newRank = getRankByPoints(newPoints, user.email || "");
-      
-      const currentActivities = currentProfile.activities || [];
-      const newActivity: Activity = {
-        id: crypto.randomUUID(),
-        text: message || "Puntos obtenidos",
-        timestamp: new Date().toISOString(),
-        points: amount
-      };
+  const addPoints = useCallback(
+    async (amount: number, message?: string) => {
+      if (!user) return;
 
-      await updateDoc(userDocRef, {
-        points: newPoints,
-        rank: newRank,
-        lastLogin: new Date().toISOString(),
-        activities: [newActivity, ...currentActivities].slice(0, 10)
-      });
+      try {
+        const userDocRef = doc(db, "users", user.uid);
 
-      // Mostrar notificación visual
-      setNotification({ amount, message });
-    } catch (error) {
-      console.error("Error adding points:", error);
-    }
-  }, [user]); // Quitamos profile de dependencias ya que usamos getDoc
+        // Obtenemos los datos más recientes para evitar desfases
+        const docSnap = await getDoc(userDocRef);
+        if (!docSnap.exists()) return;
+
+        const currentProfile = docSnap.data() as UserProfile;
+        const newPoints = (currentProfile.points || 0) + amount;
+        const newRank = getRankByPoints(newPoints, user.email || "");
+
+        const currentActivities = currentProfile.activities || [];
+        const newActivity: Activity = {
+          id: crypto.randomUUID(),
+          text: message || "Puntos obtenidos",
+          timestamp: new Date().toISOString(),
+          points: amount,
+        };
+
+        await updateDoc(userDocRef, {
+          points: newPoints,
+          rank: newRank,
+          lastLogin: new Date().toISOString(),
+          activities: [newActivity, ...currentActivities].slice(0, 10),
+        });
+
+        // Mostrar notificación visual
+        setNotification({ amount, message });
+      } catch (error) {
+        console.error("Error adding points:", error);
+      }
+    },
+    [user],
+  ); // Quitamos profile de dependencias ya que usamos getDoc
 
   // Lógica de Login Diario
   useEffect(() => {
     if (user && profile) {
       const today = new Date().toISOString().split("T")[0];
       const lastLogin = profile.lastLogin?.split("T")[0];
-      
+
       if (lastLogin !== today) {
         setTimeout(async () => {
           // Calcular nueva racha
           const yesterday = new Date();
           yesterday.setDate(yesterday.getDate() - 1);
           const yesterdayStr = yesterday.toISOString().split("T")[0];
-          
-          const newStreak = lastLogin === yesterdayStr ? (profile.streak || 0) + 1 : 1;
+
+          const newStreak =
+            lastLogin === yesterdayStr ? (profile.streak || 0) + 1 : 1;
           const xpBonus = newStreak >= 5 ? 40 : 20;
-          const msg = newStreak >= 5 ? `¡Racha de ${newStreak} días! 🔥 +${xpBonus} XP` : "Bonus por login diario 🐰";
-          
+          const msg =
+            newStreak >= 5
+              ? `¡Racha de ${newStreak} días! 🔥 +${xpBonus} XP`
+              : "Bonus por login diario 🐰";
+
           await addPoints(xpBonus, msg);
-          
+
           // Actualizamos la racha en el documento
           const userDocRef = doc(db, "users", user.uid);
           await updateDoc(userDocRef, { streak: newStreak });
@@ -217,9 +241,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const uploadImage = async (file: File, subfolder: string = "avatars") => {
     if (!user) throw new Error("Debes estar autenticado para subir imágenes");
-    
+
     try {
-      const storageRef = ref(storage, `${subfolder}/${user.uid}/${Date.now()}_${file.name}`);
+      const storageRef = ref(
+        storage,
+        `${subfolder}/${user.uid}/${Date.now()}_${file.name}`,
+      );
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
       return downloadURL;
@@ -229,17 +256,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const showSystemNotification = useCallback((message: string, type: "success" | "error" | "info" | "warning" = "success") => {
-    setSystemNotification({ message, type });
-  }, []);
+  const showSystemNotification = useCallback(
+    (
+      message: string,
+      type: "success" | "error" | "info" | "warning" = "success",
+    ) => {
+      setSystemNotification({ message, type });
+    },
+    [],
+  );
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, updateUserProfile, uploadImage, addPoints, showSystemNotification }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        profile,
+        loading,
+        signInWithGoogle,
+        logout,
+        updateUserProfile,
+        uploadImage,
+        addPoints,
+        showSystemNotification,
+      }}
+    >
       {children}
       {notification && (
-        <XpNotification 
-          amount={notification.amount} 
-          message={notification.message} 
+        <XpNotification
+          amount={notification.amount}
+          message={notification.message}
           onComplete={() => setNotification(null)}
         />
       )}

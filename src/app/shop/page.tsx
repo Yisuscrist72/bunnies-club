@@ -4,21 +4,29 @@ import { useState, useMemo, useEffect } from "react";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Jersey from "@/components/atoms/texts/Jersey";
 import ShopHeader from "@/components/molecules/ShopHeader";
-import ShopFilters, { type FilterType } from "@/components/molecules/ShopFilters";
+import ShopFilters, {
+  type FilterType,
+} from "@/components/molecules/ShopFilters";
 import ShopCard from "@/components/molecules/ShopCard";
 import ShopBackground from "@/components/molecules/ShopBackground";
 import { PRODUCTS } from "@/data/shop-products";
 import { motion, AnimatePresence } from "framer-motion";
 
-type SortType = "default" | "price-asc" | "price-desc" | "name-asc" | "name-desc" | "new-first";
+type SortType =
+  | "default"
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "name-desc"
+  | "new-first";
 
 export default function ShopPage() {
   // Efecto para cambiar el fondo al estilo "Candy-Shop"
   useEffect(() => {
     const originalBg = document.body.style.background;
     const originalImage = document.body.style.backgroundImage;
-    
-    document.body.style.backgroundColor = "#f0fdfa"; 
+
+    document.body.style.backgroundColor = "#f0fdfa";
     document.body.style.backgroundImage = `
       radial-gradient(at 10% 10%, #ccfbf1 0px, transparent 60%),
       radial-gradient(at 90% 10%, #e0e7ff 0px, transparent 60%),
@@ -39,22 +47,37 @@ export default function ShopPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortType>("default");
 
-  const counts = useMemo(() => ({
-    all: PRODUCTS.length,
-    album: PRODUCTS.filter((p) => p.category === "album").length,
-    merch: PRODUCTS.filter((p) => p.category === "merch").length,
-  }), []);
+  const counts = useMemo(
+    () => ({
+      all: PRODUCTS.length,
+      album: PRODUCTS.filter((p) => p.category === "album").length,
+      merch: PRODUCTS.filter((p) => p.category === "merch").length,
+    }),
+    [],
+  );
 
   const filteredProducts = useMemo(() => {
     let result = PRODUCTS.filter(
-      (p) => (filter === "all" || p.category === filter) &&
-        p.name.toLowerCase().includes(search.toLowerCase())
+      (p) =>
+        (filter === "all" || p.category === filter) &&
+        p.name.toLowerCase().includes(search.toLowerCase()),
     );
-    if (sort === "price-asc")  result = [...result].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-    if (sort === "price-desc") result = [...result].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-    if (sort === "name-asc")   result = [...result].sort((a, b) => a.name.localeCompare(b.name));
-    if (sort === "name-desc")  result = [...result].sort((a, b) => b.name.localeCompare(a.name));
-    if (sort === "new-first")  result = [...result].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+    if (sort === "price-asc")
+      result = [...result].sort(
+        (a, b) => parseFloat(a.price) - parseFloat(b.price),
+      );
+    if (sort === "price-desc")
+      result = [...result].sort(
+        (a, b) => parseFloat(b.price) - parseFloat(a.price),
+      );
+    if (sort === "name-asc")
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "name-desc")
+      result = [...result].sort((a, b) => b.name.localeCompare(a.name));
+    if (sort === "new-first")
+      result = [...result].sort(
+        (a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0),
+      );
     return result;
   }, [filter, search, sort]);
 
@@ -67,7 +90,11 @@ export default function ShopPage() {
         <ShopHeader />
 
         {/* Modular Filters with counts */}
-        <ShopFilters currentFilter={filter} onFilterChange={setFilter} counts={counts} />
+        <ShopFilters
+          currentFilter={filter}
+          onFilterChange={setFilter}
+          counts={counts}
+        />
 
         {/* ── TOOLBAR: Search + Sort + View ── */}
         <div className="w-full flex flex-col sm:flex-row gap-3 mb-10 items-center">
@@ -84,7 +111,13 @@ export default function ShopPage() {
                 className="flex-1 py-2 pr-3 bg-transparent font-space font-black text-sm text-black tracking-widest uppercase outline-none placeholder:text-black/30"
               />
               {search && (
-                <button type="button" onClick={() => setSearch("")} className="px-3 text-black/40 hover:text-black text-lg">✕</button>
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="px-3 text-black/40 hover:text-black text-lg"
+                >
+                  ✕
+                </button>
               )}
             </div>
           </div>
@@ -104,14 +137,20 @@ export default function ShopPage() {
               <option value="name-asc">NOMBRE: A → Z</option>
               <option value="name-desc">NOMBRE: Z → A</option>
             </select>
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs">▼</span>
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs">
+              ▼
+            </span>
           </div>
         </div>
 
         {/* Results count */}
         <div className="w-full mb-6 flex items-center gap-2">
           <div className="flex-1 h-px bg-black/20" />
-          <Jersey text={`${filteredProducts.length} RESULTADOS`} size="20|24" className="text-black/40 font-black tracking-widest" />
+          <Jersey
+            text={`${filteredProducts.length} RESULTADOS`}
+            size="20|24"
+            className="text-black/40 font-black tracking-widest"
+          />
           <div className="flex-1 h-px bg-black/20" />
         </div>
 
@@ -128,8 +167,17 @@ export default function ShopPage() {
                   layout
                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.15 } }}
-                  transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.85,
+                    transition: { duration: 0.15 },
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25,
+                  }}
                 >
                   <ShopCard product={product} />
                 </motion.div>
@@ -153,11 +201,22 @@ export default function ShopPage() {
                 >
                   📭
                 </motion.div>
-                <SpaceText text="NO SE ENCONTRARON PRODUCTOS" size="16|16" className="text-black/40 font-black tracking-widest text-center" />
-                <Jersey text={`QUERY: "${search || filter}" → 0 RESULTS`} size="12|12" className="text-black/30" />
+                <SpaceText
+                  text="NO SE ENCONTRARON PRODUCTOS"
+                  size="16|16"
+                  className="text-black/40 font-black tracking-widest text-center"
+                />
+                <Jersey
+                  text={`QUERY: "${search || filter}" → 0 RESULTS`}
+                  size="12|12"
+                  className="text-black/30"
+                />
                 <button
                   type="button"
-                  onClick={() => { setSearch(""); setFilter("all"); }}
+                  onClick={() => {
+                    setSearch("");
+                    setFilter("all");
+                  }}
                   className="relative group/btn mt-2"
                 >
                   <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm" />

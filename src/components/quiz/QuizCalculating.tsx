@@ -48,9 +48,19 @@ export default function QuizCalculating() {
                 className="flex items-center gap-3"
               >
                 <span className="text-v2k-green-soft">
-                  {step.done ? "✅" : <span className="animate-spin inline-block">⏳</span>}
+                  {step.done ? (
+                    "✅"
+                  ) : (
+                    <span className="animate-spin inline-block">⏳</span>
+                  )}
                 </span>
-                <span className={step.done ? "text-v2k-green-soft" : "text-v2k-pink-hot animate-pulse"}>
+                <span
+                  className={
+                    step.done
+                      ? "text-v2k-green-soft"
+                      : "text-v2k-pink-hot animate-pulse"
+                  }
+                >
                   {step.label}
                 </span>
                 {step.done && (
@@ -60,7 +70,11 @@ export default function QuizCalculating() {
             ))}
           </div>
 
-          <Jersey text="GENERANDO TU RESULTADO..." size="20|24" className="text-v2k-pink-hot" />
+          <Jersey
+            text="GENERANDO TU RESULTADO..."
+            size="20|24"
+            className="text-v2k-pink-hot"
+          />
         </div>
       </Window>
     </motion.div>

@@ -7,36 +7,51 @@ export const RANK_FRAMES: Record<string, string> = {
   "CREADOR / CEO": "border-black shadow-[6px_6px_0px_#FF69B4]",
 };
 
-export const AVAILABLE_MEMBERS = ["MINJI", "HANNI", "DANIELLE", "HAERIN", "HYEIN"];
-export const SUGGESTED_SONGS = ["ATTENTION", "DITTO", "OMG", "SUPER SHY", "ETA", "HOW SWEET"];
+export const AVAILABLE_MEMBERS = [
+  "MINJI",
+  "HANNI",
+  "DANIELLE",
+  "HAERIN",
+  "HYEIN",
+];
+export const SUGGESTED_SONGS = [
+  "ATTENTION",
+  "DITTO",
+  "OMG",
+  "SUPER SHY",
+  "ETA",
+  "HOW SWEET",
+];
 
 export const ALL_ACHIEVEMENTS = [
   {
-    id: 'perfil',
-    icon: '✨',
-    name: 'Perfil Full',
-    description: 'Completa tu biografía y selecciona tus miembros favoritos para desbloquear este logro.',
-    color: 'bg-yellow-100'
+    id: "perfil",
+    icon: "✨",
+    name: "Perfil Full",
+    description:
+      "Completa tu biografía y selecciona tus miembros favoritos para desbloquear este logro.",
+    color: "bg-yellow-100",
   },
   {
-    id: 'explorador',
-    icon: '🔍',
-    name: 'Explorador',
-    description: 'Consigue 100 puntos de XP explorando y participando en el club.',
-    color: 'bg-blue-100'
+    id: "explorador",
+    icon: "🔍",
+    name: "Explorador",
+    description:
+      "Consigue 100 puntos de XP explorando y participando en el club.",
+    color: "bg-blue-100",
   },
   {
-    id: 'fan',
-    icon: '💖',
-    name: 'Fan Total',
-    description: 'Demuestra tu amor por NewJeans llegando a los 500 XP.',
-    color: 'bg-v2k-pink-soft'
+    id: "fan",
+    icon: "💖",
+    name: "Fan Total",
+    description: "Demuestra tu amor por NewJeans llegando a los 500 XP.",
+    color: "bg-v2k-pink-soft",
   },
   {
-    id: 'leyenda',
-    icon: '👑',
-    name: 'Leyenda',
-    description: 'Conviértete en una leyenda viviente del club con 5000 XP.',
-    color: 'bg-purple-100'
-  }
+    id: "leyenda",
+    icon: "👑",
+    name: "Leyenda",
+    description: "Conviértete en una leyenda viviente del club con 5000 XP.",
+    color: "bg-purple-100",
+  },
 ];

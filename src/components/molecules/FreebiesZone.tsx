@@ -9,7 +9,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import JSZip from "jszip";
 import { useAuth } from "../../context/AuthContext";
 
-
 interface FreebieItem {
   id: string;
   title: string;
@@ -91,31 +90,34 @@ export default function FreebiesZone() {
   }, [activeFolder]);
 
   // 4. LÓGICA DE DESCARGA
-  const handleDownloadSingle = useCallback(async (item: FreebieItem) => {
-    const targetUrl = item.downloadURL || item.imageURL;
-    try {
-      const response = await fetch(targetUrl);
-      if (!response.ok) return;
+  const handleDownloadSingle = useCallback(
+    async (item: FreebieItem) => {
+      const targetUrl = item.downloadURL || item.imageURL;
+      try {
+        const response = await fetch(targetUrl);
+        if (!response.ok) return;
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
 
-      const extension = targetUrl.split(".").pop()?.split("?")[0] || "pdf";
-      link.download = `${item.title.replace(/\s+/g, "_")}.${extension}`;
+        const extension = targetUrl.split(".").pop()?.split("?")[0] || "pdf";
+        link.download = `${item.title.replace(/\s+/g, "_")}.${extension}`;
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      if (user) {
-        await addPoints(10, "¡Archivo descargado! 📥✨");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        if (user) {
+          await addPoints(10, "¡Archivo descargado! 📥✨");
+        }
+      } catch (error) {
+        console.error("Error de descarga:", error);
       }
-    } catch (error) {
-      console.error("Error de descarga:", error);
-    }
-  }, [user, addPoints]);
+    },
+    [user, addPoints],
+  );
 
   const handleDownloadAllZip = useCallback(async () => {
     if (items.length === 0) return;
@@ -231,7 +233,9 @@ export default function FreebiesZone() {
                         disabled={isDownloadingAll}
                         className="px-4 md:px-6 py-2 border-2 border-black bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase"
                       >
-                        {isDownloadingAll ? "ZIPPING..." : "DOWNLOAD ALL ZIP 📦"}
+                        {isDownloadingAll
+                          ? "ZIPPING..."
+                          : "DOWNLOAD ALL ZIP 📦"}
                       </button>
                     </div>
                   )}
@@ -263,7 +267,9 @@ export default function FreebiesZone() {
                         {!loading && items.length === 0 && (
                           <div className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex flex-col items-center justify-center pointer-events-none">
                             <div className="border-2 border-black bg-gray-100 p-4 shadow-[4px_4px_0px_black] flex flex-col items-center justify-center gap-3 text-center h-[80%] w-full">
-                              <span className="text-6xl md:text-7xl animate-pulse">🐰🪧</span>
+                              <span className="text-6xl md:text-7xl animate-pulse">
+                                🐰🪧
+                              </span>
                               <SpaceText
                                 tag="h4"
                                 text="EMPTY FOLDER"
@@ -271,8 +277,10 @@ export default function FreebiesZone() {
                                 className="font-bold text-red-500 uppercase mt-2"
                               />
                               <p className="font-mono text-[10px] md:text-xs text-gray-600 px-2 leading-tight">
-                                Aún no hay archivos aquí... <br /><br />
-                                ¡Sé el primero en crear uno y envíalo usando el buzón! ✨
+                                Aún no hay archivos aquí... <br />
+                                <br />
+                                ¡Sé el primero en crear uno y envíalo usando el
+                                buzón! ✨
                               </p>
                             </div>
                           </div>
@@ -282,15 +290,31 @@ export default function FreebiesZone() {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => window.open(
-                              "https://docs.google.com/forms/d/e/1FAIpQLSeJnV2XDPYFemEwkjNxNu8ANTHmJ_P9XQoi-mN-nyMKqef3pQ/viewform?usp=publish-editor", "_blank")}
+                          onClick={() =>
+                            window.open(
+                              "https://docs.google.com/forms/d/e/1FAIpQLSeJnV2XDPYFemEwkjNxNu8ANTHmJ_P9XQoi-mN-nyMKqef3pQ/viewform?usp=publish-editor",
+                              "_blank",
+                            )
+                          }
                           className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex items-center justify-center cursor-pointer group"
                         >
                           <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 grayscale group-hover:grayscale-0 group-hover:border-v2k-pink-hot transition-all duration-300 bg-white/50 shadow-inner w-full">
-                            <span className="text-4xl md:text-5xl group-hover:animate-bounce">📮</span>
+                            <span className="text-4xl md:text-5xl group-hover:animate-bounce">
+                              📮
+                            </span>
                             <div className="text-center">
-                              <SpaceText tag="span" text="COMMUNITY HUB" size="14|14" className="font-bold text-gray-600 block uppercase group-hover:text-black" />
-                              <SpaceText tag="span" text="REQUEST OR SEND ART" size="12|12" className="font-mono text-gray-500 block group-hover:text-v2k-pink-hot" />
+                              <SpaceText
+                                tag="span"
+                                text="COMMUNITY HUB"
+                                size="14|14"
+                                className="font-bold text-gray-600 block uppercase group-hover:text-black"
+                              />
+                              <SpaceText
+                                tag="span"
+                                text="REQUEST OR SEND ART"
+                                size="12|12"
+                                className="font-mono text-gray-500 block group-hover:text-v2k-pink-hot"
+                              />
                             </div>
                           </div>
                         </motion.button>
@@ -328,7 +352,6 @@ export default function FreebiesZone() {
 
                 {/* CONTENEDOR DE SCROLL OPTIMIZADO */}
                 <div className="p-4 mt-10 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden scrollbar-hide pb-16">
-                  
                   {/* IMAGEN: Reducida a 45vh para asegurar que el botón entre en pantalla */}
                   <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6">
                     <img
@@ -346,7 +369,7 @@ export default function FreebiesZone() {
                       size="18|22"
                       className="font-bold text-black px-4"
                     />
-                    
+
                     <button
                       type="button"
                       onClick={() => handleDownloadSingle(previewItem)}

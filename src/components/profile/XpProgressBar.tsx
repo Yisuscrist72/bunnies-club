@@ -28,14 +28,14 @@ function XpProgressBar({ points }: XpProgressBarProps) {
     <div className="mt-6 max-w-xs mx-auto md:mx-0">
       <div className="flex justify-between items-end mb-2">
         <Jersey text={`XP: ${points}`} size="16|16" className="text-black" />
-        <Jersey 
-          text={getNextRank(points)} 
-          size="12|12" 
-          className="text-gray-500" 
+        <Jersey
+          text={getNextRank(points)}
+          size="12|12"
+          className="text-gray-500"
         />
       </div>
       <div className="w-full h-4 bg-gray-200 border-2 border-black rounded-full overflow-hidden shadow-[2px_2px_0px_#000]">
-        <div 
+        <div
           className="h-full bg-v2k-pink-hot transition-all duration-1000"
           style={{ width: `${Math.min(100, getProgress(points))}%` }}
         />

@@ -42,10 +42,10 @@
     "typescript": "^5"
   },
   "pnpm": {
-  "onlyBuiltDependencies": [
-    "@firebase/util",
-    "core-js",
-    "protobufjs"
-  ]
-}
+    "onlyBuiltDependencies": [
+      "@firebase/util",
+      "core-js",
+      "protobufjs"
+    ]
+  }
 }

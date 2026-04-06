@@ -3,7 +3,14 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { db } from "@/lib/firebase";
-import { doc, getDoc, collection, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
 import { domToPng } from "modern-screenshot";
 
@@ -40,17 +47,21 @@ export default function PhotocardEditorPage() {
       if (!id) return;
       try {
         // Primero intentamos cargar como plantilla de usuario
-        const userDocSnap = await getDoc(doc(db, "user_photocards", id as string));
+        const userDocSnap = await getDoc(
+          doc(db, "user_photocards", id as string),
+        );
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           // Necesitamos el recurso original para la imagen
-          const resourceSnap = await getDoc(doc(db, "photocards_resources", data.templateId));
+          const resourceSnap = await getDoc(
+            doc(db, "photocards_resources", data.templateId),
+          );
           if (resourceSnap.exists()) {
             const resData = resourceSnap.data();
-            setTemplate({ 
-              id: data.templateId, 
-              title: resData.title, 
-              imageURL: resData.imageURL 
+            setTemplate({
+              id: data.templateId,
+              title: resData.title,
+              imageURL: resData.imageURL,
             });
             setFrontElements(data.frontElements || []);
             setBackElements(data.backElements || []);
@@ -60,13 +71,15 @@ export default function PhotocardEditorPage() {
           }
         } else {
           // Si no es de usuario, cargamos el recurso base
-          const docSnap = await getDoc(doc(db, "photocards_resources", id as string));
+          const docSnap = await getDoc(
+            doc(db, "photocards_resources", id as string),
+          );
           if (docSnap.exists()) {
             const resData = docSnap.data();
-            setTemplate({ 
-              id: docSnap.id, 
-              title: resData.title, 
-              imageURL: resData.imageURL 
+            setTemplate({
+              id: docSnap.id,
+              title: resData.title,
+              imageURL: resData.imageURL,
             });
           }
         }
@@ -84,13 +97,13 @@ export default function PhotocardEditorPage() {
     setIsSaving(true);
     try {
       setSide("front");
-      
+
       // Esperamos a que el canvas se renderice en el frente si no lo estaba
       await new Promise((resolve) => setTimeout(resolve, 300));
 
       const canvasElement = document.getElementById("photocard-canvas");
       let previewURL = "";
-      
+
       if (canvasElement) {
         // Capturamos el frente como preview
         // Nota: En una app de producción esto debería subirse a Firebase Storage,
@@ -121,7 +134,10 @@ export default function PhotocardEditorPage() {
           createdAt: serverTimestamp(),
         });
         setIsUserTemplate(true);
-        showSystemNotification("¡Plantilla guardada en tu colección!", "success");
+        showSystemNotification(
+          "¡Plantilla guardada en tu colección!",
+          "success",
+        );
         await addPoints(100, "¡Guardaste tu primera decoración! 🐰💖");
       }
     } catch (error) {
@@ -151,7 +167,9 @@ export default function PhotocardEditorPage() {
 
   const updateElement = (elId: string, data: Partial<EditorElement>) => {
     const setter = side === "front" ? setFrontElements : setBackElements;
-    setter((prev) => prev.map((el) => (el.id === elId ? { ...el, ...data } : el)));
+    setter((prev) =>
+      prev.map((el) => (el.id === elId ? { ...el, ...data } : el)),
+    );
   };
 
   const deleteElement = () => {
@@ -213,7 +231,8 @@ export default function PhotocardEditorPage() {
     );
 
   const activeElements = side === "front" ? frontElements : backElements;
-  const selectedElement = activeElements.find((el) => el.id === selectedId) || null;
+  const selectedElement =
+    activeElements.find((el) => el.id === selectedId) || null;
 
   return (
     <div className="fixed inset-0 z-50 w-full h-full flex flex-col items-center bg-[#BEE5FD] overflow-hidden font-space">
@@ -238,7 +257,7 @@ export default function PhotocardEditorPage() {
           bringElementToFront={bringElementToFront}
           sendElementToBack={sendElementToBack}
           selectedElement={selectedElement}
-          backColor={backColor}      // Pasamos el color
+          backColor={backColor} // Pasamos el color
           setBackColor={setBackColor} // Pasamos el setter
         />
         <EditorCanvas

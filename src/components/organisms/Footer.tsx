@@ -13,7 +13,7 @@ import SpaceText from "../atoms/texts/SpaceText";
 interface FooterProps {
   variant?: "light" | "dark";
 }
- 
+
 export default function Footer({ variant = "light" }: FooterProps) {
   const isDark = variant === "dark";
   const scrollToTop = () => {
@@ -21,10 +21,14 @@ export default function Footer({ variant = "light" }: FooterProps) {
   };
 
   return (
-    <footer className={`w-full ${isDark ? "bg-black border-white/20" : "bg-nav-bg border-black"} border-t-[3px] py-10 md:py-16 mt-20 md:mt-32 z-40 relative overflow-hidden`}>
+    <footer
+      className={`w-full ${isDark ? "bg-black border-white/20" : "bg-nav-bg border-black"} border-t-[3px] py-10 md:py-16 mt-20 md:mt-32 z-40 relative overflow-hidden`}
+    >
       {/* Fondo decorativo con logo BUNNIES CLUB */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden">
-        <span className={`font-jersey text-[8rem] md:text-[14rem] leading-none ${isDark ? "text-white" : "text-black"} whitespace-nowrap font-bold tracking-tighter`}>
+        <span
+          className={`font-jersey text-[8rem] md:text-[14rem] leading-none ${isDark ? "text-white" : "text-black"} whitespace-nowrap font-bold tracking-tighter`}
+        >
           BUNNIES CLUB
         </span>
       </div>
@@ -33,7 +37,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
-              <div className={`w-6 h-6 ${isDark ? "bg-white" : "bg-black"} animate-pulse`} />
+              <div
+                className={`w-6 h-6 ${isDark ? "bg-white" : "bg-black"} animate-pulse`}
+              />
               <Jersey
                 tag="span"
                 text="BUNNIES_CLUB.SYS"
@@ -75,14 +81,33 @@ export default function Footer({ variant = "light" }: FooterProps) {
               />
               <div className="flex gap-4">
                 {[
-                  { icon: <IconInstagram className="w-6 h-6" />, key: "ig", href: "https://www.instagram.com/newjeans_official/" },
-                  { icon: <IconSpotify className="w-6 h-6" />, key: "spotify", href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC" },
-                  { icon: <IconX className="w-6 h-6" />, key: "x", href: "https://twitter.com/NewJeans_ADOR" },
-                  { icon: <IconFacebook className="w-6 h-6" />, key: "fb", href: "https://www.facebook.com/official.newjeans/" },
+                  {
+                    icon: <IconInstagram className="w-6 h-6" />,
+                    key: "ig",
+                    href: "https://www.instagram.com/newjeans_official/",
+                  },
+                  {
+                    icon: <IconSpotify className="w-6 h-6" />,
+                    key: "spotify",
+                    href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
+                  },
+                  {
+                    icon: <IconX className="w-6 h-6" />,
+                    key: "x",
+                    href: "https://twitter.com/NewJeans_ADOR",
+                  },
+                  {
+                    icon: <IconFacebook className="w-6 h-6" />,
+                    key: "fb",
+                    href: "https://www.facebook.com/official.newjeans/",
+                  },
                 ].map((item) => (
                   <Link key={item.key} href={item.href} target="_blank">
                     <motion.div
-                      whileHover={{ scale: 1.1, backgroundColor: isDark ? "#222" : "#FFF" }}
+                      whileHover={{
+                        scale: 1.1,
+                        backgroundColor: isDark ? "#222" : "#FFF",
+                      }}
                       whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px #000" }}
                       transition={{ duration: 0.1 }}
                       className={`w-12 h-12 ${isDark ? "bg-white/10 border-white/40" : "bg-white border-black"} border-[3px] flex items-center justify-center shadow-v2k-sm cursor-pointer ${isDark ? "text-white" : "text-black"}`}
@@ -95,7 +120,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
             </div>
 
             <div className="flex flex-col items-start md:items-end gap-5 w-full">
-              <div className={`flex flex-col items-start md:items-end border-l-4 md:border-l-0 md:border-r-4 ${isDark ? "border-white/20" : "border-black"} pl-4 md:pl-0 md:pr-4 py-1`}>
+              <div
+                className={`flex flex-col items-start md:items-end border-l-4 md:border-l-0 md:border-r-4 ${isDark ? "border-white/20" : "border-black"} pl-4 md:pl-0 md:pr-4 py-1`}
+              >
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-ping" />
                   <Jersey
@@ -116,7 +143,10 @@ export default function Footer({ variant = "light" }: FooterProps) {
               <div className="flex flex-col items-start md:items-end gap-8">
                 <motion.button
                   onClick={scrollToTop}
-                  initial={{ backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "#FFF", color: isDark ? "#FFF" : "#000" }}
+                  initial={{
+                    backgroundColor: isDark ? "rgba(255,255,255,0.1)" : "#FFF",
+                    color: isDark ? "#FFF" : "#000",
+                  }}
                   whileHover={{
                     backgroundColor: isDark ? "#FFF" : "#000",
                     color: isDark ? "#000" : "#FFF",
@@ -151,7 +181,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
           </div>
         </div>
 
-        <div className={`pt-8 border-t-[3px] ${isDark ? "border-white/20" : "border-black"} flex flex-col md:flex-row justify-between items-center gap-8`}>
+        <div
+          className={`pt-8 border-t-[3px] ${isDark ? "border-white/20" : "border-black"} flex flex-col md:flex-row justify-between items-center gap-8`}
+        >
           <div className="flex flex-col items-center md:items-start">
             {isDark ? (
               <SpaceText
@@ -178,9 +210,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
             <Link href="/privacy">
               {isDark ? (
                 <SpaceText
-                   text="PRIVACY_POLICY.TXT"
-                   size="12|12"
-                   className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
+                  text="PRIVACY_POLICY.TXT"
+                  size="12|12"
+                  className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
                 />
               ) : (
                 <Jersey
@@ -194,9 +226,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
             <Link href="/terms">
               {isDark ? (
                 <SpaceText
-                   text="TERMS_OF_USE.EXE"
-                   size="12|12"
-                   className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
+                  text="TERMS_OF_USE.EXE"
+                  size="12|12"
+                  className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
                 />
               ) : (
                 <Jersey
@@ -210,9 +242,9 @@ export default function Footer({ variant = "light" }: FooterProps) {
             <Link href="/copyright">
               {isDark ? (
                 <SpaceText
-                   text="COPYRIGHT_INFO.MD"
-                   size="12|12"
-                   className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
+                  text="COPYRIGHT_INFO.MD"
+                  size="12|12"
+                  className="text-white/60 cursor-pointer hover:text-white hover:underline transition-all"
                 />
               ) : (
                 <Jersey

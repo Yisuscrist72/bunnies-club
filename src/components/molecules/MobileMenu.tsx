@@ -95,7 +95,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 { label: "QUIZ", href: "/quiz", sparkles: true },
                 { label: "TIENDA", href: "/shop" },
                 { label: "FORO", href: "/forum" },
-                { label: user ? "PERFIL" : "LOGIN", href: user ? "/profile" : "/login", userIcon: true },
+                {
+                  label: user ? "PERFIL" : "LOGIN",
+                  href: user ? "/profile" : "/login",
+                  userIcon: true,
+                },
               ].map((item) => (
                 <motion.li
                   key={item.label}
@@ -110,15 +114,18 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     >
                       <div className="flex items-center gap-2">
                         {item.sparkles && <span className="text-xl">✨</span>}
-                        {item.userIcon && (
-                          profile?.photoURL ? (
+                        {item.userIcon &&
+                          (profile?.photoURL ? (
                             <div className="w-8 h-8 relative rounded-full overflow-hidden border-2 border-black mr-1">
-                              <Image src={profile.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                              <Image
+                                src={profile.photoURL}
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                           ) : (
                             <IconUser className="w-8 h-8 mr-1 text-black" />
-                          )
-                        )}
+                          ))}
                         <Jersey
                           tag="span"
                           text={item.label}
@@ -138,15 +145,34 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className="p-8 flex flex-col items-center gap-6 bg-black/5 border-t-2 border-black/10 z-10">
             <motion.div variants={itemVariants} className="flex gap-4">
               {[
-                { icon: <IconInstagram key="ig" className="w-5 h-5" />, href: "https://www.instagram.com/newjeans_official/" },
-                { icon: <IconSpotify key="spotify" className="w-5 h-5" />, href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC" },
-                { icon: <IconX key="x" className="w-5 h-5" />, href: "https://twitter.com/NewJeans_ADOR" },
-                { icon: <IconFacebook key="fb" className="w-5 h-5" />, href: "https://www.facebook.com/official.newjeans/" },
+                {
+                  icon: <IconInstagram key="ig" className="w-5 h-5" />,
+                  href: "https://www.instagram.com/newjeans_official/",
+                },
+                {
+                  icon: <IconSpotify key="spotify" className="w-5 h-5" />,
+                  href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
+                },
+                {
+                  icon: <IconX key="x" className="w-5 h-5" />,
+                  href: "https://twitter.com/NewJeans_ADOR",
+                },
+                {
+                  icon: <IconFacebook key="fb" className="w-5 h-5" />,
+                  href: "https://www.facebook.com/official.newjeans/",
+                },
               ].map((item) => (
                 <Link key={item.href} href={item.href} target="_blank">
                   <motion.div
-                    whileHover={{ scale: 1.1, backgroundColor: "var(--color-v2k-pink-hover)" }}
-                    whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "var(--color-v2k-pink-hover)",
+                    }}
+                    whileTap={{
+                      x: 4,
+                      y: 4,
+                      boxShadow: "0px 0px 0px var(--color-v2k-black)",
+                    }}
                     className="w-12 h-12 bg-v2k-white border-[3px] border-black flex items-center justify-center shadow-[4px_4px_0px_var(--color-v2k-black)] cursor-pointer transition-colors text-black"
                   >
                     {item.icon}
@@ -158,7 +184,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <motion.button
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
-              whileTap={{ x: 4, y: 4, boxShadow: "0px 0px 0px var(--color-v2k-black)" }}
+              whileTap={{
+                x: 4,
+                y: 4,
+                boxShadow: "0px 0px 0px var(--color-v2k-black)",
+              }}
               className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
             >
               <Jersey

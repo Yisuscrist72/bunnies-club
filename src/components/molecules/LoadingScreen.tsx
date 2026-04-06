@@ -9,19 +9,19 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     setIsMounted(true); // Evita errores de hidratación en Next.js
-    
+
     // Comprueba si ya cargó en esta sesión
     const hasLoaded = sessionStorage.getItem("bunnies_loaded");
-    
+
     if (!hasLoaded) {
       setIsVisible(true);
-      
+
       // Oculta la pantalla después de 3 segundos y guarda la marca
       const timer = setTimeout(() => {
         setIsVisible(false);
         sessionStorage.setItem("bunnies_loaded", "true");
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -62,7 +62,11 @@ export default function LoadingScreen() {
 
             {/* Texto de carga estilo terminal */}
             <div className="flex flex-col items-center gap-2">
-              <Jersey text="BUNNIES CLUB OS" size="32|40" className="text-black" />
+              <Jersey
+                text="BUNNIES CLUB OS"
+                size="32|40"
+                className="text-black"
+              />
               <div className="flex items-center gap-2">
                 <div className="w-48 h-4 border-2 border-black p-0.5 bg-white">
                   <motion.div

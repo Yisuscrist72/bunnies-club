@@ -9,7 +9,11 @@ interface XpNotificationProps {
   onComplete?: () => void;
 }
 
-export default function XpNotification({ amount, message, onComplete }: XpNotificationProps) {
+export default function XpNotification({
+  amount,
+  message,
+  onComplete,
+}: XpNotificationProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -36,8 +40,14 @@ export default function XpNotification({ amount, message, onComplete }: XpNotifi
             <span className="text-white font-black text-xs">+{amount}</span>
           </div>
           <div className="flex flex-col">
-            <Jersey text="¡XP GANADA!" size="16|16" className="text-v2k-pink-hot" />
-            <p className="text-[10px] font-bold text-black uppercase">{message || "Acción completada"}</p>
+            <Jersey
+              text="¡XP GANADA!"
+              size="16|16"
+              className="text-v2k-pink-hot"
+            />
+            <p className="text-[10px] font-bold text-black uppercase">
+              {message || "Acción completada"}
+            </p>
           </div>
           <div className="ml-2 text-2xl">✨</div>
         </motion.div>

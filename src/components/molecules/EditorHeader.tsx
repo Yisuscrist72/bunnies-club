@@ -17,8 +17,15 @@ interface EditorHeaderProps {
   setCustomTitle?: (title: string) => void;
 }
 
-export default function EditorHeader({ 
-  side, setSide, title, setSelectedId, onSave, isSaving, customTitle, setCustomTitle 
+export default function EditorHeader({
+  side,
+  setSide,
+  title,
+  setSelectedId,
+  onSave,
+  isSaving,
+  customTitle,
+  setCustomTitle,
 }: EditorHeaderProps) {
   const router = useRouter();
   const { user, addPoints } = useAuth();
@@ -43,7 +50,7 @@ export default function EditorHeader({
 
       // 3. Crear el PDF (A4 es el estándar de impresión)
       const pdf = new jsPDF("p", "mm", "a4");
-      
+
       // Definimos el tamaño de una photocard real (aprox 55mm x 85mm)
       const pcWidth = 55;
       const pcHeight = 85;
@@ -71,7 +78,6 @@ export default function EditorHeader({
 
       // Devolvemos al usuario a la cara en la que estaba originalmente
       setSide(side);
-
     } catch (err) {
       console.error("Error generando PDF:", err);
       alert("Error al crear el PDF imprimible.");
@@ -117,7 +123,7 @@ export default function EditorHeader({
             type="button"
             onClick={onSave}
             disabled={isSaving}
-            className={`flex-1 lg:flex-none bg-v2k-blue-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-blue-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`flex-1 lg:flex-none bg-v2k-blue-soft border-[3px] border-black px-6 py-2 font-bold shadow-[3px_3px_0px_#000] hover:bg-v2k-blue-hover transition-all text-[10px] active:translate-y-1 active:shadow-none uppercase ${isSaving ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isSaving ? "Guardando..." : "Guardar"}
           </button>

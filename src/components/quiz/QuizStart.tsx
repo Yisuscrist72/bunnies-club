@@ -25,10 +25,10 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
         <div
           className="relative flex flex-col items-center justify-center p-10 text-center gap-6 overflow-hidden"
           style={{
-            background: "linear-gradient(160deg, #c9e9f6 0%, #f4d8ed 50%, #f9f1c3 100%)",
+            background:
+              "linear-gradient(160deg, #c9e9f6 0%, #f4d8ed 50%, #f9f1c3 100%)",
           }}
         >
-
           {/* Icono animado */}
           <div className="relative">
             <motion.div
@@ -66,16 +66,18 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
 
           {/* Info box */}
           <div className="flex gap-4 w-full max-w-sm">
-            {["🎯 Preguntas únicas", "💖 5 posibles matches", "✨ XP por completar"].map(
-              (item) => (
-                <div
-                  key={item}
-                  className="flex-1 bg-white/70 border-2 border-black rounded-lg p-2 text-[10px] font-bold text-center leading-tight"
-                >
-                  {item}
-                </div>
-              )
-            )}
+            {[
+              "🎯 Preguntas únicas",
+              "💖 5 posibles matches",
+              "✨ XP por completar",
+            ].map((item) => (
+              <div
+                key={item}
+                className="flex-1 bg-white/70 border-2 border-black rounded-lg p-2 text-[10px] font-bold text-center leading-tight"
+              >
+                {item}
+              </div>
+            ))}
           </div>
 
           {/* Botón */}
@@ -91,7 +93,11 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
               transition-all font-bold tracking-widest uppercase
             "
           >
-            <Jersey text="🎮  INICIAR ESCANEO" size="24|28" className="text-white" />
+            <Jersey
+              text="🎮  INICIAR ESCANEO"
+              size="24|28"
+              className="text-white"
+            />
           </motion.button>
         </div>
       </Window>

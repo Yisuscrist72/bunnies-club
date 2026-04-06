@@ -53,7 +53,9 @@ export default function PhotocardSelectionPage() {
   const router = useRouter();
   const [templates, setTemplates] = useState<PhotocardTemplate[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCard, setSelectedCard] = useState<PhotocardTemplate | null>(null);
+  const [selectedCard, setSelectedCard] = useState<PhotocardTemplate | null>(
+    null,
+  );
   const { user } = useAuth();
   const [userTemplates, setUserTemplates] = useState<PhotocardTemplate[]>([]);
   const [loadingUser, setLoadingUser] = useState(false);
@@ -101,19 +103,23 @@ export default function PhotocardSelectionPage() {
           where("userId", "==", user.uid),
         );
         const querySnapshot = await getDocs(q);
-        
+
         const designs = await Promise.all(
           querySnapshot.docs.map(async (d) => {
             const data = d.data();
             // Necesitamos la imagen de la plantilla original
-            const resSnap = await getDoc(doc(db, "photocards_resources", data.templateId));
+            const resSnap = await getDoc(
+              doc(db, "photocards_resources", data.templateId),
+            );
             return {
               id: d.id,
               title: data.title || "Sin título",
-              imageURL: data.previewImage || (resSnap.exists() ? resSnap.data().imageURL : ""),
+              imageURL:
+                data.previewImage ||
+                (resSnap.exists() ? resSnap.data().imageURL : ""),
               isUserDesign: true,
             };
-          })
+          }),
         );
         setUserTemplates(designs);
       } catch (e) {

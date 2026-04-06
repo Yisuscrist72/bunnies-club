@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  orderBy, 
-  onSnapshot, 
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
   serverTimestamp,
   doc,
   updateDoc,
@@ -14,7 +14,7 @@ import {
   setDoc,
   deleteDoc,
   limit,
-  type Timestamp
+  type Timestamp,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/context/AuthContext";
@@ -35,7 +35,8 @@ export interface PollOption {
 }
 
 export function useForum() {
-  const { user, profile, logout, addPoints, showSystemNotification } = useAuth();
+  const { user, profile, logout, addPoints, showSystemNotification } =
+    useAuth();
   const [messages, setMessages] = useState<ForumMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [pollOptions, setPollOptions] = useState<PollOption[]>([]);
@@ -47,9 +48,12 @@ export function useForum() {
   // --- ESCRIBIR MENSAJES ---
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    
+
     if (!user) {
-      showSystemNotification("Debes iniciar sesión con Google para escribir en el foro", "warning");
+      showSystemNotification(
+        "Debes iniciar sesión con Google para escribir en el foro",
+        "warning",
+      );
       return;
     }
 
@@ -66,20 +70,28 @@ export function useForum() {
         userPhoto: profile?.photoURL || user.photoURL || "",
         timestamp: serverTimestamp(),
       });
-      
+
       await addPoints(10, "Mensaje enviado en el foro 💬");
 
       // Limpieza de mensajes antiguos
-      const { getDocs, deleteDoc, doc: fireDoc } = await import("firebase/firestore");
-      const q = query(collection(db, "forum_messages"), orderBy("timestamp", "desc"));
+      const {
+        getDocs,
+        deleteDoc,
+        doc: fireDoc,
+      } = await import("firebase/firestore");
+      const q = query(
+        collection(db, "forum_messages"),
+        orderBy("timestamp", "desc"),
+      );
       const snapshot = await getDocs(q);
-      
+
       if (snapshot.size > 100) {
         const toDelete = snapshot.docs.slice(100);
-        const deletePromises = toDelete.map(d => deleteDoc(fireDoc(db, "forum_messages", d.id)));
+        const deletePromises = toDelete.map((d) =>
+          deleteDoc(fireDoc(db, "forum_messages", d.id)),
+        );
         await Promise.all(deletePromises);
       }
-
     } catch (error) {
       console.error("Error sending message:", error);
       showSystemNotification("Error al enviar el mensaje", "error");
@@ -96,21 +108,24 @@ export function useForum() {
   // --- VOTAR ---
   const handleVote = async (optionId: string) => {
     if (!user) {
-        showSystemNotification("Debes iniciar sesión para votar en la encuesta", "warning");
-        return;
+      showSystemNotification(
+        "Debes iniciar sesión para votar en la encuesta",
+        "warning",
+      );
+      return;
     }
-    
+
     if (hasVoted) return;
 
     try {
       const pollRef = doc(db, "polls", "weekly_poll");
       const pollSnap = await getDoc(pollRef);
-      
+
       if (!pollSnap.exists()) return;
 
       const data = pollSnap.data();
       const voters = data.voters || [];
-      
+
       if (voters.includes(user.uid)) {
         setHasVoted(true);
         return;
@@ -125,7 +140,7 @@ export function useForum() {
 
       await updateDoc(pollRef, {
         options: updatedOptions,
-        voters: [...voters, user.uid]
+        voters: [...voters, user.uid],
       });
 
       setHasVoted(true);
@@ -137,11 +152,21 @@ export function useForum() {
 
   // --- EFECTOS ---
   useEffect(() => {
-    const q = query(collection(db, "forum_messages"), orderBy("timestamp", "asc"), limit(50));
+    const q = query(
+      collection(db, "forum_messages"),
+      orderBy("timestamp", "asc"),
+      limit(50),
+    );
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as ForumMessage[];
+      const msgs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as ForumMessage[];
       setMessages(msgs);
-      setTimeout(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, 100);
+      setTimeout(() => {
+        if (scrollRef.current)
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }, 100);
     });
     return () => unsubscribe();
   }, []);
@@ -159,13 +184,24 @@ export function useForum() {
   }, [user]);
 
   useEffect(() => {
-    if (!sessionRef.current) sessionRef.current = Math.random().toString(36).substring(7);
+    if (!sessionRef.current)
+      sessionRef.current = Math.random().toString(36).substring(7);
     const presenceRef = doc(db, "forum_presence", sessionRef.current);
-    
+
     const updatePresence = async () => {
       try {
-        await setDoc(presenceRef, { timestamp: serverTimestamp(), userId: user?.uid || "guest", lastActive: Date.now() }, { merge: true });
-      } catch (e) { console.error("Presence error:", e); }
+        await setDoc(
+          presenceRef,
+          {
+            timestamp: serverTimestamp(),
+            userId: user?.uid || "guest",
+            lastActive: Date.now(),
+          },
+          { merge: true },
+        );
+      } catch (e) {
+        console.error("Presence error:", e);
+      }
     };
 
     updatePresence();
@@ -174,15 +210,17 @@ export function useForum() {
     const qPresence = query(collection(db, "forum_presence"));
     const unsubscribe = onSnapshot(qPresence, (snapshot) => {
       const now = Date.now();
-      const active = snapshot.docs.filter(d => {
+      const active = snapshot.docs.filter((d) => {
         const data = d.data();
         const lastActive = data.lastActive || 0;
-        return (now - lastActive) < 90000;
+        return now - lastActive < 90000;
       });
       setOnlineUsers(active.length || 1);
     });
 
-    const handleUnload = () => { deleteDoc(presenceRef).catch(() => {}); };
+    const handleUnload = () => {
+      deleteDoc(presenceRef).catch(() => {});
+    };
     window.addEventListener("beforeunload", handleUnload);
 
     return () => {
@@ -205,6 +243,6 @@ export function useForum() {
     handleSendMessage,
     handleKeyDown,
     handleVote,
-    logout
+    logout,
   };
 }

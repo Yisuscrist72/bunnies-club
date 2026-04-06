@@ -114,9 +114,9 @@ export default function HeroSection() {
                       size="20|24"
                       className="text-black"
                     />
-                      <span className="bg-v2k-pink-hot text-white text-[10px] font-black px-2 py-0.5 rounded-md border border-black shadow-[2px_2px_0px_#000]">
-                        {user ? "+XP" : "🔒 +XP"}
-                      </span>
+                    <span className="bg-v2k-pink-hot text-white text-[10px] font-black px-2 py-0.5 rounded-md border border-black shadow-[2px_2px_0px_#000]">
+                      {user ? "+XP" : "🔒 +XP"}
+                    </span>
                   </div>
                 </motion.button>
               </div>

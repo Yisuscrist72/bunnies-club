@@ -53,7 +53,7 @@ const PhotocardModule = () => (
                 size="12|12"
                 className="font-bold text-black"
               />
-              
+
               <div className="absolute -top-3 -right-3 bg-v2k-pink-hot border-2 border-black px-2 py-0.5 rounded-lg rotate-12 shadow-[2px_2px_0px_#000] z-20">
                 <span className="text-[9px] font-black text-white">+50 XP</span>
               </div>

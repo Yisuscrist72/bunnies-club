@@ -11,11 +11,11 @@ interface SystemNotificationProps {
   duration?: number;
 }
 
-export default function SystemNotification({ 
-  message, 
-  type = "success", 
+export default function SystemNotification({
+  message,
+  type = "success",
   onComplete,
-  duration = 3000 
+  duration = 3000,
 }: SystemNotificationProps) {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -23,7 +23,7 @@ export default function SystemNotification({
     const timer = setTimeout(() => {
       setIsVisible(false);
       if (onComplete) {
-        setTimeout(onComplete, 500); 
+        setTimeout(onComplete, 500);
       }
     }, duration);
     return () => clearTimeout(timer);
@@ -64,14 +64,16 @@ export default function SystemNotification({
           exit={{ opacity: 0, scale: 0.5, y: -20, x: "-50%" }}
           className="fixed bottom-10 left-1/2 z-[9999] flex items-center gap-4 bg-white border-4 border-black p-4 shadow-[10px_10px_0px_#000] rounded-2xl min-w-[300px] max-w-[90vw]"
         >
-          <div className={`${color} border-2 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[3px_3px_0px_#000] shrink-0`}>
-            <div className="w-8 h-8">
-              {icon}
-            </div>
+          <div
+            className={`${color} border-2 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[3px_3px_0px_#000] shrink-0`}
+          >
+            <div className="w-8 h-8">{icon}</div>
           </div>
           <div className="flex flex-col flex-1">
             <Jersey text={title} size="16|16" className="text-black" />
-            <p className="text-[11px] font-bold text-black uppercase leading-tight mt-1">{message}</p>
+            <p className="text-[11px] font-bold text-black uppercase leading-tight mt-1">
+              {message}
+            </p>
           </div>
         </motion.div>
       )}
