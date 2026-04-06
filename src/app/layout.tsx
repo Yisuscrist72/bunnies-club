@@ -41,11 +41,21 @@ export default function RootLayout({
         <AuthProvider>
           <AudioProvider>
             {/* Solo mostramos Navbar y Footer si NO estamos editando */}
-            {!isEditor && <Navbar />}
+            {!isEditor && (
+              <Navbar 
+                key={`nav-${pathname === "/quiz" ? "dark" : "light"}`} 
+                variant={pathname === "/quiz" ? "dark" : "light"} 
+              />
+            )}
 
             <main className="grow flex flex-col">{children}</main>
 
-            {!isEditor && <Footer />}
+            {!isEditor && (
+              <Footer 
+                key={`footer-${pathname === "/quiz" ? "dark" : "light"}`} 
+                variant={pathname === "/quiz" ? "dark" : "light"} 
+              />
+            )}
 
             {/* El MusicPlayer ha sido eliminado visualmente de aquí */}
           </AudioProvider>
