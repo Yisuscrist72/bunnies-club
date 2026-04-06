@@ -21,7 +21,7 @@ const HoloDisc = ({ size, hole }: { size: string; hole: string }) => (
     className={`${size} relative rounded-full border-[3px] border-black overflow-hidden shadow-lg bg-white`}
   >
     <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#FFB7CE,#B2EBF2,#D1C4E9,#B2F2BB,#FFB7CE)] opacity-80" />
-    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent mix-blend-overlay" />
+    <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/40 to-transparent mix-blend-overlay" />
     <div
       className={`${hole} absolute inset-0 m-auto rounded-full bg-white border-2 border-black flex items-center justify-center shadow-inner`}
     >
@@ -30,7 +30,7 @@ const HoloDisc = ({ size, hole }: { size: string; hole: string }) => (
   </div>
 );
 
-export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
+export default function MusicPlayer({ isPink = false, variant = "default" }: { isPink?: boolean; variant?: "default" | "mini" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const {
@@ -53,7 +53,10 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
   if (!isMounted) return null;
 
   const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
-  const showPlayer = isOpen || isDesktop;
+  const isMiniMode = variant === "mini";
+  // En modo mini, solo mostramos el reproductor si el usuario lo abre manualmente (isOpen)
+  // En modo default, lo mostramos si es escritorio o está abierto
+  const showPlayer = isMiniMode ? isOpen : (isOpen || isDesktop);
 
   const formatTime = (t: number) =>
     `${Math.floor(t / 60)}:${Math.floor(t % 60)
@@ -64,8 +67,8 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
 
   return (
     <>
-      {/* DISCO FLOTANTE MÓVIL */}
-      <div className="lg:hidden fixed bottom-20 right-5 z-[100]">
+      {/* DISCO FLOTANTE MÓVIL / MINI MODE */}
+      <div className={`${isMiniMode ? "fixed" : "lg:hidden fixed"} bottom-20 right-5 z-100`}>
         {!isOpen && (
           <motion.button
             type="button"
@@ -104,15 +107,15 @@ export default function MusicPlayer({ isPink = false }: { isPink?: boolean }) {
             className={`
                             ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
                             w-full max-w-[280px] flex flex-col gap-4 z-[110] rounded-[45px] mx-auto
-                            ${isOpen ? "fixed bottom-24 right-4" : "relative"} lg:relative
+                            ${isOpen || (isMiniMode && isOpen) ? "fixed bottom-24 right-4" : "relative lg:relative"}
                         `}
           >
-            {/* BOTÓN DE CIERRE MEJORADO (SOLO MOBILE) */}
+            {/* BOTÓN DE CIERRE (VISIBLE EN DESKTOP SI ES MINI) */}
             {isOpen && (
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(false)}
-                className="lg:hidden absolute -top-3 -right-3 w-10 h-10 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_var(--color-v2k-black)] z-[120]"
+                className={`${isMiniMode ? "" : "lg:hidden"} absolute -top-3 -right-3 w-10 h-10 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_var(--color-v2k-black)] z-[120]`}
               >
                 <span className="text-black font-black text-xl leading-none mt-[-2px]">
                   ✕

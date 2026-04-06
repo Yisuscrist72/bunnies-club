@@ -9,6 +9,7 @@ import Navbar from "@/components/organisms/Navbar";
 import { AudioProvider } from "@/context/AudioContext";
 import { AuthProvider } from "@/context/AuthContext";
 import LoadingScreen from "@/components/molecules/LoadingScreen";
+import MusicPlayer from "@/components/molecules/MusicPlayer";
 
 const jersey10 = localFont({
   src: "../../public/fonts/Jersey10-Regular.ttf",
@@ -28,6 +29,9 @@ export default function RootLayout({
   const pathname = usePathname();
   // Detecta si es la página del editor
   const isEditor = pathname?.includes("/photocard-editor/");
+
+  // No mostrar el reproductor global en Home ni en Foro (donde ya hay uno específico)
+  const showGlobalPlayer = !isEditor && pathname !== "/" && pathname !== "/forum";
 
   return (
     <html
@@ -57,7 +61,7 @@ export default function RootLayout({
               />
             )}
 
-            {/* El MusicPlayer ha sido eliminado visualmente de aquí */}
+            {showGlobalPlayer && <MusicPlayer variant="mini" />}
           </AudioProvider>
         </AuthProvider>
       </body>
