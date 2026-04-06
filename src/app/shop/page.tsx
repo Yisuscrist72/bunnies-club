@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import BackgroundDecorations from "@/components/atoms/BackgroundDecorations";
+import { useState, useMemo, useEffect } from "react";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Jersey from "@/components/atoms/texts/Jersey";
 import ShopHeader from "@/components/molecules/ShopHeader";
@@ -14,6 +13,28 @@ import { motion, AnimatePresence } from "framer-motion";
 type SortType = "default" | "price-asc" | "price-desc" | "name-asc" | "name-desc" | "new-first";
 
 export default function ShopPage() {
+  // Efecto para cambiar el fondo al estilo "Candy-Shop"
+  useEffect(() => {
+    const originalBg = document.body.style.background;
+    const originalImage = document.body.style.backgroundImage;
+    
+    document.body.style.backgroundColor = "#f0fdfa"; 
+    document.body.style.backgroundImage = `
+      radial-gradient(at 10% 10%, #ccfbf1 0px, transparent 60%),
+      radial-gradient(at 90% 10%, #e0e7ff 0px, transparent 60%),
+      radial-gradient(at 50% 50%, #f0fdf4 0px, transparent 60%),
+      radial-gradient(at 10% 90%, #ede9fe 0px, transparent 60%),
+      radial-gradient(at 90% 90%, #99f6e4 0px, transparent 60%)
+    `;
+    document.body.style.backgroundSize = "100% 100%";
+    document.body.style.backgroundAttachment = "fixed";
+
+    return () => {
+      document.body.style.background = originalBg;
+      document.body.style.backgroundImage = originalImage;
+    };
+  }, []);
+
   const [filter, setFilter] = useState<FilterType>("all");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortType>("default");
@@ -40,7 +61,6 @@ export default function ShopPage() {
   return (
     <div className="relative min-h-screen pt-12 pb-24 px-4 md:px-8 overflow-x-hidden">
       {/* Dynamic Backgrounds */}
-      <BackgroundDecorations />
       <ShopBackground />
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
         {/* Modular Header */}

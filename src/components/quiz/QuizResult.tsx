@@ -93,14 +93,6 @@ export default function QuizResult({
           className="relative flex flex-col items-center justify-center p-8 gap-4 overflow-hidden border-b-2 border-black"
           style={{ background: member.gradient }}
         >
-          {/* Polka dots */}
-          <div
-            className="absolute inset-0 opacity-10 pointer-events-none"
-            style={{
-              backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
-              backgroundSize: "18px 18px",
-            }}
-          />
 
           {/* Etiqueta */}
           <motion.div
