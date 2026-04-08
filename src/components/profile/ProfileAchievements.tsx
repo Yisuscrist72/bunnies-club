@@ -22,7 +22,6 @@ function ProfileAchievements({
   );
 
   const achievementsWithStatus = ALL_ACHIEVEMENTS.map((ach) => {
-    // @ts-expect-error - Acceso dinámico a las traducciones
     const translation = (t.profile.achievements_list as any)[ach.id];
     return {
       ...ach,
