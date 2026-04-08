@@ -89,7 +89,7 @@ export default function Footer({ variant = "light" }: FooterProps) {
                   {
                     icon: <IconSpotify className="w-6 h-6" />,
                     key: "spotify",
-                    href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
+                    href: "https://open.spotify.com/intl-es/artist/6HvZYsbFfjnjFrWF950C9d?si=oQgVc1_jQoSybMp7ou3krQ",
                   },
                   {
                     icon: <IconX className="w-6 h-6" />,

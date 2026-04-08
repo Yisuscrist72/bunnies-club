@@ -151,7 +151,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 },
                 {
                   icon: <IconSpotify key="spotify" className="w-5 h-5" />,
-                  href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
+                  href: "https://open.spotify.com/intl-es/artist/6HvZYsbFfjnjFrWF950C9d?si=oQgVc1_jQoSybMp7ou3krQ",
                 },
                 {
                   icon: <IconX key="x" className="w-5 h-5" />,

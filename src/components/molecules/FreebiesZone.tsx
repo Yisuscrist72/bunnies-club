@@ -55,7 +55,7 @@ export default function FreebiesZone() {
       const offsetWidth = constraintsRef.current.offsetWidth;
       setWidth(Math.max(0, scrollWidth - offsetWidth + 40));
     }
-  }, [items, loading]);
+  }, [loading]);
 
   // 3. FETCH DE FIREBASE SEGÚN LA CARPETA
   useEffect(() => {
@@ -237,7 +237,7 @@ export default function FreebiesZone() {
                   />
 
                   {!loading && items.length > 0 && (
-                    <div className="mb-4 flex justify-center flex-shrink-0">
+                    <div className="mb-4 flex justify-center shrink-0">
                          <button
                         type="button"
                         onClick={handleDownloadAllZip}
@@ -251,7 +251,7 @@ export default function FreebiesZone() {
                     </div>
                   )}
 
-                  <div className="overflow-hidden flex-grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
+                  <div className="overflow-hidden grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
                     {loading ? (
                       <p className="text-center font-mono text-gray-500 animate-pulse mt-10 w-full text-xs">
                         Cargando...
@@ -369,7 +369,7 @@ export default function FreebiesZone() {
                 {/* CONTENEDOR DE SCROLL OPTIMIZADO */}
                 <div className="p-4 mt-10 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden scrollbar-hide pb-16">
                   {/* IMAGEN: Reducida a 45vh para asegurar que el botón entre en pantalla */}
-                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6 relative w-full aspect-[4/5] md:aspect-auto md:h-[55vh]">
+                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6 relative w-full aspect-4/5 md:aspect-auto md:h-[55vh]">
                     <Image
                       src={previewItem.imageURL}
                       alt={previewItem.title}

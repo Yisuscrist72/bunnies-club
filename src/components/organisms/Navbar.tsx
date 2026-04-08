@@ -142,7 +142,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                 hov: "hover:bg-green-500",
                 round: "rounded-full",
                 rotate: 8,
-                href: "https://open.spotify.com/artist/6HvZYvR2fszIU3bGvbiTjC",
+                href: "https://open.spotify.com/intl-es/artist/6HvZYsbFfjnjFrWF950C9d?si=oQgVc1_jQoSybMp7ou3krQ",
               },
               {
                 ico: <IconX className="w-5 h-5" />,
