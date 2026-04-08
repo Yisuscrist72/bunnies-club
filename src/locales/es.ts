@@ -77,7 +77,10 @@ export const es = {
       single: "SENCILLO",
       album: "ÁLBUM",
       single_album: "ÁLBUM SENCILLO"
-    }
+    },
+    playing: "REPRODUCIENDO",
+    waiting: "EN ESPERA",
+    no_track: "SELECCIONA UNA PISTA"
   },
   quiz: {
     start_title: "DESCUBRE TU MATCH DIGITAL!",

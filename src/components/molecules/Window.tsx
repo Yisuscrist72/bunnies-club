@@ -35,7 +35,7 @@ export default function Window({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="w-5 h-5 bg-v2k-pink-light border-[2px] border-black flex items-center justify-center font-bold leading-none cursor-pointer"
+            className="w-5 h-5 bg-v2k-pink-light border-2 border-black flex items-center justify-center font-bold leading-none cursor-pointer"
           >
             X
           </motion.button>

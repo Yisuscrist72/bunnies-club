@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { en } from "@/locales/en";
 import { es } from "@/locales/es";
 import type { Translations } from "@/locales/es";
-import { en } from "@/locales/en";
+import { createContext, useContext, useSyncExternalStore } from "react";
 
 type Language = "es" | "en";
 
@@ -15,31 +15,44 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// --- useSyncExternalStore helpers ---
+// Server siempre devuelve "es" para evitar hydration mismatch
+function getServerSnapshot(): Language {
+  return "es";
+}
+
+// Cliente lee desde localStorage
+function getLanguageSnapshot(): Language {
+  const saved = localStorage.getItem("language") as Language;
+  return saved === "es" || saved === "en" ? saved : "es";
+}
+
+// Suscribe a cambios del storage (también funciona entre pestañas)
+function subscribeToLanguage(callback: () => void): () => void {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>("es");
-  const [isHydrated, setIsHydrated] = useState(false);
-  
-  useEffect(() => {
-    const savedLang = localStorage.getItem("language") as Language;
-    if (savedLang === "es" || savedLang === "en") {
-      setLanguage(savedLang);
-    }
-    setIsHydrated(true);
-  }, []);
+  // No useState + useEffect = sin errores de hydration ni de linter
+  const language = useSyncExternalStore(
+    subscribeToLanguage,
+    getLanguageSnapshot,
+    getServerSnapshot,
+  );
 
   const toggleLanguage = () => {
     const newLang = language === "es" ? "en" : "es";
-    setLanguage(newLang);
     localStorage.setItem("language", newLang);
+    // El evento storage no se dispara en la misma ventana, lo hacemos manualmente
+    window.dispatchEvent(new StorageEvent("storage", { key: "language", newValue: newLang }));
   };
 
   const t = language === "es" ? es : en;
 
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
-      <div style={{ visibility: isHydrated ? "visible" : "hidden" }}>
-        {children}
-      </div>
+      {children}
     </LanguageContext.Provider>
   );
 };

@@ -77,7 +77,10 @@ export const en = {
       single: "SINGLE",
       album: "ALBUM",
       single_album: "SINGLE ALBUM"
-    }
+    },
+    playing: "PLAYING",
+    waiting: "WAITING",
+    no_track: "SELECT A TRACK"
   },
   quiz: {
     start_title: "DISCOVER YOUR DIGITAL MATCH!",

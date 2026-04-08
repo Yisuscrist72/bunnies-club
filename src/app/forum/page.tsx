@@ -1,15 +1,15 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
+import MusicPlayer from "@/components/molecules/MusicPlayer";
+import SpaceText from "@/components/atoms/texts/SpaceText";
 import { useEffect } from "react";
 import Image from "next/image";
-import SpaceText from "@/components/atoms/texts/SpaceText";
-import MusicPlayer from "@/components/molecules/MusicPlayer";
 import { useForum } from "./hooks/useForum";
 import ForumDecorations from "./components/ForumDecorations";
-import ForumHeader from "./components/ForumHeader";
 import ForumGuestbook from "./components/ForumGuestbook";
+import ForumHeader from "./components/ForumHeader";
 import ForumPoll from "./components/ForumPoll";
-import { useLanguage } from "@/context/LanguageContext";
 
 export default function ForumPage() {
   const { t } = useLanguage();

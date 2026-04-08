@@ -1,4 +1,6 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import Image from "../atoms/Image";
@@ -6,12 +8,10 @@ import {
   IconFacebook,
   IconInstagram,
   IconSpotify,
+  IconUser,
   IconX,
 } from "../atoms/icons/SocialIcons";
 import Jersey from "../atoms/texts/Jersey";
-import { useAuth } from "@/context/AuthContext";
-import { IconUser } from "../atoms/icons/SocialIcons";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface MobileMenuProps {
   isOpen: boolean;

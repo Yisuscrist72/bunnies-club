@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 import type { PollOption } from "../hooks/useForum";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface ForumPollProps {
   pollOptions: PollOption[];
