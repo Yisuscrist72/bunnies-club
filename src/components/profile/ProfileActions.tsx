@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProfileActionsProps {
   isEditing: boolean;
@@ -19,6 +20,7 @@ export default function ProfileActions({
   onCancel,
   onLogout,
 }: ProfileActionsProps) {
+  const { t } = useLanguage();
   return (
     <div className="flex flex-col md:flex-row gap-6">
       <motion.button
@@ -31,10 +33,10 @@ export default function ProfileActions({
         }`}
       >
         {isSaving
-          ? "GUARDANDO..."
+          ? t.profile.loading
           : isEditing
-            ? "GUARDAR CAMBIOS"
-            : "EDITAR PERFIL"}
+            ? t.profile.save_changes
+            : t.profile.edit_profile}
       </motion.button>
 
       <motion.button
@@ -43,7 +45,7 @@ export default function ProfileActions({
         onClick={isEditing ? onCancel : onLogout}
         className="flex-1 bg-white text-red-500 border-4 border-black py-4 rounded-2xl font-bold text-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all"
       >
-        {isEditing ? "CANCELAR" : "CERRAR SESIÓN"}
+        {isEditing ? t.profile.cancel : t.profile.logout}
       </motion.button>
     </div>
   );

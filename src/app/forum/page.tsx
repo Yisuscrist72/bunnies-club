@@ -9,8 +9,10 @@ import ForumDecorations from "./components/ForumDecorations";
 import ForumHeader from "./components/ForumHeader";
 import ForumGuestbook from "./components/ForumGuestbook";
 import ForumPoll from "./components/ForumPoll";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ForumPage() {
+  const { t } = useLanguage();
   const forum = useForum();
 
   // Efecto para cambiar el fondo al estilo "Cyber-Room"
@@ -53,7 +55,7 @@ export default function ForumPage() {
                 className="animate-bounce"
               />
               <SpaceText
-                text="¡DISFRUTA DE LA MÚSICA MIENTRAS HABLAS!"
+                text={t.forum.music_hint}
                 size="12|12"
                 className="text-center font-black"
               />

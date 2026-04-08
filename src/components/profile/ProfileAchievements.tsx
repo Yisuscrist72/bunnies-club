@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import ProfileSection from "./ProfileSection";
 import { ALL_ACHIEVEMENTS } from "./constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProfileAchievementsProps {
   points: number;
@@ -15,21 +16,28 @@ function ProfileAchievements({
   points,
   hasBioBonus,
 }: ProfileAchievementsProps) {
+  const { t } = useLanguage();
   const [selectedAchievement, setSelectedAchievement] = useState<string | null>(
     null,
   );
 
-  const achievementsWithStatus = ALL_ACHIEVEMENTS.map((ach) => ({
-    ...ach,
-    requirement:
-      (ach.id === "perfil" && hasBioBonus) ||
-      (ach.id === "explorador" && points >= 100) ||
-      (ach.id === "fan" && points >= 500) ||
-      (ach.id === "leyenda" && points >= 5000),
-  }));
+  const achievementsWithStatus = ALL_ACHIEVEMENTS.map((ach) => {
+    // @ts-expect-error - Acceso dinámico a las traducciones
+    const translation = (t.profile.achievements_list as any)[ach.id];
+    return {
+      ...ach,
+      name: translation?.name || ach.name,
+      description: translation?.description || ach.description,
+      requirement:
+        (ach.id === "perfil" && hasBioBonus) ||
+        (ach.id === "explorador" && points >= 100) ||
+        (ach.id === "fan" && points >= 500) ||
+        (ach.id === "leyenda" && points >= 5000),
+    };
+  });
 
   return (
-    <ProfileSection title="MIS LOGROS 🏆">
+    <ProfileSection title={t.profile.achievements}>
       <div className="flex flex-wrap gap-6 justify-center md:justify-start mb-8">
         {achievementsWithStatus.map((ach) => (
           <motion.button
@@ -69,7 +77,7 @@ function ProfileAchievements({
                 type="button"
                 onClick={() => setSelectedAchievement(null)}
                 className="absolute top-2 right-2 text-gray-400 hover:text-black"
-                aria-label="Cerrar detalles"
+                aria-label={t.profile.status.close_details}
               >
                 ✕
               </button>
@@ -104,8 +112,8 @@ function ProfileAchievements({
                     {achievementsWithStatus.find(
                       (a) => a.id === selectedAchievement,
                     )?.requirement
-                      ? "✅ ¡DESBLOQUEADO!"
-                      : "🔒 POR DESBLOQUEAR"}
+                      ? t.profile.status.unlocked
+                      : t.profile.status.locked}
                   </div>
                 </div>
               </div>

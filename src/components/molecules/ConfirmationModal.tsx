@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -19,20 +20,24 @@ export default function ConfirmationModal({
   isOpen,
   title,
   message,
-  confirmText = "¡SÍ, VAMOS!",
-  cancelText = "CANCELAR",
+  confirmText,
+  cancelText,
   onConfirm,
   onCancel,
   emoji = "🤔",
 }: ConfirmationModalProps) {
+  const { t } = useLanguage();
   if (!isOpen) return null;
+
+  const finalConfirmText = confirmText || t.photocard.yes_let_go;
+  const finalCancelText = cancelText || t.photocard.cancel;
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
     >
       <motion.div
         initial={{ scale: 0.9, y: 20 }}
@@ -57,14 +62,14 @@ export default function ConfirmationModal({
                 onClick={onCancel}
                 className="flex-1 bg-v2k-red-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-red-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
               >
-                {cancelText}
+                {finalCancelText}
               </button>
               <button
                 type="button"
                 onClick={onConfirm}
                 className="flex-1 bg-v2k-green-soft border-[3px] border-black py-3 shadow-[4px_4px_0px_var(--color-v2k-black)] hover:bg-v2k-green-hover font-bold text-black transition-colors active:translate-y-1 active:shadow-none"
               >
-                {confirmText}
+                {finalConfirmText}
               </button>
             </div>
           </div>

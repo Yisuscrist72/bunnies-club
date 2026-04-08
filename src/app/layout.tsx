@@ -21,6 +21,8 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space",
 });
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: {
@@ -48,28 +50,30 @@ export default function RootLayout({
         {/* Aquí ponemos la pantalla de carga, ella sola sabe cuándo mostrarse */}
         <LoadingScreen />
 
-        <AuthProvider>
-          <AudioProvider>
-            {/* Solo mostramos Navbar y Footer si NO estamos editando */}
-            {!isEditor && (
-              <Navbar
-                key={`nav-${pathname === "/quiz" ? "dark" : "light"}`}
-                variant={pathname === "/quiz" ? "dark" : "light"}
-              />
-            )}
+        <LanguageProvider>
+          <AuthProvider>
+            <AudioProvider>
+              {/* Solo mostramos Navbar y Footer si NO estamos editando */}
+              {!isEditor && (
+                <Navbar
+                  key={`nav-${pathname === "/quiz" ? "dark" : "light"}`}
+                  variant={pathname === "/quiz" ? "dark" : "light"}
+                />
+              )}
 
-            <main className="grow flex flex-col">{children}</main>
+              <main className="grow flex flex-col">{children}</main>
 
-            {!isEditor && (
-              <Footer
-                key={`footer-${pathname === "/quiz" ? "dark" : "light"}`}
-                variant={pathname === "/quiz" ? "dark" : "light"}
-              />
-            )}
+              {!isEditor && (
+                <Footer
+                  key={`footer-${pathname === "/quiz" ? "dark" : "light"}`}
+                  variant={pathname === "/quiz" ? "dark" : "light"}
+                />
+              )}
 
-            {showGlobalPlayer && <MusicPlayer variant="mini" />}
-          </AudioProvider>
-        </AuthProvider>
+              {showGlobalPlayer && <MusicPlayer variant="mini" />}
+            </AudioProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

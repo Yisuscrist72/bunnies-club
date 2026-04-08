@@ -11,6 +11,7 @@ import {
 import Jersey from "../atoms/texts/Jersey";
 import { useAuth } from "@/context/AuthContext";
 import { IconUser } from "../atoms/icons/SocialIcons";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -19,6 +20,21 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { user, profile } = useAuth();
+  const { t, toggleLanguage } = useLanguage();
+
+  const menuItems = [
+    { label: t.common.home, href: "/" },
+    { label: t.common.music, href: "/music" },
+    { label: t.common.quiz, href: "/quiz", sparkles: true },
+    { label: t.common.shop, href: "/shop" },
+    { label: t.common.forum, href: "/forum" },
+    {
+      label: user ? t.common.profile : t.common.login,
+      href: user ? "/profile" : "/login",
+      userIcon: true,
+    },
+  ];
+
   const menuVariants: Variants = {
     closed: {
       x: "100%",
@@ -89,18 +105,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </div>
 
             <ul className="flex flex-col gap-5 w-full max-w-[280px] z-10">
-              {[
-                { label: "INICIO", href: "/" },
-                { label: "MÚSICA", href: "/music" },
-                { label: "QUIZ", href: "/quiz", sparkles: true },
-                { label: "TIENDA", href: "/shop" },
-                { label: "FORO", href: "/forum" },
-                {
-                  label: user ? "PERFIL" : "LOGIN",
-                  href: user ? "/profile" : "/login",
-                  userIcon: true,
-                },
-              ].map((item) => (
+              {menuItems.map((item) => (
                 <motion.li
                   key={item.label}
                   variants={itemVariants}
@@ -130,7 +135,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           tag="span"
                           text={item.label}
                           size="32|40"
-                          className={`text-black group-hover:text-pink-500 transition-colors ${item.label === "INICIO" ? "font-black" : ""}`}
+                          className={`text-black group-hover:text-pink-500 transition-colors ${item.label === t.common.home ? "font-black" : ""}`}
                         />
                         {item.sparkles && <span className="text-xl">✨</span>}
                       </div>
@@ -182,6 +187,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </motion.div>
 
             <motion.button
+              onClick={toggleLanguage}
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
               whileTap={{
@@ -189,11 +195,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 y: 4,
                 boxShadow: "0px 0px 0px var(--color-v2k-black)",
               }}
-              className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
+              className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all uppercase"
             >
               <Jersey
                 tag="span"
-                text="ESPAÑOL / ENGLISH"
+                text={t.navbar.lang}
                 size="16|16"
                 className="text-black"
               />
@@ -204,7 +210,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className="w-full bg-nav-bg border-t-[3px] border-black px-4 py-1 flex justify-between items-center font-bold">
             <Jersey
               tag="span"
-              text="SYSTEM READY"
+              text={t.common.system_ready}
               size="12|12"
               className="text-black"
             />

@@ -11,6 +11,7 @@ import ShopCard from "@/components/molecules/ShopCard";
 import ShopBackground from "@/components/molecules/ShopBackground";
 import { PRODUCTS } from "@/data/shop-products";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 type SortType =
   | "default"
@@ -21,6 +22,7 @@ type SortType =
   | "new-first";
 
 export default function ShopPage() {
+  const { t } = useLanguage();
   // Efecto para cambiar el fondo al estilo "Candy-Shop"
   useEffect(() => {
     const originalBg = document.body.style.background;
@@ -107,7 +109,7 @@ export default function ShopPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="BUSCAR PRODUCTO..."
+                placeholder={t.shop.search_placeholder}
                 className="flex-1 py-2 pr-3 bg-transparent font-space font-black text-sm text-black tracking-widest uppercase outline-none placeholder:text-black/30"
               />
               {search && (
@@ -130,12 +132,12 @@ export default function ShopPage() {
               onChange={(e) => setSort(e.target.value as SortType)}
               className="relative border-2 border-black bg-white font-space font-black text-xs tracking-widest uppercase px-4 py-2.5 rounded-sm outline-none cursor-pointer appearance-none pr-8"
             >
-              <option value="default">ORDENAR: DEFAULT</option>
-              <option value="new-first">✨ NOVEDADES PRIMERO</option>
-              <option value="price-asc">PRECIO: MENOR → MAYOR</option>
-              <option value="price-desc">PRECIO: MAYOR → MENOR</option>
-              <option value="name-asc">NOMBRE: A → Z</option>
-              <option value="name-desc">NOMBRE: Z → A</option>
+              <option value="default">{`${t.shop.sort.label} ${t.shop.sort.default}`}</option>
+              <option value="new-first">{t.shop.sort.new_first}</option>
+              <option value="price-asc">{t.shop.sort.price_asc}</option>
+              <option value="price-desc">{t.shop.sort.price_desc}</option>
+              <option value="name-asc">{t.shop.sort.name_asc}</option>
+              <option value="name-desc">{t.shop.sort.name_desc}</option>
             </select>
             <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs">
               ▼
@@ -147,7 +149,7 @@ export default function ShopPage() {
         <div className="w-full mb-6 flex items-center gap-2">
           <div className="flex-1 h-px bg-black/20" />
           <Jersey
-            text={`${filteredProducts.length} RESULTADOS`}
+            text={`${filteredProducts.length} ${t.shop.results}`}
             size="20|24"
             className="text-black/40 font-black tracking-widest"
           />
@@ -202,12 +204,12 @@ export default function ShopPage() {
                   📭
                 </motion.div>
                 <SpaceText
-                  text="NO SE ENCONTRARON PRODUCTOS"
+                  text={t.shop.no_products}
                   size="16|16"
                   className="text-black/40 font-black tracking-widest text-center"
                 />
                 <Jersey
-                  text={`QUERY: "${search || filter}" → 0 RESULTS`}
+                  text={`QUERY: "${search || filter}" → 0 ${t.shop.results}`}
                   size="12|12"
                   className="text-black/30"
                 />
@@ -221,7 +223,7 @@ export default function ShopPage() {
                 >
                   <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm" />
                   <div className="relative border-2 border-black bg-v2k-accent px-6 py-2 font-space font-black text-sm tracking-widest hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all">
-                    LIMPIAR FILTROS
+                    {t.shop.clear_filters}
                   </div>
                 </button>
               </motion.div>
@@ -237,7 +239,7 @@ export default function ShopPage() {
             <div className="h-4 w-4 bg-v2k-yellow-soft animate-bounce delay-200" />
           </div>
           <SpaceText
-            text="© 2025 NEWJEANS FANS CLUB. MADE BY JESÚS. ALL RIGHTS RESERVED."
+            text={t.shop.copyright}
             className="text-[10px] sm:text-xs font-black tracking-widest text-black text-center"
           />
         </div>

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import SpaceText from "../atoms/texts/SpaceText";
 import { useAudio } from "../../context/AudioContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 const SpeakerGrille = ({ className }: { className?: string }) => (
   <div className={`grid grid-cols-4 gap-1 opacity-40 ${className}`}>
@@ -51,6 +52,7 @@ export default function MusicPlayer({
     changeVolume,
     seek,
   } = useAudio();
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsMounted(true);
@@ -156,8 +158,8 @@ export default function MusicPlayer({
                       <SpaceText
                         text={
                           isPlaying
-                            ? ">>> REPRODUCIENDO_AUDIO_BUNNIES_ >>>"
-                            : "|| REPRODUCTOR_LISTO_ESPERANDO_ ||"
+                            ? t.music.playing
+                            : t.music.waiting
                         }
                         size="12|12"
                         className="text-black font-black tracking-widest"
@@ -184,7 +186,7 @@ export default function MusicPlayer({
                     transition={{ duration: 0.5, repeat: Infinity }}
                   >
                     <SpaceText
-                      text={currentTrack?.title || "SIN PISTA"}
+                      text={currentTrack?.title || t.music.no_track}
                       size="14|14"
                       className="text-black font-black uppercase truncate"
                     />

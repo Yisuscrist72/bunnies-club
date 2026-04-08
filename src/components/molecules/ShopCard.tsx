@@ -9,6 +9,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface StoreLink {
   name: string;
@@ -29,6 +30,7 @@ export interface Product {
 }
 
 export default function ShopCard({ product }: { product: Product }) {
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -100,7 +102,7 @@ export default function ShopCard({ product }: { product: Product }) {
               <div className="relative bg-v2k-pink-hot border-2 border-black px-2 py-0.5 flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                 <Jersey
-                  text="NEW"
+                  text={t.common.lang === "en" ? "NEW" : "NUEVO"} 
                   size="12|12"
                   className="text-white font-black tracking-widest"
                 />
@@ -130,14 +132,14 @@ export default function ShopCard({ product }: { product: Product }) {
               className="text-white font-black drop-shadow-[2px_2px_0px_#000] tracking-tighter"
             />
             <SpaceText
-              text={`TYPE: ${product.category.toUpperCase()}`}
+              text={`${t.shop.type}: ${product.category === "album" ? t.shop.filters.album : t.shop.filters.merch}`}
               size="16|16"
               className="text-v2k-black uppercase font-bold tracking-widest"
             />
             <div className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-v2k-blue-deep animate-ping" />
               <Jersey
-                text={`PORTAL: OFFICIAL_STORE // NODE_${product.id}`}
+                text={`${t.shop.portal}: OFFICIAL_STORE // NODE_${product.id}`}
                 size="16|16"
                 className="text-v2k-black"
               />
@@ -166,7 +168,7 @@ export default function ShopCard({ product }: { product: Product }) {
               <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm" />
               <div className="relative bg-v2k-pink-light hover:bg-white border-2 border-black py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all group-hover/btn:-translate-x-0.5 group-hover/btn:-translate-y-0.5 active:translate-x-0 active:translate-y-0">
                 <SpaceText
-                  text="COMPRAR"
+                  text={t.shop.buy}
                   size="12|12"
                   className="text-black font-black tracking-[0.2em]"
                 />
@@ -182,7 +184,7 @@ export default function ShopCard({ product }: { product: Product }) {
               <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm" />
               <div className="relative bg-v2k-cyan hover:bg-white border-2 border-black py-2.5 rounded-sm flex items-center justify-center gap-2 transition-all group-hover/btn:-translate-x-0.5 group-hover/btn:-translate-y-0.5 active:translate-x-0 active:translate-y-0">
                 <SpaceText
-                  text="VER TIENDAS"
+                  text={t.shop.see_stores}
                   size="12|12"
                   className="text-black font-black tracking-[0.2em]"
                 />
@@ -224,7 +226,7 @@ export default function ShopCard({ product }: { product: Product }) {
             >
               <div className="bg-v2k-accent border-b-4 border-black px-3 h-10 flex justify-between items-center">
                 <SpaceText
-                  text="RETAILER_NODES.EXE"
+                  text={t.shop.retailer_nodes}
                   size="12|12"
                   className="text-black font-black uppercase tracking-widest"
                 />
@@ -240,7 +242,7 @@ export default function ShopCard({ product }: { product: Product }) {
               <div className="p-6 flex flex-col gap-4">
                 <div className="text-center mb-2">
                   <Jersey
-                    text={`SELECT STORE FOR:`}
+                    text={t.shop.select_store}
                     size="16|16"
                     className="text-black/60 font-black! leading-none mb-1"
                   />

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "@/components/atoms/Image";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { RANK_FRAMES } from "./constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AvatarDecorationsProps {
   rank: string;
@@ -67,6 +68,7 @@ export default function ProfileAvatar({
   hasBioBonus,
   onEditClick,
 }: ProfileAvatarProps) {
+  const { t } = useLanguage();
   return (
     <div className="relative group">
       <div className="relative z-10">
@@ -91,7 +93,7 @@ export default function ProfileAvatar({
           {isEditing && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <span className="text-white font-bold text-xs md:text-sm text-center px-1">
-                CAMBIAR FOTO
+                {t.profile.avatar.change_photo}
               </span>
             </div>
           )}
@@ -104,7 +106,7 @@ export default function ProfileAvatar({
           className="absolute -top-1 -right-1 bg-yellow-400 border-[3px] border-black px-2 py-0.5 rounded-lg shadow-[3px_3px_0px_#000] z-20 pointer-events-none"
         >
           <span className="text-[10px] font-black text-black italic whitespace-nowrap">
-            VERIFIED BUNNY
+            {t.profile.avatar.verified}
           </span>
         </motion.div>
       )}

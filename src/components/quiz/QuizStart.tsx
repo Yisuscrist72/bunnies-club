@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Window from "@/components/molecules/Window";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface QuizStartProps {
   onStart: () => void;
@@ -11,6 +12,7 @@ interface QuizStartProps {
 }
 
 export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       key="start"
@@ -47,18 +49,18 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
           {/* Título */}
           <div className="space-y-2">
             <Jersey
-              text="DESCUBRE TU MATCH DIGITAL!"
+              text={t.quiz.start_title}
               size="48|56"
               className="sticker-title px-4"
             />
             <SpaceText
-              text="Escanea tus gustos..."
+              text={t.quiz.start_subtitle}
               size="16|16"
               className="text-black font-black mt-2 tracking-widest uppercase opacity-60"
             />
             <div className="h-0.5 bg-black/10 w-full mt-4" />
             <SpaceText
-              text={`${totalQuestions} preguntas · ~3 minutos · Resultado instantáneo`}
+              text={`${totalQuestions} ${t.quiz.questions_count} · ~3 ${t.quiz.minutes} · ${t.quiz.instant_result}`}
               size="12|12"
               className="text-black/40 font-bold mt-2"
             />
@@ -67,9 +69,9 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
           {/* Info box */}
           <div className="flex gap-4 w-full max-w-sm">
             {[
-              "🎯 Preguntas únicas",
-              "💖 5 posibles matches",
-              "✨ XP por completar",
+              t.quiz.info_questions,
+              t.quiz.info_matches,
+              t.quiz.info_xp,
             ].map((item) => (
               <div
                 key={item}
@@ -94,7 +96,7 @@ export default function QuizStart({ onStart, totalQuestions }: QuizStartProps) {
             "
           >
             <Jersey
-              text="🎮  INICIAR ESCANEO"
+              text={t.quiz.start_button}
               size="24|28"
               className="text-white"
             />

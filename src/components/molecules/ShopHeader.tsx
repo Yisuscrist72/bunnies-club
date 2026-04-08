@@ -1,7 +1,9 @@
+import { useLanguage } from "@/context/LanguageContext";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { motion } from "framer-motion";
 
 export default function ShopHeader() {
+  const { t } = useLanguage();
   return (
     <div className="mb-12 text-center relative group">
       <motion.div
@@ -11,7 +13,7 @@ export default function ShopHeader() {
       >
         <Jersey
           tag="h1"
-          text="TIENDA (MERCH & ALBUMS)"
+          text={t.shop.title}
           size="48|56"
           className="text-black uppercase drop-shadow-[8px_8px_0px_rgba(255,105,180,0.5)] relative z-10 px-6 sm:px-0"
         />

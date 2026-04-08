@@ -1,8 +1,10 @@
 import React from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ComingSoonBanner() {
+  const { t } = useLanguage();
   return (
     <div className="w-full mt-4 border-4 border-black rounded-xl p-8 flex flex-col items-center justify-center relative overflow-hidden bg-v2k-yellow-soft">
       {/* Rayas decorativas en el banner */}
@@ -21,12 +23,12 @@ export default function ComingSoonBanner() {
         </div>
         <Jersey
           tag="h3"
-          text="NUEVAS PHOTOCARDS EN CAMINO"
+          text={t.photocard.coming_soon_title}
           size="20|24"
           className="text-black"
         />
         <SpaceText
-          text="Estamos en búsqueda de más y creando nuevos diseños. ¡Vuelve pronto!"
+          text={t.photocard.coming_soon_msg}
           size="14|14"
           className="font-bold text-black/60 mt-2 uppercase tracking-widest"
         />

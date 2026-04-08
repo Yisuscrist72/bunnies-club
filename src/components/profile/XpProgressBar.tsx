@@ -1,13 +1,15 @@
 "use client";
-
 import { memo } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface XpProgressBarProps {
   points: number;
 }
 
 function XpProgressBar({ points }: XpProgressBarProps) {
+  const { t } = useLanguage();
+
   const getProgress = (pts: number) => {
     if (pts < 100) return pts;
     if (pts < 500) return (pts - 100) / 4;
@@ -17,17 +19,21 @@ function XpProgressBar({ points }: XpProgressBarProps) {
   };
 
   const getNextRank = (pts: number) => {
-    if (pts < 100) return "PRÓXIMO: TOKKI";
-    if (pts < 500) return "PRÓXIMO: FANATIC";
-    if (pts < 1500) return "PRÓXIMO: SUPER SHY";
-    if (pts < 5000) return "PRÓXIMO: LEGEND";
-    return "NIVEL MÁXIMO";
+    if (pts < 100) return `${t.profile.xp_bar.next}: TOKKI`;
+    if (pts < 500) return `${t.profile.xp_bar.next}: FANATIC`;
+    if (pts < 1500) return `${t.profile.xp_bar.next}: SUPER SHY`;
+    if (pts < 5000) return `${t.profile.xp_bar.next}: LEGEND`;
+    return t.profile.xp_bar.max_level;
   };
 
   return (
     <div className="mt-6 max-w-xs mx-auto md:mx-0">
       <div className="flex justify-between items-end mb-2">
-        <Jersey text={`XP: ${points}`} size="16|16" className="text-black" />
+        <Jersey
+          text={`${t.profile.xp_bar.xp_label} ${points}`}
+          size="16|16"
+          className="text-black"
+        />
         <Jersey
           text={getNextRank(points)}
           size="12|12"

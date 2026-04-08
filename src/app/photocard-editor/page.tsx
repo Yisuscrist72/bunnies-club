@@ -15,6 +15,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Componentes Atómicos y Moleculares
 import { PhotocardSwiperCard } from "@/components/atoms/PhotocardSwiperCard";
@@ -32,25 +33,29 @@ interface PhotocardTemplate {
   isUserDesign?: boolean;
 }
 
-const PageHeader = () => (
-  <div className="text-center mb-8">
-    <Jersey
-      tag="h1"
-      text="PHOTOCARD DECORATOR"
-      className="text-5xl md:text-6xl text-black drop-shadow-[3px_3px_0px_#FFF] leading-none"
-    />
-    <div className="mt-4 bg-white border-[3px] border-black px-6 py-2 rounded-full inline-block shadow-v2k-sm">
-      <SpaceText
-        text="SELECCIONA UNA PHOTOCARD PARA DECORAR"
-        size="14|14"
-        className="font-bold tracking-widest text-black"
+const PageHeader = () => {
+  const { t } = useLanguage();
+  return (
+    <div className="text-center mb-8">
+      <Jersey
+        tag="h1"
+        text={t.photocard.title}
+        className="text-5xl md:text-6xl text-black drop-shadow-[3px_3px_0px_#FFF] leading-none"
       />
+      <div className="mt-4 bg-white border-[3px] border-black px-6 py-2 rounded-full inline-block shadow-v2k-sm">
+        <SpaceText
+          text={t.photocard.select_prompt}
+          size="14|14"
+          className="font-bold tracking-widest text-black"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default function PhotocardSelectionPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [templates, setTemplates] = useState<PhotocardTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<PhotocardTemplate | null>(
@@ -113,7 +118,7 @@ export default function PhotocardSelectionPage() {
             );
             return {
               id: d.id,
-              title: data.title || "Sin título",
+              title: data.title || t.freebies.loading,
               imageURL:
                 data.previewImage ||
                 (resSnap.exists() ? resSnap.data().imageURL : ""),
@@ -129,7 +134,7 @@ export default function PhotocardSelectionPage() {
       }
     };
     fetchUserTemplates();
-  }, [user]);
+  }, [user, t.freebies.loading]);
 
   // Lógica de Carrusel
   useEffect(() => {
@@ -179,7 +184,7 @@ export default function PhotocardSelectionPage() {
                 <div className="flex items-end justify-between mb-6">
                   <Jersey
                     tag="h2"
-                    text="MIS_GALERIA.SYS"
+                    text={t.photocard.my_gallery}
                     size="20|24"
                     className="text-black"
                   />
@@ -189,7 +194,7 @@ export default function PhotocardSelectionPage() {
                       transition={{ repeat: Infinity, duration: 1.5 }}
                       className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
                     >
-                      ARRASTRA PARA VER MÁS →
+                      {t.freebies.drag_more}
                     </motion.span>
                   </div>
                 </div>
@@ -220,7 +225,7 @@ export default function PhotocardSelectionPage() {
               <div className="flex items-end justify-between mb-6">
                 <Jersey
                   tag="h2"
-                  text="CATALOGO_BASE"
+                  text={t.photocard.base_catalog}
                   size="20|24"
                   className="text-black"
                 />
@@ -230,14 +235,14 @@ export default function PhotocardSelectionPage() {
                     transition={{ repeat: Infinity, duration: 1.5 }}
                     className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
                   >
-                    ARRASTRA PARA VER MÁS →
+                    {t.freebies.drag_more}
                   </motion.span>
                 </div>
               </div>
 
               {loading ? (
                 <div className="flex justify-center items-center h-32 animate-pulse text-black">
-                  CARGANDO_SISTEMA...
+                  {t.photocard.loading_system}
                 </div>
               ) : (
                 <div
@@ -271,10 +276,12 @@ export default function PhotocardSelectionPage() {
       <AnimatePresence>
         <ConfirmationModal
           isOpen={!!selectedCard}
-          title="SISTEMA_DE_CONFIRMACIÓN.EXE"
-          message={`¿Quieres utilizar "${selectedCard?.title}" para tu decoración?`}
+          title={t.photocard.confirm_title}
+          message={t.photocard.confirm_msg.replace("{title}", selectedCard?.title || "")}
           onConfirm={handleConfirm}
           onCancel={() => setSelectedCard(null)}
+          confirmText={t.photocard.yes_let_go}
+          cancelText={t.photocard.cancel}
         />
       </AnimatePresence>
     </div>

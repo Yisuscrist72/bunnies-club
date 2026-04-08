@@ -9,6 +9,7 @@ import Window from "@/components/molecules/Window";
 import type { MemberInfo, MemberKey } from "@/data/quiz-data";
 import { MEMBERS } from "@/data/quiz-data";
 import type { User } from "firebase/auth";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface QuizResultProps {
   memberKey: MemberKey;
@@ -67,13 +68,17 @@ export default function QuizResult({
   user,
   onReset,
 }: QuizResultProps) {
+  const { t } = useLanguage();
   const member = MEMBERS[memberKey];
+  const localizedMember = t.members[memberKey];
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
     const shareData = {
       title: "Bunnies Match",
-      text: `¡Soy un ${matchPercentage}% match con ${member.name} en Bunnies Club! 🐰💖 Haz el test aquí:`,
+      text: t.common.lang === "es" 
+        ? `¡Soy un ${matchPercentage}% match con ${member.name} en Bunnies Club! 🐰💖 Haz el test aquí:`
+        : `I'm a ${matchPercentage}% match with ${member.name} at Bunnies Club! 🐰💖 Take the test here:`,
       url: window.location.href,
     };
 
@@ -100,7 +105,7 @@ export default function QuizResult({
       transition={{ duration: 0.5 }}
       className="w-full max-w-2xl relative z-10"
     >
-      <Window title="✨ MATCH_COMPLETO.EXE ✨" className="scanlines">
+      <Window title={`✨ ${t.quiz.result_title} ✨`} className="scanlines">
         {/* Banner superior con gradiente del personaje */}
         <div
           className="relative flex flex-col items-center justify-center p-8 gap-4 overflow-hidden border-b-2 border-black"
@@ -113,7 +118,7 @@ export default function QuizResult({
             transition={{ delay: 0.2 }}
             className="bg-black text-white text-[10px] font-black px-4 py-1 tracking-[0.2em] uppercase"
           >
-            TE PARECES A...
+            {t.common.lang === "es" ? "TE PARECES A..." : "YOU LOOK LIKE..."}
           </motion.div>
 
           {/* Nombre con emoji principal */}
@@ -130,7 +135,7 @@ export default function QuizResult({
               className="text-black leading-none"
             />
             <p className="font-black text-sm mt-1 text-black/60 uppercase tracking-widest">
-              {member.tagline}
+              {localizedMember.tagline}
             </p>
           </motion.div>
 
@@ -143,7 +148,7 @@ export default function QuizResult({
           >
             <span className="text-2xl">💘</span>
             <Jersey
-              text={`${matchPercentage}% MATCH`}
+              text={`${matchPercentage}% ${t.quiz.match_percentage.replace(":", "")}`}
               size="32|40"
               className="text-black"
             />
@@ -179,7 +184,7 @@ export default function QuizResult({
                   className="text-white leading-none"
                 />
                 <p className="text-white/80 text-xs font-bold uppercase tracking-widest mt-0.5">
-                  {member.tagline}
+                  {localizedMember.tagline}
                 </p>
               </div>
               <div
@@ -208,7 +213,7 @@ export default function QuizResult({
             style={{ borderColor: member.accent }}
           >
             <p className="font-bold text-sm leading-relaxed text-black/80 italic">
-              &ldquo;{member.description}&rdquo;
+              &ldquo;{localizedMember.description}&rdquo;
             </p>
           </motion.blockquote>
 
@@ -220,7 +225,7 @@ export default function QuizResult({
             className="border-2 border-black p-4 bg-v2k-gray-soft"
           >
             <SpaceText
-              text="DESGLOSE DE TU COMPATIBILIDAD"
+              text={t.common.lang === "es" ? "DESGLOSE DE TU COMPATIBILIDAD" : "COMPATIBILITY BREAKDOWN"}
               size="12|12"
               className="font-black tracking-widest text-black/50 mb-4 uppercase"
             />
@@ -248,12 +253,12 @@ export default function QuizResult({
               <span className="text-2xl">⚡</span>
               <div>
                 <SpaceText
-                  text="+50 XP REWARD CLAIMED!"
+                  text={t.common.lang === "es" ? "+50 XP RECOMPENSA OBTENIDA!" : "+50 XP REWARD CLAIMED!"}
                   size="12|12"
                   className="font-black text-black"
                 />
                 <p className="text-[10px] font-bold text-black/50">
-                  Quiz completado · Bonus de primera vez
+                  {t.common.lang === "es" ? "Quiz completado · Bonus de primera vez" : "Quiz completed · First time bonus"}
                 </p>
               </div>
             </motion.div>
@@ -268,7 +273,7 @@ export default function QuizResult({
               whileTap={{ scale: 0.97 }}
               className="flex-1 py-3 bg-white border-[3px] border-black font-bold text-sm shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all hover:bg-v2k-yellow"
             >
-              🔄 VOLVER A JUGAR
+              🔄 {t.quiz.retry}
             </motion.button>
             <motion.button
               type="button"
@@ -278,7 +283,7 @@ export default function QuizResult({
               className="flex-1 py-3 text-white border-[3px] border-black font-bold text-sm shadow-[4px_4px_0px_#000] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all"
               style={{ backgroundColor: copied ? "#2ECC71" : member.accent }}
             >
-              {copied ? "✅ ¡COPIADO!" : "📤 COMPARTIR RESULTADO"}
+              {copied ? (t.common.lang === "es" ? "✅ ¡COPIADO!" : "✅ COPIED!") : `📤 ${t.quiz.share}`}
             </motion.button>
           </div>
         </div>

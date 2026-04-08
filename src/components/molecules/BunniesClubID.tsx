@@ -4,6 +4,7 @@ import Jersey from "../atoms/texts/Jersey";
 import SpaceText from "../atoms/texts/SpaceText";
 import Image from "../atoms/Image";
 import type { UserProfile } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface BunniesClubIDProps {
   profile: UserProfile;
@@ -11,13 +12,14 @@ interface BunniesClubIDProps {
 
 const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
   ({ profile }, ref) => {
+    const { t, language } = useLanguage();
     const joinDate = profile.joinDate
-      ? new Date(profile.joinDate).toLocaleDateString("es-ES", {
+      ? new Date(profile.joinDate).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
         })
-      : "26/02/2026";
+      : language === "es" ? "26/02/2026" : "02/26/2026";
     const level = Math.floor((profile.points || 0) / 100) + 1;
     const isVerified = (profile.points || 0) >= 100 && profile.hasBioBonus;
 
@@ -39,13 +41,13 @@ const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
         {/* Header */}
         <div className="bg-v2k-pink-hot border-b-[5px] border-black p-4 flex justify-between items-center relative z-10">
           <SpaceText
-            text="BUNNIES CLUB OFFICIAL ID"
+            text={t.profile.id_card.official_id}
             size="20|24"
             className="text-white font-black tracking-tight"
           />
           <div className="bg-white border-2 border-black rounded-full px-3 py-1">
             <SpaceText
-              text={`NO. ${profile.uid.slice(0, 8).toUpperCase()}`}
+              text={`${t.profile.id_card.no} ${profile.uid.slice(0, 8).toUpperCase()}`}
               size="12|12"
               className="font-black italic text-black"
             />
@@ -80,7 +82,7 @@ const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">
                   <SpaceText
-                    text="RANGO"
+                    text={t.profile.id_card.rank}
                     size="12|12"
                     className="bg-black text-white px-2 py-0.5 rounded-md font-black tracking-tighter"
                   />
@@ -92,7 +94,7 @@ const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
                 </div>
                 <div className="flex items-center gap-3">
                   <SpaceText
-                    text="LEVEL"
+                    text={t.profile.id_card.level}
                     size="12|12"
                     className="bg-black text-white px-2 py-0.5 rounded-md font-black tracking-tighter"
                   />
@@ -109,7 +111,7 @@ const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
               <div className="flex justify-between items-end">
                 <div>
                   <SpaceText
-                    text="MIEMBRO DESDE"
+                    text={t.profile.id_card.member_since}
                     size="12|12"
                     className="font-black text-gray-400 uppercase tracking-tighter mb-0.5"
                   />
@@ -121,19 +123,19 @@ const BunniesClubID = React.forwardRef<HTMLDivElement, BunniesClubIDProps>(
                 </div>
                 <div className="text-right">
                   <SpaceText
-                    text="ESTADO"
+                    text={t.profile.id_card.status}
                     size="12|12"
                     className="font-black text-gray-400 uppercase tracking-tighter mb-0.5"
                   />
                   {isVerified ? (
                     <SpaceText
-                      text="VERIFICADO ✅"
+                      text={t.profile.id_card.verified}
                       size="12|12"
                       className="font-black text-v2k-green-soft uppercase"
                     />
                   ) : (
                     <SpaceText
-                      text="PENDIENTE"
+                      text={t.profile.id_card.pending}
                       size="12|12"
                       className="font-black text-gray-400 uppercase italic"
                     />

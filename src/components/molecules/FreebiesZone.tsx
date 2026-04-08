@@ -8,6 +8,7 @@ import { db } from "../../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import JSZip from "jszip";
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import Image from "../atoms/Image";
 
 interface FreebieItem {
@@ -20,6 +21,7 @@ interface FreebieItem {
 
 export default function FreebiesZone() {
   const { user, addPoints } = useAuth();
+  const { t } = useLanguage();
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
 
   const [items, setItems] = useState<FreebieItem[]>([]);
@@ -114,13 +116,13 @@ export default function FreebiesZone() {
         }, 100);
 
         if (user) {
-          await addPoints(10, "¡Archivo descargado! 📥✨");
+          await addPoints(10, t.freebies.download_success);
         }
       } catch (error) {
         console.error("Error de descarga:", error);
       }
     },
-    [user, addPoints],
+    [user, addPoints, t.freebies.download_success],
   );
 
   const handleDownloadAllZip = useCallback(async () => {
@@ -155,20 +157,20 @@ export default function FreebiesZone() {
       }, 200);
 
       if (user) {
-        await addPoints(30, "¡Pack completo descargado! 📦✨");
+        await addPoints(30, t.freebies.zip_success);
       }
     } catch (error) {
       console.error("ZIP error:", error);
     } finally {
       setIsDownloadingAll(false);
     }
-  }, [items, activeFolder, user, addPoints]);
+  }, [items, activeFolder, user, addPoints, t.freebies.zip_success]);
 
   return (
     <div className="flex flex-col gap-2 items-center w-full px-4 relative">
       <SpaceText
         tag="h2"
-        text="FREEBIES ZONE"
+        text={t.freebies.title}
         size="18|22"
         className="font-bold uppercase tracking-widest text-black text-center"
       />
@@ -179,11 +181,15 @@ export default function FreebiesZone() {
         className="w-full max-w-4xl shadow-none border-2 border-black"
       >
         <div className="flex flex-wrap justify-center md:justify-between gap-4 md:gap-6 px-4 py-6">
-          {["Wallpapers", "Icons", "Calendars"].map((folder) => (
+          {[
+            { name: t.freebies.wallpapers, key: "wallpapers" },
+            { name: t.freebies.icons, key: "icons" },
+            { name: t.freebies.calendars, key: "calendars" },
+          ].map((folder) => (
             <button
-              key={folder}
+              key={folder.key}
               type="button"
-              onClick={() => setActiveFolder(folder.toLowerCase())}
+              onClick={() => setActiveFolder(folder.key)}
               className="flex flex-col items-center gap-2 group bg-transparent border-none p-0 cursor-pointer"
             >
               <motion.span
@@ -194,9 +200,9 @@ export default function FreebiesZone() {
               </motion.span>
               <SpaceText
                 tag="span"
-                text={folder}
-                size="14|14"
-                className="font-bold text-black"
+                text={folder.name}
+                size="12|12"
+                className="font-bold text-black uppercase"
               />
             </button>
           ))}
@@ -242,7 +248,7 @@ export default function FreebiesZone() {
                         transition={{ repeat: Infinity, duration: 1.5 }}
                         className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
                       >
-                        ARRASTRA PARA VER MÁS →
+                        {t.freebies.drag_more}
                       </motion.span>
                     </div>
                   </div>
@@ -256,8 +262,8 @@ export default function FreebiesZone() {
                         className="px-4 md:px-6 py-2 border-2 border-black bg-green-200 text-xs md:text-sm font-bold active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase"
                       >
                         {isDownloadingAll
-                          ? "ZIPPING..."
-                          : "DOWNLOAD ALL ZIP 📦"}
+                          ? t.freebies.zipping
+                          : t.freebies.download_all}
                       </button>
                     </div>
                   )}
@@ -265,7 +271,7 @@ export default function FreebiesZone() {
                   <div className="overflow-hidden grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
                     {loading ? (
                       <p className="text-center font-mono text-gray-500 animate-pulse mt-10 w-full text-xs">
-                        Cargando...
+                        {t.freebies.loading}
                       </p>
                     ) : (
                       <motion.div
@@ -299,15 +305,12 @@ export default function FreebiesZone() {
                               </span>
                               <SpaceText
                                 tag="h4"
-                                text="EMPTY FOLDER"
+                                text={t.freebies.empty_folder}
                                 size="16|16"
                                 className="font-bold text-red-500 uppercase mt-2"
                               />
                               <p className="font-mono text-[10px] md:text-xs text-gray-600 px-2 leading-tight">
-                                Aún no hay archivos aquí... <br />
-                                <br />
-                                ¡Sé el primero en crear uno y envíalo usando el
-                                buzón! ✨
+                                {t.freebies.empty_desc}
                               </p>
                             </div>
                           </div>
@@ -332,13 +335,13 @@ export default function FreebiesZone() {
                             <div className="text-center">
                               <SpaceText
                                 tag="span"
-                                text="COMMUNITY HUB"
+                                text={t.freebies.community_hub}
                                 size="14|14"
                                 className="font-bold text-gray-600 block uppercase group-hover:text-black"
                               />
                               <SpaceText
                                 tag="span"
-                                text="REQUEST OR SEND ART"
+                                text={t.freebies.community_desc}
                                 size="12|12"
                                 className="font-mono text-gray-500 block group-hover:text-v2k-pink-hot"
                               />
@@ -366,7 +369,7 @@ export default function FreebiesZone() {
           >
             <div className="w-full max-w-4xl">
               <Window
-                title={`Preview: ${previewItem.title}`}
+                title={`${t.freebies.preview}: ${previewItem.title}`}
                 className="relative bg-gray-100 border-2 border-black shadow-none max-h-[90vh] flex flex-col overflow-hidden"
               >
                 <button
@@ -403,7 +406,7 @@ export default function FreebiesZone() {
                       onClick={() => handleDownloadSingle(previewItem)}
                       className="px-10 py-4 bg-blue-200 border-2 border-black text-xs md:text-sm font-bold shadow-[4px_4px_0px_black] active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase hover:bg-blue-300"
                     >
-                      ⬇️ DOWNLOAD FILE
+                      {t.freebies.download_file}
                     </button>
                   </div>
                 </div>

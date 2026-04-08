@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cropper, { type Point, type Area } from "react-easy-crop";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CropModalProps {
   imageToCrop: string | null;
@@ -16,6 +17,7 @@ export default function CropModal({
   onClose,
   onConfirm,
 }: CropModalProps) {
+  const { t } = useLanguage();
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
@@ -35,7 +37,7 @@ export default function CropModal({
         >
           <div className="bg-white border-4 border-black p-6 rounded-[2.5rem] max-w-lg w-full shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <Jersey
-              text="AJUSTA TU FOTO"
+              text={t.profile.crop.title}
               size="24|28"
               className="text-center mb-6"
             />
@@ -56,7 +58,7 @@ export default function CropModal({
 
             <div className="flex flex-col gap-4">
               <div className="px-4">
-                <p className="text-xs font-bold mb-2">ZOOM</p>
+                <p className="text-xs font-bold mb-2">{t.profile.crop.zoom}</p>
                 <input
                   type="range"
                   value={zoom}
@@ -75,7 +77,7 @@ export default function CropModal({
                   onClick={onClose}
                   className="flex-1 bg-gray-100 border-[3px] border-black py-3 rounded-xl font-bold hover:bg-gray-200 transition-colors"
                 >
-                  CANCELAR
+                  {t.profile.crop.cancel}
                 </button>
                 <button
                   type="button"
@@ -84,7 +86,7 @@ export default function CropModal({
                   }
                   className="flex-1 bg-v2k-pink-hot text-white border-[3px] border-black py-3 rounded-xl font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] active:translate-y-0 transition-all"
                 >
-                  ACEPTAR
+                  {t.profile.crop.confirm}
                 </button>
               </div>
             </div>

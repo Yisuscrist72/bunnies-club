@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import Jersey from "@/components/atoms/texts/Jersey";
 import Window from "@/components/molecules/Window";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function QuizCalculating() {
+  const { t } = useLanguage();
   const steps = [
-    { label: "ANALIZANDO RESPUESTAS", done: true },
-    { label: "CALCULANDO COMPATIBILIDAD", done: true },
-    { label: "BUSCANDO TU MATCH PERFECTO", done: false },
+    { label: t.quiz.calculating_steps[0], done: true },
+    { label: t.quiz.calculating_steps[1], done: true },
+    { label: t.quiz.calculating_steps[2], done: false },
   ];
 
   return (
@@ -20,7 +22,7 @@ export default function QuizCalculating() {
       transition={{ duration: 0.3 }}
       className="w-full max-w-lg relative z-10"
     >
-      <Window title="CALCULANDO_RESULTADO.SYS" className="scanlines">
+      <Window title={t.common.lang === "es" ? "CALCULANDO_RESULTADO.SYS" : "CALCULATING_RESULT.SYS"} className="scanlines">
         <div className="flex flex-col items-center gap-8 p-10 bg-black text-v2k-pink-hot">
           {/* Scanner de línea */}
           <div className="relative w-full h-36 border-2 border-v2k-pink-hot overflow-hidden bg-v2k-pink-hot/5 rounded-sm">
@@ -71,7 +73,7 @@ export default function QuizCalculating() {
           </div>
 
           <Jersey
-            text="GENERANDO TU RESULTADO..."
+            text={t.quiz.generating_result}
             size="20|24"
             className="text-v2k-pink-hot"
           />
