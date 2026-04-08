@@ -149,7 +149,9 @@ export const es = {
     base_catalog: "CATÁLOGO DE BASES",
     loading_system: "INICIANDO SISTEMA...",
     confirm_msg: "¿ESTÁS SEGURA?",
-    yes_let_go: "SÍ, EMPEZAR"
+    yes_let_go: "SÍ, EMPEZAR",
+    coming_soon_title: "¡PRÓXIMAMENTE!",
+    coming_soon_msg: "Esta función está en desarrollo"
   },
   forum: {
     title: "BUNNIES CLUB",
