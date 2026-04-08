@@ -31,7 +31,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFreebiesModalOpen, setIsFreebiesModalOpen] = useState(false);
   const { user, profile } = useAuth();
-  const { t, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage, language } = useLanguage();
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
@@ -180,20 +180,32 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
             ))}
           </div>
 
-          {/* LANGUAGE BUTTON CON CONTRASTE CORREGIDO */}
-          <motion.button
-            onClick={toggleLanguage}
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: "var(--color-v2k-black)",
-              boxShadow: "6px 6px 0px var(--color-v2k-pink-hot)",
-            }}
-            whileTap={WHILE_TAP}
-            transition={TRANSITION_SPRING}
-            className={`hidden md:block ${isDark ? "text-white border-white/40 bg-white/10" : "text-black border-black bg-linear-to-r from-lang-from to-lang-to"} border-[3px] px-4 lg:px-6 py-1 rounded-full shadow-nav-small transition-colors duration-200`}
-          >
-            <Jersey tag="span" text={t.navbar.lang} size="18|22" />
-          </motion.button>
+          {/* LANGUAGE SELECTOR */}
+          <div className={`hidden md:flex items-center gap-1 ${isDark ? "bg-black" : "bg-white"} p-1 rounded-full border-[3px] ${isDark ? "border-white/40" : "border-black"} shadow-nav-small`}>
+            <button
+              type="button"
+              onClick={() => language !== "es" && toggleLanguage()}
+              className={`px-3 py-0.5 rounded-full transition-all flex items-center justify-center ${
+                language === "es"
+                  ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                  : `${isDark ? "text-white/40 hover:text-white" : "text-black/40 hover:text-black"}`
+              }`}
+            >
+              <Jersey tag="span" text="ES" size="16|16" className="font-bold" />
+            </button>
+            <div className={`w-[2px] h-3 ${isDark ? "bg-white/20" : "bg-black/20"}`} />
+            <button
+              type="button"
+              onClick={() => language !== "en" && toggleLanguage()}
+              className={`px-3 py-0.5 rounded-full transition-all flex items-center justify-center ${
+                language === "en"
+                  ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                  : `${isDark ? "text-white/40 hover:text-white" : "text-black/40 hover:text-black"}`
+              }`}
+            >
+              <Jersey tag="span" text="EN" size="16|16" className="font-bold" />
+            </button>
+          </div>
 
           {/* USER PROFILE ICON & RANK INFO */}
           <div className="relative group">

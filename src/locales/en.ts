@@ -223,6 +223,29 @@ export const en = {
       issue_date: "ISSUE DATE",
       status_label: "STATUS: OFFICIAL BUNNY"
     },
+    achievements_list: {
+      perfil: {
+        name: "Full Profile",
+        description: "Complete your biography and select your favorite members to unlock this achievement."
+      },
+      explorador: {
+        name: "Explorer",
+        description: "Earn 100 XP points by exploring and participating in the club."
+      },
+      fan: {
+        name: "Total Fan",
+        description: "Demonstrate your love for NewJeans by reaching 500 XP."
+      },
+      leyenda: {
+        name: "Legend",
+        description: "Become a living legend of the club with 5000 XP."
+      }
+    },
+    status: {
+      unlocked: "✅ UNLOCKED!",
+      locked: "🔒 TO BE UNLOCKED",
+      close_details: "Close details"
+    },
     xp_guide: {
       title: "HOW TO EARN XP 🚀",
       complete_profile: "Complete your profile",

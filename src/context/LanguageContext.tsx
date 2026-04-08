@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { es } from "@/locales/es";
 import type { Translations } from "@/locales/es";
 import { en } from "@/locales/en";
@@ -16,13 +16,16 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const savedLang = localStorage.getItem("language") as Language;
-      if (savedLang === "es" || savedLang === "en") return savedLang;
+  const [language, setLanguage] = useState<Language>("es");
+  const [isHydrated, setIsHydrated] = useState(false);
+  
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language") as Language;
+    if (savedLang === "es" || savedLang === "en") {
+      setLanguage(savedLang);
     }
-    return "es";
-  });
+    setIsHydrated(true);
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = language === "es" ? "en" : "es";
@@ -34,7 +37,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   return (
     <LanguageContext.Provider value={{ language, t, toggleLanguage }}>
-      {children}
+      <div style={{ visibility: isHydrated ? "visible" : "hidden" }}>
+        {children}
+      </div>
     </LanguageContext.Provider>
   );
 };

@@ -20,7 +20,7 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { user, profile } = useAuth();
-  const { t, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage, language } = useLanguage();
 
   const menuItems = [
     { label: t.common.home, href: "/" },
@@ -107,7 +107,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <ul className="flex flex-col gap-5 w-full max-w-[280px] z-10">
               {menuItems.map((item) => (
                 <motion.li
-                  key={item.label}
+                  key={item.href}
                   variants={itemVariants}
                   className="w-full"
                 >
@@ -186,24 +186,32 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               ))}
             </motion.div>
 
-            <motion.button
-              onClick={toggleLanguage}
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{
-                x: 4,
-                y: 4,
-                boxShadow: "0px 0px 0px var(--color-v2k-black)",
-              }}
-              className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all uppercase"
-            >
-              <Jersey
-                tag="span"
-                text={t.navbar.lang}
-                size="16|16"
-                className="text-black"
-              />
-            </motion.button>
+            {/* LANGUAGE SELECTOR */}
+            <div className="w-full max-w-[220px] flex items-center justify-center bg-white border-[3px] border-black p-1 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)]">
+              <button
+                type="button"
+                onClick={() => language !== "es" && toggleLanguage()}
+                className={`flex-1 py-2 rounded-full transition-all flex items-center justify-center ${
+                  language === "es"
+                    ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                    : "text-black/40 hover:text-black"
+                }`}
+              >
+                <Jersey tag="span" text="ES" size="18|22" className="font-bold" />
+              </button>
+              <div className="w-[3px] h-4 bg-black/10" />
+              <button
+                type="button"
+                onClick={() => language !== "en" && toggleLanguage()}
+                className={`flex-1 py-2 rounded-full transition-all flex items-center justify-center ${
+                  language === "en"
+                    ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                    : "text-black/40 hover:text-black"
+                }`}
+              >
+                <Jersey tag="span" text="EN" size="18|22" className="font-bold" />
+              </button>
+            </div>
           </div>
 
           {/* BARRA DE ESTADO */}

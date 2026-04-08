@@ -20,7 +20,7 @@ export default function ShopHeader() {
         <div className="absolute -top-12 -right-8 text-7xl rotate-12 opacity-50 select-none hidden sm:block hover:rotate-45 transition-transform cursor-help">
           🐰
         </div>
-        <div className="absolute -bottom-8 -left-4 text-4xl rotate-[-12deg] opacity-40 select-none hidden sm:block">
+        <div className="absolute -bottom-8 -left-4 text-4xl -rotate-12 opacity-40 select-none hidden sm:block">
           💖
         </div>
         <div className="h-3 w-48 bg-v2k-pink-hot mx-auto mt-4 border-2 border-black shadow-v2k-xs -rotate-1 relative z-20" />
