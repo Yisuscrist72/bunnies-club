@@ -229,12 +229,23 @@ export default function FreebiesZone() {
                 </button>
 
                 <div className="p-4 md:p-6 bg-white m-1 mt-4 flex flex-col overflow-hidden h-full">
-                  <SpaceText
-                    tag="h3"
-                    text={`${activeFolder} ZONE`}
-                    size="18|22"
-                    className="font-bold text-black mb-4 uppercase text-center shrink-0"
-                  />
+                  <div className="flex items-end justify-between mb-4">
+                    <SpaceText
+                      tag="h3"
+                      text={`${activeFolder} ZONE`}
+                      size="18|22"
+                      className="font-bold text-black uppercase shrink-0"
+                    />
+                    <div className="flex items-center gap-2 mb-1">
+                      <motion.span 
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                        className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
+                      >
+                        ARRASTRA PARA VER MÁS →
+                      </motion.span>
+                    </div>
+                  </div>
 
                   {!loading && items.length > 0 && (
                     <div className="mb-4 flex justify-center shrink-0">

@@ -86,11 +86,16 @@
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   font-family: var(--font-space), sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+@utility main-gradient {
   background: linear-gradient(to bottom, #c9e9f6 0%, #f4d8ed 47%, #f9f1c3 100%)
     no-repeat fixed;
   background-size: cover;
-  position: relative;
 }
 
 body::before {

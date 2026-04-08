@@ -117,23 +117,26 @@ const ALBUMS: Album[] = [
 export default function MusicPage() {
   // Efecto para cambiar el fondo al estilo "Musical-Flow"
   useEffect(() => {
-    const originalBg = document.body.style.background;
-    const originalImage = document.body.style.backgroundImage;
+    const bgElement = document.getElementById("global-background");
+    if (!bgElement) return;
 
-    document.body.style.backgroundColor = "#fffaff";
-    document.body.style.backgroundImage = `
+    const originalBg = bgElement.style.background;
+    const originalImage = bgElement.style.backgroundImage;
+
+    bgElement.style.backgroundColor = "#fffaff";
+    bgElement.style.backgroundImage = `
       radial-gradient(at 20% 20%, #e0f2fe 0px, transparent 40%),
       radial-gradient(at 80% 20%, #fdf2f8 0px, transparent 40%),
       radial-gradient(at 50% 50%, #f5f3ff 0px, transparent 50%),
       radial-gradient(at 20% 80%, #f0fdf4 0px, transparent 40%),
       radial-gradient(at 80% 80%, #fff7ed 0px, transparent 40%)
     `;
-    document.body.style.backgroundSize = "100% 100%";
-    document.body.style.backgroundAttachment = "fixed";
+    bgElement.style.backgroundSize = "100% 100%";
+    bgElement.style.backgroundAttachment = "fixed";
 
     return () => {
-      document.body.style.background = originalBg;
-      document.body.style.backgroundImage = originalImage;
+      bgElement.style.background = originalBg;
+      bgElement.style.backgroundImage = originalImage;
     };
   }, []);
 
