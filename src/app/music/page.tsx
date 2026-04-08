@@ -7,6 +7,7 @@ import MusicCard, { type Album } from "@/components/molecules/MusicCard";
 import { motion } from "framer-motion";
 import MusicDecorations from "./components/MusicDecorations";
 import { useLanguage } from "@/context/LanguageContext";
+import MusicArchives from "./components/MusicArchives";
 
 const ALBUMS: Album[] = [
   {
@@ -188,7 +189,6 @@ export default function MusicPage() {
         </motion.div>
       </div>
 
-      {/* Grid Container (Outside the flex-col items-center to allow full width and proper alignment) */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12 w-full relative z-10 px-4">
         {ALBUMS.map((album, idx) => (
           <motion.div
@@ -201,6 +201,9 @@ export default function MusicPage() {
           </motion.div>
         ))}
       </div>
+
+      <MusicArchives />
     </div>
   );
 }
+

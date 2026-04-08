@@ -80,7 +80,16 @@ export const es = {
     },
     playing: "REPRODUCIENDO",
     waiting: "EN ESPERA",
-    no_track: "SELECCIONA UNA PISTA"
+    no_track: "SELECCIONA UNA PISTA",
+    archives: {
+      title: "BUNNY ARCHIVES",
+      subtitle: "BEHIND THE SCENES & MVs",
+      select_era: "SELECCIONA UNA ERA:",
+      fun_facts: "DATOS CURIOSOS",
+      mv_gallery: "VIDEOTECA OFICIAL",
+      raw_footage: "📼 RAW FOOTAGE: BEHIND THE SCENES",
+      watch_on_yt: "VER EN YOUTUBE"
+    }
   },
   quiz: {
     start_title: "DESCUBRE TU MATCH DIGITAL!",
