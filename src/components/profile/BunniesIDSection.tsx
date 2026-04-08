@@ -5,12 +5,14 @@ import Jersey from "@/components/atoms/texts/Jersey";
 import BunniesClubID from "@/components/molecules/BunniesClubID";
 import type { UserProfile } from "@/context/AuthContext";
 import { domToPng } from "modern-screenshot";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface BunniesIDSectionProps {
   profile: UserProfile;
 }
 
 export default function BunniesIDSection({ profile }: BunniesIDSectionProps) {
+  const { t } = useLanguage();
   const idCardRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadID = async () => {
@@ -23,14 +25,14 @@ export default function BunniesIDSection({ profile }: BunniesIDSectionProps) {
       link.click();
     } catch (err) {
       console.error("Error generating ID card:", err);
-      alert("Error al generar el carnet de socio");
+      alert(t.profile.id_card.error_gen);
     }
   };
 
   return (
     <div className="mb-12 border-[3px] border-black p-4 md:p-6 rounded-3xl bg-v2k-pink-soft/30 shadow-[6px_6px_0px_#000] flex flex-col items-center gap-6 overflow-hidden">
       <Jersey
-        text="TU CARNET DE BUNNY ID 🆔"
+        text={t.profile.id_card.title}
         size="20|24"
         className="text-black text-center"
       />
@@ -47,13 +49,13 @@ export default function BunniesIDSection({ profile }: BunniesIDSectionProps) {
           onClick={handleDownloadID}
           className="w-full bg-v2k-accent border-[3px] border-black px-8 py-3 font-bold shadow-[4px_4px_0px_#000] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 hover:bg-v2k-accent/90"
         >
-          <span>DESCARGAR PARA COMPARTIR</span>
+          <span>{t.profile.id_card.download}</span>
           <span>📸</span>
         </button>
 
         {(!profile.hasBioBonus || profile.points < 100) && (
           <p className="text-[10px] font-bold text-gray-500 text-center uppercase">
-            ⚠️ Necesitas +100 XP y Perfil Completo para estar verificado
+            {t.profile.id_card.verify_req}
           </p>
         )}
       </div>

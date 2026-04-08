@@ -2,23 +2,26 @@
 
 import { memo } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface XPGuideProps {
   streak?: number;
 }
 
 function XPGuide({ streak }: XPGuideProps) {
+  const { t } = useLanguage();
+
   const guideItems = [
-    { text: "Completar tu perfil", xp: "+100" },
-    { text: "Crear photocards", xp: "+50" },
-    { text: "Hacer Quizzes", xp: "+XP var." },
-    { text: "Login diario", xp: streak && streak >= 5 ? "+40 (x2 🔥)" : "+20" },
+    { text: t.profile.xp_guide.complete_profile, xp: "+100" },
+    { text: t.profile.xp_guide.create_photocards, xp: "+50" },
+    { text: t.profile.xp_guide.take_quizzes, xp: "+XP var." },
+    { text: t.profile.xp_guide.daily_login, xp: streak && streak >= 5 ? "+40 (x2 🔥)" : "+20" },
   ];
 
   return (
     <div className="mb-12 border-[3px] border-black p-6 rounded-3xl bg-v2k-cyan-soft shadow-[4px_4px_0px_#000]">
       <Jersey
-        text="CÓMO GANAR XP 🚀"
+        text={t.profile.xp_guide.title}
         size="20|24"
         className="mb-4 text-black"
       />

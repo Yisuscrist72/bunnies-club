@@ -2,6 +2,7 @@
 
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import ProfileSection from "./ProfileSection";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Activity {
   id: string;
@@ -15,9 +16,10 @@ interface RecentActivityProps {
 }
 
 export default function RecentActivity({ activities }: RecentActivityProps) {
+  const { t, language } = useLanguage();
   return (
     <ProfileSection
-      title="ACTIVIDAD RECIENTE 🕒"
+      title={t.profile.recent_activity}
       titleUnderlineColor="decoration-v2k-cyan-soft"
     >
       <div className="space-y-3">
@@ -34,7 +36,7 @@ export default function RecentActivity({ activities }: RecentActivityProps) {
                   className="font-bold text-black"
                 />
                 <span className="text-[10px] text-gray-400 font-bold uppercase">
-                  {new Date(activity.timestamp).toLocaleDateString("es-ES", {
+                  {new Date(activity.timestamp).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
                     day: "2-digit",
                     month: "short",
                     hour: "2-digit",
@@ -52,7 +54,7 @@ export default function RecentActivity({ activities }: RecentActivityProps) {
         ) : (
           <div className="py-8 text-center border-2 border-dashed border-black/20 rounded-2xl bg-v2k-gray-soft/5">
             <SpaceText
-              text="Aún no tienes actividad registrada. ¡Empieza a explorar el club!"
+              text={t.profile.no_activity}
               size="14|14"
               className="text-gray-400 italic"
             />

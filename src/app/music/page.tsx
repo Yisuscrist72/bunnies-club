@@ -6,6 +6,7 @@ import SpaceText from "@/components/atoms/texts/SpaceText";
 import MusicCard, { type Album } from "@/components/molecules/MusicCard";
 import { motion } from "framer-motion";
 import MusicDecorations from "./components/MusicDecorations";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ALBUMS: Album[] = [
   {
@@ -115,6 +116,7 @@ const ALBUMS: Album[] = [
 ];
 
 export default function MusicPage() {
+  const { t } = useLanguage();
   // Efecto para cambiar el fondo al estilo "Musical-Flow"
   useEffect(() => {
     const bgElement = document.getElementById("global-background");
@@ -149,7 +151,7 @@ export default function MusicPage() {
         <div className="mb-6">
           <Jersey
             tag="h1"
-            text="MÚSICA"
+            text={t.common.music}
             size="68|94"
             className="sticker-title text-v2k-pink-hot text-[3rem]! sm:text-[5rem]! lg:text-[6rem]! drop-shadow-[4px_4px_0px_#000]"
             style={{
@@ -166,7 +168,7 @@ export default function MusicPage() {
           className="bg-v2k-blue-deep border-4 border-black px-6 sm:px-8 py-2.5 sm:py-3 shadow-v2k-sm -rotate-1 mb-10 sm:mb-12 relative"
         >
           <Jersey
-            text="DISCOGRAFÍA (ALBUMS & EPS)"
+            text={t.music.discography}
             size="24|28"
             className="text-white text-base sm:text-2xl"
           />
@@ -179,7 +181,7 @@ export default function MusicPage() {
           className="flex items-center gap-4 mb-8"
         >
           <SpaceText
-            text="— EXPLORA EL UNIVERSO MUSICAL DE NEWJEANS —"
+            text={t.music.explore}
             size="12|12"
             className="text-black font-black italic tracking-[0.2em]"
           />

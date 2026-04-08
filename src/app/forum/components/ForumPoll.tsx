@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 import type { PollOption } from "../hooks/useForum";
 
 interface ForumPollProps {
@@ -19,12 +20,13 @@ export default function ForumPoll({
   handleVote,
   user,
 }: ForumPollProps) {
+  const { t } = useLanguage();
   return (
     <div className="lg:col-span-3">
-      <Window title="✨ POLL" className="w-full border-[3px]">
+      <Window title={t.forum.poll_title} className="w-full border-[3px]">
         <div className="flex flex-col gap-3 p-2 text-center">
           <SpaceText
-            text="¿Canción fav. Newjeans?"
+            text={t.forum.poll_question}
             size="14|14"
             className="font-black mb-1 md:text-[16|16]"
           />
@@ -87,14 +89,14 @@ export default function ForumPoll({
 
           {!user && (
             <p className="text-[8px] font-bold opacity-50 uppercase mt-1">
-              * Loguéate para votar
+              {t.forum.login_to_vote}
             </p>
           )}
           {hasVoted && (
             <div className="mt-2 flex flex-col items-center gap-1">
               <CheckCircle2 className="text-v2k-green-hover" size={20} />
               <SpaceText
-                text="VOTO REGISTRADO"
+                text={t.forum.vote_success}
                 size="12|12"
                 className="font-black text-v2k-green-hover"
               />
@@ -106,13 +108,12 @@ export default function ForumPoll({
       {/* Reglas del Foro / Conducta */}
       <div className="mt-6 md:mt-8 bg-black/5 border-2 border-dashed border-black/20 p-4 rounded-lg">
         <p className="text-[10px] font-black uppercase tracking-wider mb-2 text-center opacity-60">
-          📜 REGLAS DE CONDUCTA
+          {t.forum.rules_title}
         </p>
         <ul className="text-[9px] font-bold uppercase space-y-1 opacity-50 list-disc list-inside">
-          <li>Respeta a todos los Bunnies</li>
-          <li>No compartas contenido inapropiado</li>
-          <li>Evita el spam y mensajes repetitivos</li>
-          <li>Disfruta y apoya a NewJeans ✨</li>
+          {t.forum.rules.map((rule: string) => (
+            <li key={rule}>{rule}</li>
+          ))}
         </ul>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { memo } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { AVAILABLE_MEMBERS, SUGGESTED_SONGS } from "./constants";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProfileFavoritesProps {
   favMembers: string[];
@@ -19,11 +20,12 @@ function ProfileFavorites({
   onToggleMember,
   onToggleSong,
 }: ProfileFavoritesProps) {
+  const { t } = useLanguage();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* FAVORITE MEMBERS */}
       <div className="border-[3px] border-black p-6 rounded-3xl bg-yellow-50 shadow-[4px_4px_0px_#000]">
-        <Jersey text="FAV MEMBERS ✨" size="20|24" className="mb-4" />
+        <Jersey text={`${t.profile.fav_members} ✨`} size="20|24" className="mb-4" />
         <div className="flex flex-wrap gap-2">
           {(isEditing ? AVAILABLE_MEMBERS : favMembers).map((member) => (
             <button
@@ -41,14 +43,14 @@ function ProfileFavorites({
             </button>
           ))}
           {!isEditing && favMembers.length === 0 && (
-            <p className="text-gray-400 text-sm">Ninguna seleccionada</p>
+            <p className="text-gray-400 text-sm">{t.profile.none_selected}</p>
           )}
         </div>
       </div>
 
       {/* FAVORITE SONGS */}
       <div className="border-[3px] border-black p-6 rounded-3xl bg-blue-50 shadow-[4px_4px_0px_#000]">
-        <Jersey text="CANCIONES TOP 🎵" size="20|24" className="mb-4" />
+        <Jersey text={`${t.profile.fav_songs} 🎵`} size="20|24" className="mb-4" />
         <div className="flex flex-wrap gap-2">
           {(isEditing ? SUGGESTED_SONGS : favSongs).map((song) => (
             <button
@@ -66,7 +68,7 @@ function ProfileFavorites({
             </button>
           ))}
           {!isEditing && favSongs.length === 0 && (
-            <p className="text-gray-400 text-sm">Ninguna seleccionada</p>
+            <p className="text-gray-400 text-sm">{t.profile.none_selected}</p>
           )}
         </div>
       </div>

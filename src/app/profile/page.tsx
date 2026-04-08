@@ -2,9 +2,10 @@
 
 import { useAuth, type UserProfile } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Jersey from "@/components/atoms/texts/Jersey";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 import type { Area } from "react-easy-crop";
 
 // Componentes
@@ -20,6 +21,7 @@ import XPGuide from "@/components/profile/XPGuide";
 import ProfileActions from "@/components/profile/ProfileActions";
 
 export default function ProfilePage() {
+  const { t } = useLanguage();
   const { user, profile, loading, logout, updateUserProfile, addPoints } =
     useAuth();
   const router = useRouter();
@@ -90,7 +92,7 @@ export default function ProfilePage() {
     [],
   );
 
-  const createCroppedImage = useCallback(
+  const handleCreateCroppedImage = useCallback(
     async (croppedAreaPixels: Area) => {
       if (!imageToCrop) return;
       try {
@@ -120,10 +122,10 @@ export default function ProfilePage() {
         setImageToCrop(null);
       } catch (e) {
         console.error(e);
-        alert("Error al recortar la imagen");
+        alert(t.profile.crop_error);
       }
     },
-    [imageToCrop],
+    [imageToCrop, t.profile.crop_error],
   );
 
   const handleSave = useCallback(async () => {
@@ -136,20 +138,20 @@ export default function ProfilePage() {
       if (shouldAwardBonus) dataToSave.hasBioBonus = true;
 
       await updateUserProfile(dataToSave);
-      if (shouldAwardBonus) await addPoints(100, "¡Perfil completado! 🐰✨");
+      if (shouldAwardBonus) await addPoints(100, t.profile.bonus_unlocked);
       setIsEditing(false);
     } catch (err) {
       console.error("Error saving profile:", err);
-      alert("Error al guardar el perfil");
+      alert(t.profile.save_error);
     } finally {
       setIsSaving(false);
     }
-  }, [formData, profile, updateUserProfile, addPoints]);
+  }, [formData, profile, updateUserProfile, addPoints, t.profile.bonus_unlocked, t.profile.save_error]);
 
   if (loading || !profile) {
     return (
       <div className="flex items-center justify-center min-h-[70vh]">
-        <Jersey text="CARGANDO..." size="40|48" className="animate-pulse" />
+        <Jersey text={t.profile.loading} size="40|48" className="animate-pulse" />
       </div>
     );
   }
@@ -159,7 +161,7 @@ export default function ProfilePage() {
       <CropModal
         imageToCrop={imageToCrop}
         onClose={() => setImageToCrop(null)}
-        onConfirm={createCroppedImage}
+        onConfirm={handleCreateCroppedImage}
       />
 
       <motion.div
@@ -219,7 +221,7 @@ export default function ProfilePage() {
               <div className="bg-orange-100 border-2 border-black px-4 py-1.5 rounded-full flex items-center gap-2 shadow-[2px_2px_0px_#000]">
                 <span className="text-sm">🔥</span>
                 <Jersey
-                  text={`${profile.streak || 1} DÍAS`}
+                  text={`${profile.streak || 1} ${t.profile.days}`}
                   size="14|14"
                   className="text-orange-600 font-black"
                 />

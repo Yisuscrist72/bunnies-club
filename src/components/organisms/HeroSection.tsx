@@ -8,10 +8,12 @@ import SpaceText from "../atoms/texts/SpaceText";
 import Window from "../molecules/Window";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HeroSection() {
   const router = useRouter();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [showPopup, setShowPopup] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
 
@@ -74,13 +76,13 @@ export default function HeroSection() {
             >
               <div className="flex flex-col items-center gap-4 p-5 min-w-[280px] bg-v2k-gray-med">
                 <SpaceText
-                  text="¿CUÁL SERÁ TU INTEGRANTE?"
+                  text={t.home.popup_question}
                   size="12|12"
                   className="text-v2k-pink-hot font-bold italic tracking-tighter text-center"
                 />
 
                 <SpaceText
-                  text="¿ESTÁS LISTA PARA EL DESAFÍO, BUNNY?"
+                  text={t.home.popup_challenge}
                   size="14|14"
                   className="text-center font-bold text-black"
                 />
@@ -97,7 +99,7 @@ export default function HeroSection() {
                     htmlFor="dontShowAgain"
                     className="text-[10px] font-bold text-black cursor-pointer uppercase tracking-tight"
                   >
-                    No mostrar nunca más
+                    {t.home.dont_show}
                   </label>
                 </div>
 
@@ -110,12 +112,12 @@ export default function HeroSection() {
                 >
                   <div className="flex items-center gap-2">
                     <Jersey
-                      text="INICIAR_TEST"
+                      text={t.home.start_test}
                       size="20|24"
                       className="text-black"
                     />
                     <span className="bg-v2k-pink-hot text-white text-[10px] font-black px-2 py-0.5 rounded-md border border-black shadow-[2px_2px_0px_#000]">
-                      {user ? "+XP" : "🔒 +XP"}
+                      {user ? "+XP" : `🔒 +XP`}
                     </span>
                   </div>
                 </motion.button>

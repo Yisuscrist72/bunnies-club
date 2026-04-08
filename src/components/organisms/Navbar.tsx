@@ -13,6 +13,7 @@ import {
 import Jersey from "../atoms/texts/Jersey";
 import MobileMenu from "../molecules/MobileMenu";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 const WHILE_TAP = { x: 4, y: 4, boxShadow: "0px 0px 0px #000000" };
 const TRANSITION_SPRING = {
@@ -30,6 +31,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFreebiesModalOpen, setIsFreebiesModalOpen] = useState(false);
   const { user, profile } = useAuth();
+  const { t, toggleLanguage, language } = useLanguage();
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
@@ -37,6 +39,13 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
+
+  const navItems = [
+    { name: t.common.music, href: "/music" },
+    { name: t.common.quiz, href: "/quiz" },
+    { name: t.common.shop, href: "/shop" },
+    { name: t.common.forum, href: "/forum" },
+  ];
 
   useEffect(() => {
     const handleModalEvent = (e: CustomEvent<boolean>) =>
@@ -62,7 +71,7 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
           className={`lg:hidden fixed top-4 right-4 ${isDark ? "text-white border-white bg-black" : "text-black border-black bg-nav-mobile"} border-[3px] px-4 py-1.5 rounded-full shadow-nav-btn z-40`}
           onClick={() => setIsMenuOpen(true)}
         >
-          <Jersey tag="span" text="MENU" size="16|16" />
+          <Jersey tag="span" text={t.navbar.menu} size="16|16" />
         </motion.button>
       )}
 
@@ -92,31 +101,23 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
           <ul
             className={`hidden md:flex items-center gap-6 lg:gap-10 ${isDark ? "text-white" : "text-black"} tracking-widest mt-1`}
           >
-            {["MÚSICA", "QUIZ", "TIENDA", "FORO"].map((item) => (
+            {navItems.map((item) => (
               <motion.li
-                key={item}
+                key={item.href}
                 whileHover={{ y: -3, scale: 1.1 }}
                 transition={TRANSITION_SPRING}
               >
                 <Link
-                  href={
-                    item === "MÚSICA"
-                      ? "/music"
-                      : item === "TIENDA"
-                        ? "/shop"
-                        : item === "FORO"
-                          ? "/forum"
-                          : `/${item.toLowerCase()}`
-                  }
+                  href={item.href}
                   className="hover:text-v2k-pink-hot transition-colors flex items-center gap-1"
                 >
-                  {item === "QUIZ" && (
+                  {item.name === t.common.quiz && (
                     <span className="text-yellow-400 text-xl lg:text-2xl drop-shadow-[1px_1px_0px_#000]">
                       ✨
                     </span>
                   )}
-                  <Jersey tag="span" text={item} size="20|24" />
-                  {item === "QUIZ" && (
+                  <Jersey tag="span" text={item.name} size="20|24" />
+                  {item.name === t.common.quiz && (
                     <span className="text-yellow-400 text-xl lg:text-2xl drop-shadow-[1px_1px_0px_#000]">
                       ✨
                     </span>
@@ -179,19 +180,32 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
             ))}
           </div>
 
-          {/* LANGUAGE BUTTON CON CONTRASTE CORREGIDO */}
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: "var(--color-v2k-black)",
-              boxShadow: "6px 6px 0px var(--color-v2k-pink-hot)",
-            }}
-            whileTap={WHILE_TAP}
-            transition={TRANSITION_SPRING}
-            className={`hidden md:block ${isDark ? "text-white border-white/40 bg-white/10" : "text-black border-black bg-linear-to-r from-lang-from to-lang-to"} border-[3px] px-4 lg:px-6 py-1 rounded-full shadow-nav-small transition-colors duration-200`}
-          >
-            <Jersey tag="span" text="ES/EN" size="18|22" />
-          </motion.button>
+          {/* LANGUAGE SELECTOR */}
+          <div className={`hidden md:flex items-center gap-1 ${isDark ? "bg-black" : "bg-white"} p-1 rounded-full border-[3px] ${isDark ? "border-white/40" : "border-black"} shadow-nav-small`}>
+            <button
+              type="button"
+              onClick={() => language !== "es" && toggleLanguage()}
+              className={`px-3 py-0.5 rounded-full transition-all flex items-center justify-center ${
+                language === "es"
+                  ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                  : `${isDark ? "text-white/40 hover:text-white" : "text-black/40 hover:text-black"}`
+              }`}
+            >
+              <Jersey tag="span" text="ES" size="16|16" className="font-bold" />
+            </button>
+            <div className={`w-[2px] h-3 ${isDark ? "bg-white/20" : "bg-black/20"}`} />
+            <button
+              type="button"
+              onClick={() => language !== "en" && toggleLanguage()}
+              className={`px-3 py-0.5 rounded-full transition-all flex items-center justify-center ${
+                language === "en"
+                  ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                  : `${isDark ? "text-white/40 hover:text-white" : "text-black/40 hover:text-black"}`
+              }`}
+            >
+              <Jersey tag="span" text="EN" size="16|16" className="font-bold" />
+            </button>
+          </div>
 
           {/* USER PROFILE ICON & RANK INFO */}
           <div className="relative group">
@@ -226,8 +240,8 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-black border-2 border-white rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
               >
-                <span className="text-[8px] text-white font-black whitespace-nowrap">
-                  LVL {Math.floor((profile.points || 0) / 100) + 1}
+                <span className="text-[8px] text-white font-black whitespace-nowrap uppercase">
+                  {t.common.level} {Math.floor((profile.points || 0) / 100) + 1}
                 </span>
               </motion.div>
             ) : (
@@ -236,8 +250,8 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                 animate={{ opacity: 1, x: 0 }}
                 className="hidden lg:flex absolute -right-2 -bottom-2 bg-v2k-red-soft border-2 border-black rounded-full px-2 py-0.5 z-20 shadow-sm pointer-events-none"
               >
-                <span className="text-[8px] text-black font-black whitespace-nowrap">
-                  GUEST
+                <span className="text-[8px] text-black font-black whitespace-nowrap uppercase">
+                  {t.common.guest}
                 </span>
               </motion.div>
             )}
@@ -254,25 +268,25 @@ export default function Navbar({ variant = "light" }: NavbarProps) {
                     style={{ width: `${(profile.points || 0) % 100}%` }}
                   />
                 </div>
-                <p className="text-[9px] font-bold text-black">
-                  {profile.points} XP TOTAL
+                <p className="text-[9px] font-bold text-black uppercase">
+                  {profile.points} {t.common.xp}
                 </p>
               </div>
             ) : (
               <div className="absolute top-14 right-0 bg-white border-2 border-black p-3 shadow-[4px_4px_0px_#000] hidden group-hover:block z-50 min-w-[160px]">
                 <p className="text-[10px] font-black uppercase text-black">
-                  MODO INVITADO
+                  {t.navbar.guest_mode}
                 </p>
                 <div className="h-0.5 bg-black/10 my-2" />
-                <p className="text-[9px] font-bold text-v2k-black leading-tight">
-                  LOGUEATE PARA GANAR XP Y SUBIR DE NIVEL 🐰✨
+                <p className="text-[9px] font-bold text-v2k-black leading-tight uppercase">
+                  {t.navbar.login_prompt}
                 </p>
                 <Link href="/login">
                   <button
                     type="button"
                     className="w-full mt-2 bg-v2k-accent border-2 border-black py-1 text-[9px] font-black shadow-[2px_2px_0px_#000] active:shadow-none translate-y-0 active:translate-y-1 transition-all"
                   >
-                    ENTRAR AHORA
+                    {t.navbar.enter_now}
                   </button>
                 </Link>
               </div>

@@ -5,6 +5,7 @@ import Jersey from "@/components/atoms/texts/Jersey";
 import Window from "@/components/molecules/Window";
 import type { QuizQuestion } from "@/data/quiz-data";
 import type { MemberKey } from "@/data/quiz-data";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface QuizQuestionScreenProps {
   question: QuizQuestion;
@@ -27,6 +28,7 @@ export default function QuizQuestionScreen({
   totalQuestions,
   onAnswer,
 }: QuizQuestionScreenProps) {
+  const { t } = useLanguage();
   const progress = ((questionIndex + 1) / totalQuestions) * 100;
 
   return (
@@ -38,7 +40,7 @@ export default function QuizQuestionScreen({
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="w-full max-w-2xl relative z-10"
     >
-      <Window title={`PREGUNTA ${questionIndex + 1} / ${totalQuestions}`}>
+      <Window title={`${t.quiz.question_label} ${questionIndex + 1} / ${totalQuestions}`}>
         <div className="flex flex-col bg-v2k-yellow-soft/40">
           {/* Barra de progreso superior */}
           <div className="relative h-3 bg-v2k-gray-win border-b-2 border-black overflow-hidden">
@@ -64,10 +66,10 @@ export default function QuizQuestionScreen({
             {/* Chip de número de pregunta */}
             <div className="flex items-center gap-3">
               <span className="bg-black text-white text-[10px] font-black px-3 py-1 tracking-widest">
-                PREGUNTA {questionIndex + 1}
+                {t.quiz.question_label} {questionIndex + 1}
               </span>
               <span className="text-xs font-bold text-black/40">
-                {totalQuestions - questionIndex - 1} restantes
+                {totalQuestions - questionIndex - 1} {t.quiz.remaining}
               </span>
             </div>
 

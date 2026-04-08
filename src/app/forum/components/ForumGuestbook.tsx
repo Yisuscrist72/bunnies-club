@@ -6,6 +6,7 @@ import { Send, LogOut, User as UserIcon } from "lucide-react";
 import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import type { ForumMessage } from "../hooks/useForum";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ForumGuestbookProps {
   messages: ForumMessage[];
@@ -32,9 +33,10 @@ export default function ForumGuestbook({
   user,
   logout,
 }: ForumGuestbookProps) {
+  const { t } = useLanguage();
   return (
     <Window
-      title="🐰 BUNNY GUESTBOOK"
+      title={t.forum.guestbook_title}
       className="w-full border-4"
       contentClassName="p-0 flex flex-col h-[750px]"
     >
@@ -47,7 +49,7 @@ export default function ForumGuestbook({
           <div className="flex flex-col items-center justify-center h-full opacity-30 gap-4">
             <span className="text-6xl text-black">💭</span>
             <SpaceText
-              text="SE EL PRIMERO EN ESCRIBIR..."
+              text={t.forum.first_message}
               size="12|12"
               className="font-bold"
             />
@@ -104,7 +106,7 @@ export default function ForumGuestbook({
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Escribe tu mensaje aquí..."
+            placeholder={t.forum.placeholder}
             rows={1}
             className="flex-1 bg-gray-50 border-2 border-black px-4 py-2 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-v2k-accent resize-none min-h-[42px] max-h-[120px] no-scrollbar"
           />

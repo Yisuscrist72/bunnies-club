@@ -8,6 +8,7 @@ import {
   IconYouTube,
 } from "../atoms/icons/SocialIcons";
 import Image from "../atoms/Image";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface Album {
   id: number;
@@ -26,6 +27,7 @@ export interface Album {
 }
 
 export default function MusicCard({ album }: { album: Album }) {
+  const { t } = useLanguage();
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -158,7 +160,15 @@ export default function MusicCard({ album }: { album: Album }) {
                   className="text-black uppercase leading-tight font-black sm:text-[1.5rem]!"
                 />
                 <SpaceText
-                  text={album.type}
+                  text={(() => {
+                    const type = album.type.toUpperCase();
+                    if (type.includes("1ST EP")) return `1ST ${t.music.types.ep}`;
+                    if (type.includes("2ND EP")) return `2ND ${t.music.types.ep}`;
+                    if (type.includes("SINGLE ALBUM")) return t.music.types.single_album;
+                    if (type.includes("EP / SINGLE")) return `${t.music.types.ep} / ${t.music.types.single}`;
+                    if (type.includes("SENCILLO") || type === "SINGLE") return t.music.types.single;
+                    return type;
+                  })()}
                   className="text-black/60 font-black tracking-widest text-[10px] uppercase"
                 />
               </div>
@@ -173,7 +183,7 @@ export default function MusicCard({ album }: { album: Album }) {
                 <div className="absolute inset-0 bg-black translate-x-1 translate-y-1 rounded-sm transition-transform group-hover/btn:translate-x-1.5 group-hover/btn:translate-y-1.5" />
                 <div className="relative bg-white border-2 border-black px-4 py-1.5 flex items-center gap-2 transition-transform group-hover/btn:-translate-x-0.5 group-hover/btn:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5">
                   <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black">
-                    VER TRACKLIST
+                    {t.music.view_tracklist}
                   </span>
                   <span className="text-xs sm:text-sm text-v2k-pink-hot group-hover/btn:rotate-180 transition-transform duration-500 font-bold">
                     ↺
@@ -205,7 +215,7 @@ export default function MusicCard({ album }: { album: Album }) {
               <span className="group-hover/back:-translate-x-0.5 transition-transform">
                 ←
               </span>
-              VOLVER
+              {t.music.back}
             </button>
             <div className="w-5 h-5 bg-v2k-pink-light border-2.5 border-black flex items-center justify-center text-[10px] font-black select-none text-black">
               ✕

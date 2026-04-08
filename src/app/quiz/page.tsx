@@ -14,6 +14,7 @@ import QuizResult from "@/components/quiz/QuizResult";
 import { getRandomQuestions, QUIZ_SIZE } from "@/data/quiz-data";
 import type { MemberKey, QuizQuestion } from "@/data/quiz-data";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 // ── Estado del quiz ──────────────────────────────────────────────────────────
 type QuizState = "START" | "QUIZ" | "CALCULATING" | "RESULT";
@@ -29,6 +30,7 @@ const INITIAL_SCORES: Record<MemberKey, number> = {
 // ── Página principal del quiz ─────────────────────────────────────────────────
 export default function QuizPage() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const { width, height } = useWindowSize();
 
   // Efecto para fondo vibrante estilo Figma
@@ -63,7 +65,7 @@ export default function QuizPage() {
   // ── Handlers ────────────────────────────────────────────────────────────────
   const handleStart = () => {
     // Seleccionar y mezclar QUIZ_SIZE preguntas del banco completo
-    setActiveQuestions(getRandomQuestions(QUIZ_SIZE));
+    setActiveQuestions(getRandomQuestions(t, QUIZ_SIZE));
     setQuizState("QUIZ");
   };
 

@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import Jersey from "@/components/atoms/texts/Jersey";
 import SpaceText from "@/components/atoms/texts/SpaceText";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ForumHeaderProps {
   onlineUsers: number;
 }
 
 export default function ForumHeader({ onlineUsers }: ForumHeaderProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ y: -20, opacity: 0 }}
@@ -16,12 +18,12 @@ export default function ForumHeader({ onlineUsers }: ForumHeaderProps) {
       className="text-center mb-8 md:mb-12 relative"
     >
       <Jersey
-        text="BUNNIES CLUB"
+        text={t.forum.title}
         size="44|80"
         className="text-black drop-shadow-[4px_4px_0px_rgba(0,0,0,0.2)]"
       />
       <SpaceText
-        text="- FAN COMMUNITY -"
+        text={t.forum.subtitle}
         size="16|16"
         className="font-bold tracking-[0.2em] text-black/60 md:size-[18|22]"
       />
@@ -32,7 +34,7 @@ export default function ForumHeader({ onlineUsers }: ForumHeaderProps) {
           <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
         </span>
         <SpaceText
-          text={`${onlineUsers} BUNNIES CONNECTED`}
+          text={`${onlineUsers} ${t.forum.online_count}`}
           size="12|12"
           className="font-black"
         />

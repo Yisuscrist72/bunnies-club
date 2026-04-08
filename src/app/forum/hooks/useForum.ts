@@ -1,23 +1,24 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { db } from "@/lib/firebase";
 import {
-  collection,
   addDoc,
-  query,
-  orderBy,
-  onSnapshot,
-  serverTimestamp,
-  doc,
-  updateDoc,
-  getDoc,
-  setDoc,
+  collection,
   deleteDoc,
+  doc,
+  getDoc,
   limit,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
   type Timestamp,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { useAuth } from "@/context/AuthContext";
+import { useEffect, useRef, useState } from "react";
 
 export interface ForumMessage {
   id: string;
@@ -35,6 +36,7 @@ export interface PollOption {
 }
 
 export function useForum() {
+  const { t } = useLanguage();
   const { user, profile, logout, addPoints, showSystemNotification } =
     useAuth();
   const [messages, setMessages] = useState<ForumMessage[]>([]);
@@ -51,7 +53,7 @@ export function useForum() {
 
     if (!user) {
       showSystemNotification(
-        "Debes iniciar sesión con Google para escribir en el foro",
+        t.forum.notifications.login_required_chat,
         "warning",
       );
       return;
@@ -71,7 +73,7 @@ export function useForum() {
         timestamp: serverTimestamp(),
       });
 
-      await addPoints(10, "Mensaje enviado en el foro 💬");
+      await addPoints(10, t.forum.notifications.message_sent);
 
       // Limpieza de mensajes antiguos
       const {
@@ -94,7 +96,7 @@ export function useForum() {
       }
     } catch (error) {
       console.error("Error sending message:", error);
-      showSystemNotification("Error al enviar el mensaje", "error");
+      showSystemNotification(t.forum.notifications.error_send, "error");
     }
   };
 
@@ -109,7 +111,7 @@ export function useForum() {
   const handleVote = async (optionId: string) => {
     if (!user) {
       showSystemNotification(
-        "Debes iniciar sesión para votar en la encuesta",
+        t.forum.notifications.login_required_vote,
         "warning",
       );
       return;
@@ -144,7 +146,7 @@ export function useForum() {
       });
 
       setHasVoted(true);
-      await addPoints(20, "Voto realizado en la encuesta 🗳️");
+      await addPoints(20, t.forum.notifications.vote_points);
     } catch (error) {
       console.error("Error voting:", error);
     }

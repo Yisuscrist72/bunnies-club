@@ -1,15 +1,18 @@
 "use client";
 
+import { useAudio } from "@/context/AudioContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import SpaceText from "../atoms/texts/SpaceText";
-import { useAudio } from "../../context/AudioContext";
+
+const GRILLE_DOTS = Array.from({ length: 16 }, (_, i) => `dot-${i}`);
 
 const SpeakerGrille = ({ className }: { className?: string }) => (
   <div className={`grid grid-cols-4 gap-1 opacity-40 ${className}`}>
-    {[...Array(16)].map((_, i) => (
+    {GRILLE_DOTS.map((id) => (
       <div
-        key={`grille-${i}`}
+        key={id}
         className="w-1 h-1 bg-black rounded-full shadow-[inset_0.5px_0.5px_0px_rgba(255,255,255,0.2)]"
       />
     ))}
@@ -38,7 +41,12 @@ export default function MusicPlayer({
   variant?: "default" | "mini";
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  // useSyncExternalStore: server→false, client→true (sin setState en effect)
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const {
     isPlaying,
     currentTrack,
@@ -51,10 +59,7 @@ export default function MusicPlayer({
     changeVolume,
     seek,
   } = useAudio();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const { t } = useLanguage();
 
   if (!isMounted) return null;
 
@@ -113,8 +118,8 @@ export default function MusicPlayer({
               opacity: { duration: 0.4 },
             }}
             className={`
-                            ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-[4px] border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
-                            w-full max-w-[280px] flex flex-col gap-4 z-[110] rounded-[45px] mx-auto
+                            ${isPink ? "bg-v2k-red-hover" : "bg-v2k-cyan"} border-4 border-black p-5 shadow-[10px_10px_0px_var(--color-v2k-black)] 
+                            w-full max-w-[280px] flex flex-col gap-4 z-110 rounded-[45px] mx-auto
                             ${isOpen || (isMiniMode && isOpen) ? "fixed bottom-24 right-4" : "relative lg:relative"}
                         `}
           >
@@ -123,7 +128,7 @@ export default function MusicPlayer({
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(false)}
-                className={`${isMiniMode ? "" : "lg:hidden"} absolute -top-3 -right-3 w-10 h-10 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_var(--color-v2k-black)] z-[120]`}
+                className={`${isMiniMode ? "" : "lg:hidden"} absolute -top-3 -right-3 w-10 h-10 bg-v2k-pink-hot border-[3px] border-black rounded-full flex items-center justify-center shadow-[3px_3px_0px_var(--color-v2k-black)] z-120`}
               >
                 <span className="text-black font-black text-xl leading-none mt-[-2px]">
                   ✕
@@ -156,8 +161,8 @@ export default function MusicPlayer({
                       <SpaceText
                         text={
                           isPlaying
-                            ? ">>> REPRODUCIENDO_AUDIO_BUNNIES_ >>>"
-                            : "|| REPRODUCTOR_LISTO_ESPERANDO_ ||"
+                            ? t.music.playing
+                            : t.music.waiting
                         }
                         size="12|12"
                         className="text-black font-black tracking-widest"
@@ -184,7 +189,7 @@ export default function MusicPlayer({
                     transition={{ duration: 0.5, repeat: Infinity }}
                   >
                     <SpaceText
-                      text={currentTrack?.title || "SIN PISTA"}
+                      text={currentTrack?.title || t.music.no_track}
                       size="14|14"
                       className="text-black font-black uppercase truncate"
                     />
@@ -234,7 +239,7 @@ export default function MusicPlayer({
                 <button
                   type="button"
                   onClick={togglePlay}
-                  className="w-16 h-16 bg-v2k-red-hover border-[4px] border-black rounded-full shadow-[5px_5px_0px_var(--color-v2k-black)] flex items-center justify-center text-black active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
+                  className="w-16 h-16 bg-v2k-red-hover border-4 border-black rounded-full shadow-[5px_5px_0px_var(--color-v2k-black)] flex items-center justify-center text-black active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
                 >
                   <SpaceText text={isPlaying ? "⏸" : "▶"} size="16|16" />
                 </button>

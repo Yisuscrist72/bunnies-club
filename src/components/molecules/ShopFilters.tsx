@@ -1,5 +1,6 @@
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import Jersey from "@/components/atoms/texts/Jersey";
+import { useLanguage } from "@/context/LanguageContext";
 
 export type FilterType = "all" | "album" | "merch";
 
@@ -9,17 +10,18 @@ interface ShopFiltersProps {
   counts: Record<FilterType, number>;
 }
 
-const FILTERS: { id: FilterType; label: string; color: string }[] = [
-  { id: "all", label: "TODOS", color: "bg-v2k-accent" },
-  { id: "album", label: "ÁLBUMES", color: "bg-v2k-blue-deep" },
-  { id: "merch", label: "MERCH", color: "bg-v2k-pink-light" },
-];
-
 export default function ShopFilters({
   currentFilter,
   onFilterChange,
   counts,
 }: ShopFiltersProps) {
+  const { t } = useLanguage();
+
+  const FILTERS: { id: FilterType; label: string; color: string }[] = [
+    { id: "all", label: t.shop.filters.all, color: "bg-v2k-accent" },
+    { id: "album", label: t.shop.filters.album, color: "bg-v2k-blue-deep" },
+    { id: "merch", label: t.shop.filters.merch, color: "bg-v2k-pink-light" },
+  ];
   return (
     <div className="mb-8 flex flex-wrap justify-center gap-4 sm:gap-8 bg-black/5 p-4 rounded-xl border-2 border-dashed border-black/20 backdrop-blur-sm">
       {FILTERS.map((filter) => (

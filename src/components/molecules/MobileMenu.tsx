@@ -1,4 +1,6 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import Image from "../atoms/Image";
@@ -6,11 +8,10 @@ import {
   IconFacebook,
   IconInstagram,
   IconSpotify,
+  IconUser,
   IconX,
 } from "../atoms/icons/SocialIcons";
 import Jersey from "../atoms/texts/Jersey";
-import { useAuth } from "@/context/AuthContext";
-import { IconUser } from "../atoms/icons/SocialIcons";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -19,6 +20,21 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { user, profile } = useAuth();
+  const { t, toggleLanguage, language } = useLanguage();
+
+  const menuItems = [
+    { label: t.common.home, href: "/" },
+    { label: t.common.music, href: "/music" },
+    { label: t.common.quiz, href: "/quiz", sparkles: true },
+    { label: t.common.shop, href: "/shop" },
+    { label: t.common.forum, href: "/forum" },
+    {
+      label: user ? t.common.profile : t.common.login,
+      href: user ? "/profile" : "/login",
+      userIcon: true,
+    },
+  ];
+
   const menuVariants: Variants = {
     closed: {
       x: "100%",
@@ -89,20 +105,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </div>
 
             <ul className="flex flex-col gap-5 w-full max-w-[280px] z-10">
-              {[
-                { label: "INICIO", href: "/" },
-                { label: "MÚSICA", href: "/music" },
-                { label: "QUIZ", href: "/quiz", sparkles: true },
-                { label: "TIENDA", href: "/shop" },
-                { label: "FORO", href: "/forum" },
-                {
-                  label: user ? "PERFIL" : "LOGIN",
-                  href: user ? "/profile" : "/login",
-                  userIcon: true,
-                },
-              ].map((item) => (
+              {menuItems.map((item) => (
                 <motion.li
-                  key={item.label}
+                  key={item.href}
                   variants={itemVariants}
                   className="w-full"
                 >
@@ -130,7 +135,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           tag="span"
                           text={item.label}
                           size="32|40"
-                          className={`text-black group-hover:text-pink-500 transition-colors ${item.label === "INICIO" ? "font-black" : ""}`}
+                          className={`text-black group-hover:text-pink-500 transition-colors ${item.label === t.common.home ? "font-black" : ""}`}
                         />
                         {item.sparkles && <span className="text-xl">✨</span>}
                       </div>
@@ -181,30 +186,39 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               ))}
             </motion.div>
 
-            <motion.button
-              variants={itemVariants}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{
-                x: 4,
-                y: 4,
-                boxShadow: "0px 0px 0px var(--color-v2k-black)",
-              }}
-              className="w-full max-w-[220px] text-black border-[3px] border-black bg-linear-to-r from-lang-from to-lang-to py-3 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)] transition-all"
-            >
-              <Jersey
-                tag="span"
-                text="ESPAÑOL / ENGLISH"
-                size="16|16"
-                className="text-black"
-              />
-            </motion.button>
+            {/* LANGUAGE SELECTOR */}
+            <div className="w-full max-w-[220px] flex items-center justify-center bg-white border-[3px] border-black p-1 rounded-full shadow-[4px_4px_0px_var(--color-v2k-black)]">
+              <button
+                type="button"
+                onClick={() => language !== "es" && toggleLanguage()}
+                className={`flex-1 py-2 rounded-full transition-all flex items-center justify-center ${
+                  language === "es"
+                    ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                    : "text-black/40 hover:text-black"
+                }`}
+              >
+                <Jersey tag="span" text="ES" size="18|22" className="font-bold" />
+              </button>
+              <div className="w-[3px] h-4 bg-black/10" />
+              <button
+                type="button"
+                onClick={() => language !== "en" && toggleLanguage()}
+                className={`flex-1 py-2 rounded-full transition-all flex items-center justify-center ${
+                  language === "en"
+                    ? "bg-v2k-pink-hot text-white shadow-[2px_2px_0px_#000]"
+                    : "text-black/40 hover:text-black"
+                }`}
+              >
+                <Jersey tag="span" text="EN" size="18|22" className="font-bold" />
+              </button>
+            </div>
           </div>
 
           {/* BARRA DE ESTADO */}
           <div className="w-full bg-nav-bg border-t-[3px] border-black px-4 py-1 flex justify-between items-center font-bold">
             <Jersey
               tag="span"
-              text="SYSTEM READY"
+              text={t.common.system_ready}
               size="12|12"
               className="text-black"
             />
