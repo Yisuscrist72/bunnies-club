@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SpaceText from "../atoms/texts/SpaceText";
 import Window from "./Window";
@@ -8,6 +8,7 @@ import { db } from "../../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import JSZip from "jszip";
 import { useAuth } from "../../context/AuthContext";
+import Image from "../atoms/Image";
 
 interface FreebieItem {
   id: string;
@@ -49,14 +50,12 @@ export default function FreebiesZone() {
 
   // 2. CALCULAR ANCHO PARA EL DRAG DE FRAMER MOTION
   useEffect(() => {
-    if (constraintsRef.current) {
-      setWidth(
-        constraintsRef.current.scrollWidth -
-          constraintsRef.current.offsetWidth +
-          60,
-      );
+    if (!loading && constraintsRef.current) {
+      const scrollWidth = constraintsRef.current.scrollWidth;
+      const offsetWidth = constraintsRef.current.offsetWidth;
+      setWidth(Math.max(0, scrollWidth - offsetWidth + 40));
     }
-  }, [items, activeFolder]);
+  }, [loading]);
 
   // 3. FETCH DE FIREBASE SEGÚN LA CARPETA
   useEffect(() => {
@@ -107,8 +106,13 @@ export default function FreebiesZone() {
 
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+        
+        // Timeout para asegurar que el navegador procese el click antes de limpiar
+        setTimeout(() => {
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        }, 100);
+
         if (user) {
           await addPoints(10, "¡Archivo descargado! 📥✨");
         }
@@ -141,8 +145,15 @@ export default function FreebiesZone() {
       const link = document.createElement("a");
       link.href = url;
       link.download = `BunniesClub_${activeFolder}.zip`;
+      document.body.appendChild(link);
       link.click();
-      window.URL.revokeObjectURL(url);
+
+      // Limpieza segura
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      }, 200);
+
       if (user) {
         await addPoints(30, "¡Pack completo descargado! 📦✨");
       }
@@ -203,7 +214,7 @@ export default function FreebiesZone() {
           >
             <div className="w-full max-w-6xl overflow-hidden">
               <Window
-                title={`C:\\Freebies\\${activeFolder}`}
+                title={`C:\\freebies\\${activeFolder}`}
                 className="h-auto max-h-[85vh] md:max-h-[90vh] relative flex flex-col overflow-hidden bg-white border-2 border-black shadow-none"
               >
                 <button
@@ -218,16 +229,27 @@ export default function FreebiesZone() {
                 </button>
 
                 <div className="p-4 md:p-6 bg-white m-1 mt-4 flex flex-col overflow-hidden h-full">
-                  <SpaceText
-                    tag="h3"
-                    text={`${activeFolder} ZONE`}
-                    size="18|22"
-                    className="font-bold text-black mb-4 uppercase text-center shrink-0"
-                  />
+                  <div className="flex items-end justify-between mb-4">
+                    <SpaceText
+                      tag="h3"
+                      text={`${activeFolder} ZONE`}
+                      size="18|22"
+                      className="font-bold text-black uppercase shrink-0"
+                    />
+                    <div className="flex items-center gap-2 mb-1">
+                      <motion.span 
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                        className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
+                      >
+                        ARRASTRA PARA VER MÁS →
+                      </motion.span>
+                    </div>
+                  </div>
 
                   {!loading && items.length > 0 && (
-                    <div className="mb-4 flex justify-center flex-shrink-0">
-                      <button
+                    <div className="mb-4 flex justify-center shrink-0">
+                         <button
                         type="button"
                         onClick={handleDownloadAllZip}
                         disabled={isDownloadingAll}
@@ -240,7 +262,7 @@ export default function FreebiesZone() {
                     </div>
                   )}
 
-                  <div className="overflow-hidden flex-grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
+                  <div className="overflow-hidden grow cursor-grab active:cursor-grabbing py-4 touch-pan-y">
                     {loading ? (
                       <p className="text-center font-mono text-gray-500 animate-pulse mt-10 w-full text-xs">
                         Cargando...
@@ -250,6 +272,11 @@ export default function FreebiesZone() {
                         ref={constraintsRef}
                         drag="x"
                         dragConstraints={{ right: 0, left: -width }}
+                        onDragStart={() => setIsDraggingCarousel(true)}
+                        onDragEnd={() => {
+                          // Pequeño delay para que el click no se ejecute justo al soltar
+                          setTimeout(() => setIsDraggingCarousel(false), 50);
+                        }}
                         className="flex gap-4 md:gap-12 h-full items-center px-6 md:px-24"
                       >
                         {items.map((item) => (
@@ -265,7 +292,7 @@ export default function FreebiesZone() {
 
                         {/* ESTADO VACÍO */}
                         {!loading && items.length === 0 && (
-                          <div className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex flex-col items-center justify-center pointer-events-none">
+                          <div className="shrink-0 w-[200px] md:w-[250px] h-full flex flex-col items-center justify-center pointer-events-none">
                             <div className="border-2 border-black bg-gray-100 p-4 shadow-[4px_4px_0px_black] flex flex-col items-center justify-center gap-3 text-center h-[80%] w-full">
                               <span className="text-6xl md:text-7xl animate-pulse">
                                 🐰🪧
@@ -296,7 +323,7 @@ export default function FreebiesZone() {
                               "_blank",
                             )
                           }
-                          className="flex-shrink-0 w-[200px] md:w-[250px] h-full flex items-center justify-center cursor-pointer group"
+                          className="shrink-0 w-[200px] md:w-[250px] h-full flex items-center justify-center cursor-pointer group"
                         >
                           <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 flex flex-col items-center gap-4 opacity-60 grayscale group-hover:grayscale-0 group-hover:border-v2k-pink-hot transition-all duration-300 bg-white/50 shadow-inner w-full">
                             <span className="text-4xl md:text-5xl group-hover:animate-bounce">
@@ -353,11 +380,12 @@ export default function FreebiesZone() {
                 {/* CONTENEDOR DE SCROLL OPTIMIZADO */}
                 <div className="p-4 mt-10 flex flex-col items-center w-full overflow-y-auto overflow-x-hidden scrollbar-hide pb-16">
                   {/* IMAGEN: Reducida a 45vh para asegurar que el botón entre en pantalla */}
-                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6">
-                    <img
+                  <div className="border-2 border-black bg-white p-2 shadow-[6px_6px_0px_black] shrink-0 mb-6 relative w-full aspect-4/5 md:aspect-auto md:h-[55vh]">
+                    <Image
                       src={previewItem.imageURL}
                       alt={previewItem.title}
-                      className="w-auto h-auto max-w-full max-h-[45vh] md:max-h-[55vh] object-contain block mx-auto"
+                      className="object-contain"
+                      fill
                     />
                   </div>
 

@@ -16,10 +16,12 @@ const ALBUMS: Album[] = [
     tracks: ["Attention", "Hype Boy", "Cookie", "Hurt"],
     durations: ["3:00", "2:59", "3:55", "2:57"],
     links: {
-      spotify: "https://open.spotify.com/album/488vX7HNo9MvALTh9vYFv0",
-      apple: "https://music.apple.com/us/album/new-jeans-ep/1635003316",
+      spotify:
+        "https://open.spotify.com/intl-es/album/1HMLpmZAnNyl9pxvOnTovV?si=zO7AIYxMRN-d5cNqfHnezg",
+      apple:
+        "https://music.apple.com/es/album/newjeans-1st-ep-new-jeans/1635469682",
       youtube:
-        "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w",
+        "https://music.youtube.com/playlist?list=OLAK5uy_lxuD5WJ6rLmZZRUS9rVSot3WtE8BF4sc8&si=TL2SOw37HeDM_8LF",
     },
     color: "bg-album-sky",
     headerColor: "bg-album-sky-header",
@@ -32,9 +34,11 @@ const ALBUMS: Album[] = [
     tracks: ["OMG", "Ditto"],
     durations: ["3:32", "3:05"],
     links: {
-      spotify: "https://open.spotify.com/album/58674514589254848",
-      apple: "https://music.apple.com/us/album/omg-single/1653833215",
-      youtube: "https://www.youtube.com/playlist?list=OLAK5uy_l_7p_8_v_s_v_v_v",
+      spotify:
+        "https://open.spotify.com/intl-es/album/45ozep8uHHnj5CCittuyXj?si=ff-cdWaOTC6xcfI0ZqyLug",
+      apple: "https://music.apple.com/es/album/newjeans-omg-single/1659513441",
+      youtube:
+        "https://music.youtube.com/playlist?list=OLAK5uy_kGx7BCyb1rmzKNpSDwSu6atiGRtZZb9nc&si=NGFJP_gReCp1HMP8",
     },
     color: "bg-album-pink",
     headerColor: "bg-album-pink-header",
@@ -44,20 +48,15 @@ const ALBUMS: Album[] = [
     title: "GET UP",
     type: "2ND EP",
     cover: "/images/music/get-up.avif",
-    tracks: [
-      "New Jeans",
-      "Super Shy",
-      "ETA",
-      "Cool With You",
-      "Get Up",
-      "ASAP",
-    ],
+    tracks: ["New Jeans", "Super Shy", "ETA", "Cool With You", "Get Up", "ASAP"],
     durations: ["1:48", "2:34", "2:31", "2:27", "0:36", "2:14"],
     links: {
-      spotify: "https://open.spotify.com/album/2873495823749",
-      apple: "https://music.apple.com/us/album/get-up-ep/1691234912",
+      spotify:
+        "https://open.spotify.com/intl-es/album/4N1fROq2oeyLGAlQ1C1j18?si=N9nFBLA5Tg-zetZuyIBiYQ",
+      apple:
+        "https://music.apple.com/es/album/newjeans-super-shy-single/1692686264",
       youtube:
-        "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w",
+        "https://music.youtube.com/playlist?list=OLAK5uy_lLXcmlXKis8WKClqvQEJnL7O_jUxUXr3s&si=b0r_K5wRFgH4B_G1",
     },
     color: "bg-album-green",
     headerColor: "bg-album-green-header",
@@ -70,10 +69,11 @@ const ALBUMS: Album[] = [
     tracks: ["How Sweet", "Bubble Gum"],
     durations: ["3:39", "3:20"],
     links: {
-      spotify: "https://open.spotify.com/album/4892374982374",
-      apple: "https://music.apple.com/us/album/how-sweet-single/174492349",
+      spotify:
+        "https://open.spotify.com/intl-es/album/0EhZEM4RRz0yioTgucDhJq?si=y1wsdIcFSGyHWnrUTCkoqw",
+      apple: "https://music.apple.com/es/album/how-sweet-ep/1744448415",
       youtube:
-        "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w",
+        "https://music.youtube.com/playlist?list=OLAK5uy_l0nFJiyQV7ZaVmRh1gW9g1tk3UANGUipc&si=ZqZqQpt3JJnAljm2",
     },
     color: "bg-album-yellow",
     headerColor: "bg-album-yellow-header",
@@ -86,10 +86,11 @@ const ALBUMS: Album[] = [
     tracks: ["Supernatural", "Right Now"],
     durations: ["3:12", "2:40"],
     links: {
-      spotify: "https://open.spotify.com/album/4892374982374",
-      apple: "https://music.apple.com/us/album/supernatural-single/174492349",
+      spotify:
+        "https://open.spotify.com/intl-es/album/1FVw30SoC91lq1UZ6N9rwN?si=mTDUQDIfSySsKPOgWY92bw",
+      apple: "https://music.apple.com/es/album/supernatural-single/1750576829",
       youtube:
-        "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w",
+        "https://music.youtube.com/playlist?list=OLAK5uy_njHYTrAU6R9n__3q6vR7Gbht_jxw7W-20&si=IOQx2If92OMZ_Jyx",
     },
     color: "bg-album-purple",
     headerColor: "bg-album-purple-header",
@@ -102,10 +103,11 @@ const ALBUMS: Album[] = [
     tracks: ["GODS (League of Legends World Championship)"],
     durations: ["3:40"],
     links: {
-      spotify: "https://open.spotify.com/album/4892374982374",
-      apple: "https://music.apple.com/us/album/gods-single/171092349",
+      spotify:
+        "https://open.spotify.com/intl-es/album/4uFXfeGmzFDUrYUyz3Wb1O?si=Gwj4f7JJSKq_mT0XRsHIPg",
+      apple: "https://music.apple.com/es/album/gods-single/1833057824",
       youtube:
-        "https://www.youtube.com/playlist?list=OLAK5uy_k_oI4SgD5qZ_6M9O-Z1_wY_6h_4wY_8_w",
+        "https://music.youtube.com/playlist?list=OLAK5uy_nfHvX3Q7Ina7eV94Xv3ipATdDFHElUOM8&si=GVG23W9Lby_NICAA",
     },
     color: "bg-album-cyan",
     headerColor: "bg-album-cyan-header",
@@ -115,23 +117,26 @@ const ALBUMS: Album[] = [
 export default function MusicPage() {
   // Efecto para cambiar el fondo al estilo "Musical-Flow"
   useEffect(() => {
-    const originalBg = document.body.style.background;
-    const originalImage = document.body.style.backgroundImage;
+    const bgElement = document.getElementById("global-background");
+    if (!bgElement) return;
 
-    document.body.style.backgroundColor = "#fffaff";
-    document.body.style.backgroundImage = `
+    const originalBg = bgElement.style.background;
+    const originalImage = bgElement.style.backgroundImage;
+
+    bgElement.style.backgroundColor = "#fffaff";
+    bgElement.style.backgroundImage = `
       radial-gradient(at 20% 20%, #e0f2fe 0px, transparent 40%),
       radial-gradient(at 80% 20%, #fdf2f8 0px, transparent 40%),
       radial-gradient(at 50% 50%, #f5f3ff 0px, transparent 50%),
       radial-gradient(at 20% 80%, #f0fdf4 0px, transparent 40%),
       radial-gradient(at 80% 80%, #fff7ed 0px, transparent 40%)
     `;
-    document.body.style.backgroundSize = "100% 100%";
-    document.body.style.backgroundAttachment = "fixed";
+    bgElement.style.backgroundSize = "100% 100%";
+    bgElement.style.backgroundAttachment = "fixed";
 
     return () => {
-      document.body.style.background = originalBg;
-      document.body.style.backgroundImage = originalImage;
+      bgElement.style.background = originalBg;
+      bgElement.style.backgroundImage = originalImage;
     };
   }, []);
 

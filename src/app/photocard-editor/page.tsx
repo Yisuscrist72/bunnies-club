@@ -176,12 +176,23 @@ export default function PhotocardSelectionPage() {
             {/* TUS DISEÑOS (Solo si hay alguno o está cargando usuario) */}
             {(userTemplates.length > 0 || loadingUser) && (
               <div>
-                <Jersey
-                  tag="h2"
-                  text="MIS_GALERIA.SYS"
-                  size="20|24"
-                  className="text-black mb-6"
-                />
+                <div className="flex items-end justify-between mb-6">
+                  <Jersey
+                    tag="h2"
+                    text="MIS_GALERIA.SYS"
+                    size="20|24"
+                    className="text-black"
+                  />
+                  <div className="flex items-center gap-2 mb-1">
+                    <motion.span 
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5 }}
+                      className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
+                    >
+                      ARRASTRA PARA VER MÁS →
+                    </motion.span>
+                  </div>
+                </div>
                 <div
                   ref={userCarouselRef}
                   className="overflow-hidden cursor-grab active:cursor-grabbing pb-8 pt-2"
@@ -206,12 +217,23 @@ export default function PhotocardSelectionPage() {
 
             {/* DISPONIBLES */}
             <div>
-              <Jersey
-                tag="h2"
-                text="CATALOGO_BASE"
-                size="20|24"
-                className="text-black mb-6"
-              />
+              <div className="flex items-end justify-between mb-6">
+                <Jersey
+                  tag="h2"
+                  text="CATALOGO_BASE"
+                  size="20|24"
+                  className="text-black"
+                />
+                <div className="flex items-center gap-2 mb-1">
+                  <motion.span 
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className="text-[10px] font-bold text-v2k-pink-hot uppercase tracking-tight"
+                  >
+                    ARRASTRA PARA VER MÁS →
+                  </motion.span>
+                </div>
+              </div>
 
               {loading ? (
                 <div className="flex justify-center items-center h-32 animate-pulse text-black">
