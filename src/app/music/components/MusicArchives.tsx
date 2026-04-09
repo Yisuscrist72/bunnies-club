@@ -26,13 +26,13 @@ const ARCHIVE_DATA: ArchiveEra[] = [
     factsEs: [
       "El debut de NewJeans fue lanzado por sorpresa el 22 de julio de 2022, sin teasers previos presentando a las integrantes individualmente.",
       "Gran parte del material visual, incluyendo los icónicos videoclips de 'Attention' y 'Hype Boy', fueron grabados en locaciones de España, concretamente en Barcelona.",
-      "El concepto nostálgico inspirado en los años 2000 y el sonido R&B y pop fresco marcaron inmediatamente una nueva tendencia en toda la industria del K-Pop."
+      "El concepto nostálgico inspirado en los años 2000 y el sonido R&B y pop fresco marcaron inmediatamente una nueva tendencia en toda la industria del K-Pop.",
     ],
     factsEn: [
       "NewJeans' debut was released as a surprise on July 22, 2022, without any prior teasers introducing the members individually.",
       "Much of the visual material, including the iconic music videos for 'Attention' and 'Hype Boy', were filmed on location in Spain, specifically in Barcelona.",
-      "The nostalgic concept inspired by the 2000s and the fresh R&B/Pop sound immediately set a new trend across the entire K-Pop industry."
-    ]
+      "The nostalgic concept inspired by the 2000s and the fresh R&B/Pop sound immediately set a new trend across the entire K-Pop industry.",
+    ],
   },
   {
     id: "omg",
@@ -43,72 +43,73 @@ const ARCHIVE_DATA: ArchiveEra[] = [
     factsEs: [
       "'Ditto' logró un Perfect All-Kill (PAK) en Corea del Sur y se convirtió en la canción con más PAKs en la historia de MelOn.",
       "El lado A y lado B del MV de 'Ditto' cuentan una historia melancólica ambientada en 1998, grabada simulando videocámaras VHS.",
-      "La coreografía del sencillo 'OMG' y su icónico paso de los brazos se viralizó globalmente en TikTok al instante de salir."
+      "La coreografía del sencillo 'OMG' y su icónico paso de los brazos se viralizó globalmente en TikTok al instante de salir.",
     ],
     factsEn: [
       "'Ditto' achieved a Perfect All-Kill (PAK) in South Korea and became the song with the most PAKs in MelOn history.",
       "The Side A and Side B of the 'Ditto' MV tell a melancholic story set in 1998, recorded simulating VHS camcorders.",
-      "The choreography for 'OMG' and its iconic arm movements went globally viral on TikTok instantly upon release."
-    ]
+      "The choreography for 'OMG' and its iconic arm movements went globally viral on TikTok instantly upon release.",
+    ],
   },
   {
     id: "getup",
     name: "GET UP",
     color: "bg-album-green",
     videoUrl: "https://www.youtube.com/embed/ArmDp-zijuc",
-    behindUrl: "https://www.youtube.com/embed/ArmDp-zijuc", 
+    behindUrl: "https://www.youtube.com/embed/OHA7clGQ69A",
     factsEs: [
       "El segundo EP del grupo debutó directamente en el número 1 de la lista Billboard 200 en los Estados Unidos.",
       "La coreografía urbana estilo waacking de 'Super Shy' fue grabada y bailada en forma de flashmob masivo en las calles de Lisboa, Portugal.",
-      "NewJeans colaboró con la popular franquicia 'The Powerpuff Girls' (Las Chicas Superpoderosas) para el concepto visual y el MV de 'New Jeans'."
+      "NewJeans colaboró con la popular franquicia 'The Powerpuff Girls' (Las Chicas Superpoderosas) para el concepto visual y el MV de 'New Jeans'.",
     ],
     factsEn: [
       "The group's second EP debuted straight at number 1 on the Billboard 200 chart in the United States.",
       "The waacking-styled urban choreography for 'Super Shy' was filmed and danced as a massive flashmob in the streets of Lisbon, Portugal.",
-      "NewJeans collaborated with the popular franchise 'The Powerpuff Girls' for the visual concept and MV of the track 'New Jeans'."
-    ]
+      "NewJeans collaborated with the popular franchise 'The Powerpuff Girls' for the visual concept and MV of the track 'New Jeans'.",
+    ],
   },
   {
     id: "howsweet",
     name: "HOW SWEET",
     color: "bg-album-yellow",
     videoUrl: "https://www.youtube.com/embed/Q3K0TOvTOno",
-    behindUrl: "https://www.youtube.com/embed/Q3K0TOvTOno", // Temporarily using main MV to avoid broken link
+    behindUrl: "https://www.youtube.com/embed/r0u5URS3VXE",
     factsEs: [
       "El videoclip principal 'How Sweet' fue filmado casi en su totalidad en escenarios reales en varias locaciones de Taiwán.",
       "La coreografía presenta marcadas influencias del hip-hop clásico y el breakdance de los años 90.",
-      "La pista lado-B 'Bubble Gum' fue seleccionada como la canción oficial para una importante campaña de shampoo Essential de Kao en Japón."
+      "La pista lado-B 'Bubble Gum' fue seleccionada como la canción oficial para una importante campaña de shampoo Essential de Kao en Japón.",
     ],
     factsEn: [
       "The main music video for 'How Sweet' was filmed almost entirely on practical sets across various locations in Taiwan.",
       "The choreography features strong influences from old-school hip-hop and 90s breakdance.",
-      "The B-side track 'Bubble Gum' was selected as the official song for a major Kao Essential shampoo campaign in Japan."
-    ]
+      "The B-side track 'Bubble Gum' was selected as the official song for a major Kao Essential shampoo campaign in Japan.",
+    ],
   },
   {
     id: "supernatural",
     name: "SUPERNATURAL",
     color: "bg-album-purple",
     videoUrl: "https://www.youtube.com/embed/ZncbtRo7RXs",
-    behindUrl: "https://www.youtube.com/embed/ZncbtRo7RXs", // Temporarily using main MV
+    behindUrl: "https://www.youtube.com/embed/MkZRrg7JMwY",
     factsEs: [
       "Este álbum marcó el ambicioso y esperado debut oficial de NewJeans en el mercado japonés.",
       "El sencillo principal 'Supernatural' incluye créditos e interpolaciones de la clásica canción 'Back of My Mind' de Pharrell Williams.",
-      "El icónico artista japonés Takashi Murakami fue el encargado del diseño principal de los personajes y portadas de esta era."
+      "El icónico artista japonés Takashi Murakami fue el encargado del diseño principal de los personajes y portadas de esta era.",
     ],
     factsEn: [
       "This album marked the ambitious and highly anticipated official debut of NewJeans in the Japanese market.",
       "The lead single 'Supernatural' includes credits and interpolations from Pharrell Williams' classic song 'Back of My Mind'.",
-      "The iconic Japanese artist Takashi Murakami was in charge of the main character designs and cover art for this era."
-    ]
-  }
+      "The iconic Japanese artist Takashi Murakami was in charge of the main character designs and cover art for this era.",
+    ],
+  },
 ];
 
 export default function MusicArchives() {
   const { t, language } = useLanguage();
   const [selectedId, setSelectedId] = useState<string>("newjeans");
 
-  const selectedEra = ARCHIVE_DATA.find((era) => era.id === selectedId) || ARCHIVE_DATA[0];
+  const selectedEra =
+    ARCHIVE_DATA.find((era) => era.id === selectedId) || ARCHIVE_DATA[0];
 
   return (
     <div className="w-full max-w-7xl mx-auto mt-28 mb-10 px-4 relative z-10">
@@ -149,7 +150,7 @@ export default function MusicArchives() {
       <div className="relative">
         {/* Fondo decorativo offset para dar profundidad */}
         <div className="absolute top-4 left-4 w-full h-full bg-v2k-pink-hot border-4 border-black box-border z-0"></div>
-        
+
         <AnimatePresence mode="popLayout">
           <motion.div
             key={selectedEra.id}
@@ -181,12 +182,20 @@ export default function MusicArchives() {
                 ✨ {t.music.archives?.fun_facts || "DATOS CURIOSOS"}
               </div>
               <div className="flex-1 bg-gray-50 border-4 border-black p-6 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)] font-mono text-sm md:text-base flex flex-col gap-6 overflow-y-auto">
-                {(language === 'es' ? selectedEra.factsEs : selectedEra.factsEn).map((fact, index) => (
-                  <div key={`${selectedEra.id}-fact-${index}`} className="flex gap-4 items-start group">
+                {(language === "es"
+                  ? selectedEra.factsEs
+                  : selectedEra.factsEn
+                ).map((fact, index) => (
+                  <div
+                    key={`${selectedEra.id}-fact-${index}`}
+                    className="flex gap-4 items-start group"
+                  >
                     <span className="text-v2k-pink-hot font-bold mt-1 text-lg group-hover:scale-110 transition-transform">
                       {`{0${index + 1}}`}
                     </span>
-                    <p className="leading-relaxed text-gray-800 font-medium">{fact}</p>
+                    <p className="leading-relaxed text-gray-800 font-medium">
+                      {fact}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -195,7 +204,8 @@ export default function MusicArchives() {
             {/* Fila Inferior: Behind the Scenes */}
             <div className="col-span-1 lg:col-span-2 mt-4 pt-8 border-t-4 border-dashed border-gray-300">
               <div className="bg-black text-white px-4 py-2 text-center font-black tracking-widest border-4 border-black shadow-[4px_4px_0px_#FF2E93] inline-block mb-6 relative -rotate-1">
-                {t.music.archives?.raw_footage || "📼 RAW FOOTAGE: BEHIND THE SCENES"}
+                {t.music.archives?.raw_footage ||
+                  "📼 RAW FOOTAGE: BEHIND THE SCENES"}
               </div>
               <div className="aspect-[21/9] md:aspect-video lg:aspect-[21/9] w-full border-4 border-black shadow-[6px_6px_0px_#000] bg-black">
                 <iframe
