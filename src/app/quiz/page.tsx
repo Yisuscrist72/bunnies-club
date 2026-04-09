@@ -41,10 +41,10 @@ export default function QuizPage() {
 
     document.body.style.backgroundColor = "#fff";
     document.body.style.backgroundImage = `
-      radial-gradient(at 0% 0%, #fbcfe8 0px, transparent 50%),
-      radial-gradient(at 100% 0%, #dcfce7 0px, transparent 50%),
-      radial-gradient(at 50% 100%, #e0f2fe 0px, transparent 50%),
-      radial-gradient(at 100% 100%, #fef3c7 0px, transparent 50%)
+      radial-gradient(at 0% 0%, #ff8cc9 0px, transparent 60%),
+      radial-gradient(at 80% 0%, #e6ff80 0px, transparent 60%),
+      radial-gradient(at 50% 100%, #80f7ff 0px, transparent 60%),
+      radial-gradient(at 80% 100%, #ffd9e1 0px, transparent 60%)
     `;
     document.body.style.backgroundSize = "100% 100%";
     document.body.style.backgroundAttachment = "fixed";
@@ -114,6 +114,11 @@ export default function QuizPage() {
     <div className="relative min-h-screen flex flex-col items-center justify-center p-4 py-24 overflow-x-hidden pt-32">
       {/* Decoraciones Estilo Figma (Aliens, Corazones, Stars) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Orbes de luz coloridos (Super Shy Palette - Soften) */}
+        <div className="absolute top-[-5%] left-[-5%] w-[40vw] h-[40vw] bg-[#ff8cc9]/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[5%] right-[-5%] w-[50vw] h-[50vw] bg-[#80f7ff]/10 blur-[140px] rounded-full" />
+        <div className="absolute top-[30%] left-[50%] w-[30vw] h-[30vw] bg-[#e6ff80]/05 blur-[100px] rounded-full" />
+
         {/* Lado Izquierdo */}
         <div className="absolute top-[20%] left-[5%] text-4xl opacity-40">
           💖
@@ -171,8 +176,8 @@ export default function QuizPage() {
 
       {/* Mobile Glows (Mezcla de colores Figma) */}
       <div className="fixed inset-0 pointer-events-none z-0 md:hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-pink-300/20 blur-[80px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-emerald-300/20 blur-[80px] rounded-full" />
+        <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-[#ff8cc9]/10 blur-[80px] rounded-full" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-[#e6ff80]/10 blur-[80px] rounded-full" />
       </div>
 
       {/* Confetti en el resultado */}
@@ -193,21 +198,7 @@ export default function QuizPage() {
         />
       )}
 
-      {/* Botón para salir (Cancel) - Solo visible durante el quiz */}
-      {quizState === "QUIZ" && (
-        <motion.button
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          onClick={() => setShowQuitModal(true)}
-          className="fixed top-24 right-4 md:right-10 z-50 flex items-center gap-2 bg-white border-4 border-black px-4 py-2 font-black text-xs md:text-sm shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group"
-        >
-          <span className="group-hover:rotate-12 transition-transform inline-block">
-            ❌
-          </span>
-          {t.quiz.quit}
-        </motion.button>
-      )}
+
 
       <ConfirmationModal
         isOpen={showQuitModal}
@@ -235,6 +226,7 @@ export default function QuizPage() {
             questionIndex={currentIdx}
             totalQuestions={activeQuestions.length}
             onAnswer={handleAnswer}
+            onQuit={() => setShowQuitModal(true)}
           />
         )}
 

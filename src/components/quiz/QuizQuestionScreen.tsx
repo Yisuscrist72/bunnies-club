@@ -12,6 +12,7 @@ interface QuizQuestionScreenProps {
   questionIndex: number;
   totalQuestions: number;
   onAnswer: (member: MemberKey) => void;
+  onQuit: () => void;
 }
 
 const OPTION_COLORS = [
@@ -27,6 +28,7 @@ export default function QuizQuestionScreen({
   questionIndex,
   totalQuestions,
   onAnswer,
+  onQuit,
 }: QuizQuestionScreenProps) {
   const { t } = useLanguage();
   const progress = ((questionIndex + 1) / totalQuestions) * 100;
@@ -64,13 +66,23 @@ export default function QuizQuestionScreen({
 
           <div className="p-6 md:p-8 flex flex-col gap-6">
             {/* Chip de número de pregunta */}
-            <div className="flex items-center gap-3">
-              <span className="bg-black text-white text-[10px] font-black px-3 py-1 tracking-widest">
-                {t.quiz.question_label} {questionIndex + 1}
-              </span>
-              <span className="text-xs font-bold text-black/40">
-                {totalQuestions - questionIndex - 1} {t.quiz.remaining}
-              </span>
+            <div className="flex items-center flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                <span className="bg-black text-white text-[10px] font-black px-3 py-1 tracking-widest">
+                  {t.quiz.question_label} {questionIndex + 1}
+                </span>
+                <span className="text-xs font-bold text-black/40">
+                  {totalQuestions - questionIndex - 1} {t.quiz.remaining}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={onQuit}
+                className="ml-auto bg-white border-2 border-black px-3 py-1 text-[10px] sm:text-xs font-black flex items-center gap-2 shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all text-black uppercase"
+              >
+                <span>❌</span>
+                <span>{t.quiz.quit}</span>
+              </button>
             </div>
 
             {/* Texto de la pregunta */}

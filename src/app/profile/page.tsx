@@ -241,7 +241,7 @@ export default function ProfilePage() {
           />
 
           {profile.quizPersona && (
-            <div className="border-[3px] border-black p-6 md:p-8 rounded-[2rem] bg-pink-50 shadow-[4px_4px_0px_#000] mb-8 relative overflow-hidden group">
+            <div className="border-[3px] border-black p-6 md:p-8 rounded-4xl bg-pink-50 shadow-[4px_4px_0px_#000] mb-8 relative overflow-hidden group">
               {/* Background accent */}
               <div 
                 className="absolute right-0 top-0 w-64 h-64 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity rounded-full pointer-events-none"

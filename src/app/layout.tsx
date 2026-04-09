@@ -36,6 +36,9 @@ export default function RootLayout({
   const showGlobalPlayer =
     !isEditor && pathname !== "/" && pathname !== "/forum";
 
+  // Determinar si usar el tema oscuro para Navbar y Footer
+  const isDarkVariant = pathname === "/quiz" || pathname?.startsWith("/forum");
+
   return (
     <html
       lang="es"
@@ -56,8 +59,8 @@ export default function RootLayout({
               {/* Solo mostramos Navbar y Footer si NO estamos editando */}
               {!isEditor && (
                 <Navbar
-                  key={`nav-${pathname === "/quiz" ? "dark" : "light"}`}
-                  variant={pathname === "/quiz" ? "dark" : "light"}
+                  key={`nav-${isDarkVariant ? "dark" : "light"}`}
+                  variant={isDarkVariant ? "dark" : "light"}
                 />
               )}
 
@@ -65,8 +68,8 @@ export default function RootLayout({
 
               {!isEditor && (
                 <Footer
-                  key={`footer-${pathname === "/quiz" ? "dark" : "light"}`}
-                  variant={pathname === "/quiz" ? "dark" : "light"}
+                  key={`footer-${isDarkVariant ? "dark" : "light"}`}
+                  variant={isDarkVariant ? "dark" : "light"}
                 />
               )}
 
