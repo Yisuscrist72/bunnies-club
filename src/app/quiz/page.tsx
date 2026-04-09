@@ -10,6 +10,7 @@ import QuizStart from "@/components/quiz/QuizStart";
 import QuizQuestionScreen from "@/components/quiz/QuizQuestionScreen";
 import QuizCalculating from "@/components/quiz/QuizCalculating";
 import QuizResult from "@/components/quiz/QuizResult";
+import ConfirmationModal from "@/components/molecules/ConfirmationModal";
 
 import { getRandomQuestions, QUIZ_SIZE } from "@/data/quiz-data";
 import type { MemberKey, QuizQuestion } from "@/data/quiz-data";
@@ -58,6 +59,7 @@ export default function QuizPage() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [scores, setScores] =
     useState<Record<MemberKey, number>>(INITIAL_SCORES);
+  const [showQuitModal, setShowQuitModal] = useState(false);
 
   // Se genera al hacer start; permanece fija durante la partida.
   const [activeQuestions, setActiveQuestions] = useState<QuizQuestion[]>([]);
@@ -86,6 +88,7 @@ export default function QuizPage() {
     setCurrentIdx(0);
     setScores(INITIAL_SCORES);
     setActiveQuestions([]);
+    setShowQuitModal(false);
   };
 
   // ── Resultado ────────────────────────────────────────────────────────────────
@@ -189,6 +192,32 @@ export default function QuizPage() {
           ]}
         />
       )}
+
+      {/* Botón para salir (Cancel) - Solo visible durante el quiz */}
+      {quizState === "QUIZ" && (
+        <motion.button
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          onClick={() => setShowQuitModal(true)}
+          className="fixed top-24 right-4 md:right-10 z-50 flex items-center gap-2 bg-white border-4 border-black px-4 py-2 font-black text-xs md:text-sm shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group"
+        >
+          <span className="group-hover:rotate-12 transition-transform inline-block">
+            ❌
+          </span>
+          {t.quiz.quit}
+        </motion.button>
+      )}
+
+      <ConfirmationModal
+        isOpen={showQuitModal}
+        title={t.quiz.quit_confirm_title}
+        message={t.quiz.quit_confirm_msg}
+        confirmText={t.quiz.quit_confirm_btn}
+        onConfirm={handleReset}
+        onCancel={() => setShowQuitModal(false)}
+        emoji="🐰"
+      />
 
       <AnimatePresence mode="wait">
         {quizState === "START" && (

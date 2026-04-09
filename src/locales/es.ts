@@ -115,6 +115,10 @@ export const es = {
     generating_result: "GENERANDO TU RESULTADO...",
     question_label: "PREGUNTA",
     remaining: "restantes",
+    quit: "SALIR DEL TEST",
+    quit_confirm_title: "¡ATENCIÓN!",
+    quit_confirm_msg: "¿Estás seguro que quieres salir? No se guardará el progreso.",
+    quit_confirm_btn: "SÍ, SALIR",
     questions: quiz_questions_es
   },
   shop: {
