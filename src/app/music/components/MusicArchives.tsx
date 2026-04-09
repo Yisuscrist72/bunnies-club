@@ -207,7 +207,7 @@ export default function MusicArchives() {
                 {t.music.archives?.raw_footage ||
                   "📼 RAW FOOTAGE: BEHIND THE SCENES"}
               </div>
-              <div className="aspect-[21/9] md:aspect-video lg:aspect-[21/9] w-full border-4 border-black shadow-[6px_6px_0px_#000] bg-black">
+              <div className="aspect-video w-full border-4 border-black shadow-[6px_6px_0px_#000] bg-black">
                 <iframe
                   src={selectedEra.behindUrl}
                   title={`${selectedEra.name} Behind The Scenes`}

@@ -10,8 +10,8 @@ export default function LoadingScreen() {
   useEffect(() => {
     setIsMounted(true); // Evita errores de hidratación en Next.js
 
-    // Comprueba si ya cargó en esta sesión
-    const hasLoaded = sessionStorage.getItem("bunnies_loaded");
+    // Comprueba si ya cargó anteriormente
+    const hasLoaded = localStorage.getItem("bunnies_loaded");
 
     if (!hasLoaded) {
       setIsVisible(true);
@@ -19,7 +19,7 @@ export default function LoadingScreen() {
       // Oculta la pantalla después de 3 segundos y guarda la marca
       const timer = setTimeout(() => {
         setIsVisible(false);
-        sessionStorage.setItem("bunnies_loaded", "true");
+        localStorage.setItem("bunnies_loaded", "true");
       }, 3000);
 
       return () => clearTimeout(timer);
