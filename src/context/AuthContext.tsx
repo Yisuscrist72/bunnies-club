@@ -42,6 +42,9 @@ export interface UserProfile {
   streak?: number;
   hasBioBonus?: boolean;
   activities?: Activity[];
+  quizPersona?: string | null;
+  personaLastChanged?: string | null;
+  quizXpClaimed?: boolean;
 }
 
 interface AuthContextType {
