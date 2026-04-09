@@ -10,6 +10,8 @@ import type { MemberInfo, MemberKey } from "@/data/quiz-data";
 import { MEMBERS } from "@/data/quiz-data";
 import type { User } from "firebase/auth";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useMemo, useRef } from "react";
 
 interface QuizResultProps {
   memberKey: MemberKey;
@@ -69,9 +71,73 @@ export default function QuizResult({
   onReset,
 }: QuizResultProps) {
   const { t } = useLanguage();
+  const { profile, addPoints, updateUserProfile, showSystemNotification } = useAuth();
   const member = MEMBERS[memberKey];
   const localizedMember = t.members[memberKey];
   const [copied, setCopied] = useState(false);
+  const [isSavingPersona, setIsSavingPersona] = useState(false);
+  const xpClaimedRef = useRef(false);
+
+  // XP Logic
+  useEffect(() => {
+    if (user && profile && !profile.quizXpClaimed && !xpClaimedRef.current) {
+      xpClaimedRef.current = true;
+      addPoints(50, t.common.lang === "es" ? "Quiz completado" : "Quiz completed");
+      updateUserProfile({ quizXpClaimed: true });
+    }
+  }, [user, profile, addPoints, updateUserProfile, t.common.lang]);
+
+  // Can we update persona?
+  const canUpdatePersona = useMemo(() => {
+    if (!profile) return false;
+    if (!profile.personaLastChanged) return true;
+    
+    // Check if 30 days passed
+    const lastChanged = new Date(profile.personaLastChanged).getTime();
+    const now = Date.now();
+    const daysPassed = (now - lastChanged) / (1000 * 60 * 60 * 24);
+    return daysPassed >= 30;
+  }, [profile]);
+
+  const remainingDays = useMemo(() => {
+    if (!profile || !profile.personaLastChanged) return 0;
+    
+    const lastChanged = new Date(profile.personaLastChanged).getTime();
+    const now = Date.now();
+    const daysPassed = (now - lastChanged) / (1000 * 60 * 60 * 24);
+    const remaining = Math.ceil(30 - daysPassed);
+    return remaining > 0 ? remaining : 0;
+  }, [profile]);
+
+  const handleSaveToProfile = async () => {
+    if (!canUpdatePersona) {
+      showSystemNotification(
+        t.common.lang === "es" ? "Debes esperar 30 días para cambiar tu resultado." : "You must wait 30 days to change your result.",
+        "warning"
+      );
+      return;
+    }
+    
+    setIsSavingPersona(true);
+    try {
+      await updateUserProfile({
+        quizPersona: memberKey,
+        personaLastChanged: new Date().toISOString()
+      });
+      showSystemNotification(
+        t.common.lang === "es" ? "¡Resultado guardado en tu perfil!" : "Result saved to your profile!",
+        "success"
+      );
+    } catch (e) {
+      console.error(e);
+      showSystemNotification(
+        t.common.lang === "es" ? "Error al guardar el resultado." : "Error saving result.",
+        "error"
+      );
+    } finally {
+      setIsSavingPersona(false);
+    }
+  };
 
   const handleShare = async () => {
     const shareData = {
@@ -243,7 +309,7 @@ export default function QuizResult({
           </motion.div>
 
           {/* XP reward */}
-          {user && (
+          {user && profile && !profile.quizXpClaimed && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -261,6 +327,46 @@ export default function QuizResult({
                   {t.common.lang === "es" ? "Quiz completado · Bonus de primera vez" : "Quiz completed · First time bonus"}
                 </p>
               </div>
+            </motion.div>
+          )}
+
+          {/* Botón para guardar en el perfil (Persona) */}
+          {user && profile && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+            >
+              <button
+                type="button"
+                onClick={handleSaveToProfile}
+                disabled={isSavingPersona || (!canUpdatePersona && profile.quizPersona !== memberKey)}
+                className={`w-full py-3 border-[3px] border-black font-bold text-sm transition-all shadow-[4px_4px_0px_#000] flex justify-center items-center gap-2
+                  ${
+                    profile.quizPersona === memberKey
+                      ? "bg-v2k-green-soft text-black cursor-default active:translate-x-0 active:translate-y-0 active:shadow-[4px_4px_0px_#000]"
+                      : canUpdatePersona
+                        ? "bg-v2k-pink-hot text-white hover:bg-v2k-pink-hot/90 active:shadow-none active:translate-x-1 active:translate-y-1"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed active:translate-x-0 active:translate-y-0 active:shadow-[4px_4px_0px_#000]"
+                  }`}
+              >
+                {isSavingPersona ? (
+                  <span className="animate-pulse">🔄 {t.common.lang === "es" ? "Guardando..." : "Saving..."}</span>
+                ) : profile.quizPersona === memberKey ? (
+                  `✅ ${t.common.lang === "es" ? "Guardado en tu perfil" : "Saved to your profile"}`
+                ) : canUpdatePersona ? (
+                  `📌 ${t.common.lang === "es" ? "Guardar en Perfil" : "Save to Profile"}`
+                ) : (
+                  `⏳ ${t.common.lang === "es" ? "Disponible en 30 días" : "Available in 30 days"}`
+                )}
+              </button>
+              {!canUpdatePersona && profile.quizPersona !== memberKey && (
+                <p className="text-center text-[10px] sm:text-xs text-black/50 mt-2 font-bold px-2">
+                  {t.common.lang === "es"
+                    ? "* Solo puedes cambiar tu personaje guardado una vez al mes."
+                    : "* You can only change your saved persona once a month."}
+                </p>
+              )}
             </motion.div>
           )}
 

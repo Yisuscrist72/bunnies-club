@@ -7,6 +7,9 @@ import Window from "@/components/molecules/Window";
 import SpaceText from "@/components/atoms/texts/SpaceText";
 import type { ForumMessage } from "../hooks/useForum";
 import { useLanguage } from "@/context/LanguageContext";
+import { renderRichText } from "@/utils/text";
+import { Camera, Loader2 } from "lucide-react";
+import { useRef } from "react";
 
 interface ForumGuestbookProps {
   messages: ForumMessage[];
@@ -21,6 +24,8 @@ interface ForumGuestbookProps {
     displayName?: string | null;
   } | null;
   logout: () => void;
+  isUploading: boolean;
+  handleImageUpload: (file: File) => void;
 }
 
 export default function ForumGuestbook({
@@ -32,8 +37,16 @@ export default function ForumGuestbook({
   scrollRef,
   user,
   logout,
+  isUploading,
+  handleImageUpload,
 }: ForumGuestbookProps) {
   const { t } = useLanguage();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) handleImageUpload(file);
+  };
   return (
     <Window
       title={t.forum.guestbook_title}
@@ -89,9 +102,23 @@ export default function ForumGuestbook({
                   ${msg.userId === user?.uid ? "bg-v2k-pink" : "bg-white"}
                 `}
                 >
-                  <p className="text-sm font-bold text-black leading-tight break-all whitespace-pre-wrap">
-                    {msg.text}
-                  </p>
+                  {msg.imageUrl && (
+                    <div className="relative w-full max-w-[300px] aspect-auto border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden mb-2 bg-gray-100">
+                      <Image
+                        src={msg.imageUrl}
+                        alt="Forum Image"
+                        width={400}
+                        height={400}
+                        className="object-contain w-full h-auto cursor-zoom-in hover:scale-[1.02] transition-transform"
+                        unoptimized
+                      />
+                    </div>
+                  )}
+                  {msg.text && (
+                    <p className="text-sm font-bold text-black leading-tight break-all whitespace-pre-wrap">
+                      {renderRichText(msg.text)}
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -108,8 +135,30 @@ export default function ForumGuestbook({
             onKeyDown={handleKeyDown}
             placeholder={t.forum.placeholder}
             rows={1}
-            className="flex-1 bg-gray-50 border-2 border-black px-4 py-2 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-v2k-accent resize-none min-h-[42px] max-h-[120px] no-scrollbar"
+            disabled={isUploading}
+            className="flex-1 bg-gray-50 border-2 border-black px-4 py-2 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-v2k-accent resize-none min-h-[42px] max-h-[120px] no-scrollbar disabled:opacity-50"
           />
+          
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={onFileChange}
+            className="hidden"
+          />
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={!user || isUploading}
+            className="bg-v2k-accent border-2 border-black p-2 shadow-[2px_2px_0px_#000] active:shadow-none active:translate-y-0.5 transition-all h-[42px] w-[42px] shrink-0 flex items-center justify-center disabled:opacity-50"
+          >
+            {isUploading ? (
+              <Loader2 size={20} className="animate-spin" />
+            ) : (
+              <Camera size={20} />
+            )}
+          </button>
           <button
             type="submit"
             className="bg-v2k-yellow border-2 border-black p-2 shadow-[2px_2px_0px_#000] active:shadow-none active:translate-y-0.5 transition-all h-[42px] w-[42px] shrink-0 flex items-center justify-center"

@@ -7,6 +7,8 @@ import Jersey from "@/components/atoms/texts/Jersey";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Area } from "react-easy-crop";
+import Image from "next/image";
+import { MEMBERS, type MemberKey } from "@/data/quiz-data";
 
 // Componentes
 import CropModal from "@/components/profile/CropModal";
@@ -237,6 +239,62 @@ export default function ProfilePage() {
             isEditing={isEditing}
             onBioChange={handleBioChange}
           />
+
+          {profile.quizPersona && (
+            <div className="border-[3px] border-black p-6 md:p-8 rounded-[2rem] bg-pink-50 shadow-[4px_4px_0px_#000] mb-8 relative overflow-hidden group">
+              {/* Background accent */}
+              <div 
+                className="absolute right-0 top-0 w-64 h-64 blur-[80px] opacity-20 group-hover:opacity-40 transition-opacity rounded-full pointer-events-none"
+                style={{ backgroundColor: MEMBERS[profile.quizPersona as MemberKey]?.accent || '#FF69B4' }}
+              />
+
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 relative z-10">
+                <Jersey text={t.common.lang === "es" ? "🎭 RESULTADO DEL QUIZ" : "🎭 QUIZ MATCH"} size="20|24" />
+                {profile.personaLastChanged && (
+                  <div className="text-xs font-bold text-black flex items-center gap-1.5 bg-white border-2 border-black px-3 py-1 rounded-full shadow-[2px_2px_0px_#000]">
+                    <span>⏳</span>
+                    {Math.ceil(30 - (Date.now() - new Date(profile.personaLastChanged).getTime()) / (1000 * 60 * 60 * 24)) > 0 ? (
+                      t.common.lang === "es" ? `Cambio en ${Math.ceil(30 - (Date.now() - new Date(profile.personaLastChanged).getTime()) / (1000 * 60 * 60 * 24))} días` : `Change in ${Math.ceil(30 - (Date.now() - new Date(profile.personaLastChanged).getTime()) / (1000 * 60 * 60 * 24))} days`
+                    ) : (
+                      <span className="text-v2k-green-deep">{t.common.lang === "es" ? "Cambio disponible" : "Change available"}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-6 items-center md:items-start relative z-10">
+                <div className="w-32 h-32 md:w-40 md:h-40 rounded-3xl border-4 border-black overflow-hidden shadow-[4px_4px_0px_#000] shrink-0 relative bg-white">
+                  {MEMBERS[profile.quizPersona as MemberKey]?.image && (
+                    <Image 
+                      src={MEMBERS[profile.quizPersona as MemberKey].image}
+                      alt={profile.quizPersona}
+                      fill
+                      sizes="(max-width: 768px) 128px, 160px"
+                      className="object-cover"
+                    />
+                  )}
+                  <div className="absolute top-2 right-2 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center text-sm shadow-[2px_2px_0px_#000]">
+                    {MEMBERS[profile.quizPersona as MemberKey]?.emoji || "🐰"}
+                  </div>
+                </div>
+
+                <div className="flex-1 text-center md:text-left">
+                  <div className="inline-block px-3 py-1 bg-black text-white text-[10px] font-black tracking-widest uppercase mb-2">
+                    {t.common.lang === "es" ? "TIPO DE PERSONA" : "PERSONA TYPE"}
+                  </div>
+                  <Jersey text={profile.quizPersona} size="32|40" className="text-black mb-1 leading-none" />
+                  <p className="font-black text-sm text-black/60 uppercase tracking-widest mb-3">
+                    {t.members[profile.quizPersona as MemberKey]?.tagline || ""}
+                  </p>
+                  <blockquote className="border-l-4 pl-4 py-1 text-left" style={{ borderColor: MEMBERS[profile.quizPersona as MemberKey]?.accent || '#000' }}>
+                    <p className="font-bold text-sm leading-relaxed text-black/80 italic">
+                      &ldquo;{t.members[profile.quizPersona as MemberKey]?.description || ""}&rdquo;
+                    </p>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+          )}
 
           <ProfileFavorites
             favMembers={isEditing ? formData.favMembers : profile.favMembers}

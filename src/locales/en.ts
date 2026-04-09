@@ -115,6 +115,10 @@ export const en = {
     generating_result: "GENERATING YOUR RESULT...",
     question_label: "QUESTION",
     remaining: "remaining",
+    quit: "QUIT QUIZ",
+    quit_confirm_title: "ATTENTION!",
+    quit_confirm_msg: "Are you sure you want to quit? Progress will not be saved.",
+    quit_confirm_btn: "YES, QUIT",
     questions: quiz_questions_en
   },
   shop: {

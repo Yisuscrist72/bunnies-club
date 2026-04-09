@@ -22,10 +22,9 @@ export default function ForumPage() {
 
     document.body.style.backgroundColor = "#fdfbf7";
     document.body.style.backgroundImage = `
-      radial-gradient(#d1d5db 1px, transparent 1px),
       linear-gradient(to bottom, #f0f7ff, #fff5f8)
     `;
-    document.body.style.backgroundSize = "24px 24px, 100% 100%";
+    document.body.style.backgroundSize = "100% 100%";
     document.body.style.backgroundAttachment = "fixed";
 
     return () => {
@@ -73,13 +72,17 @@ export default function ForumPage() {
               scrollRef={forum.scrollRef}
               user={forum.user}
               logout={forum.logout}
+              isUploading={forum.isUploading}
+              handleImageUpload={forum.handleImageUpload}
             />
           </div>
 
           {/* COLUMNA DERECHA: POLL */}
           <ForumPoll
+            pollQuestion={forum.pollQuestion}
             pollOptions={forum.pollOptions}
             hasVoted={forum.hasVoted}
+            timeLeft={forum.timeLeft}
             handleVote={forum.handleVote}
             user={forum.user}
           />

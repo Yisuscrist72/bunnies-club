@@ -8,15 +8,19 @@ import { CheckCircle2 } from "lucide-react";
 import type { PollOption } from "../hooks/useForum";
 
 interface ForumPollProps {
+  pollQuestion: string;
   pollOptions: PollOption[];
   hasVoted: boolean;
+  timeLeft: string;
   handleVote: (id: string) => void;
   user: { uid: string } | null;
 }
 
 export default function ForumPoll({
+  pollQuestion,
   pollOptions,
   hasVoted,
+  timeLeft,
   handleVote,
   user,
 }: ForumPollProps) {
@@ -25,8 +29,18 @@ export default function ForumPoll({
     <div className="lg:col-span-3">
       <Window title={t.forum.poll_title} className="w-full border-[3px]">
         <div className="flex flex-col gap-3 p-2 text-center">
+          <div className="flex justify-between items-center mb-1 px-1">
+            <span className="text-[10px] font-black bg-black text-white px-2 py-0.5 rounded italic">
+              WEEKLY_POLL
+            </span>
+            <div className="flex items-center gap-1.5 text-v2k-pink-hot font-black text-[10px]">
+              <span className="animate-pulse">⏳</span>
+              {timeLeft || "--:--:--"}
+            </div>
+          </div>
+
           <SpaceText
-            text={t.forum.poll_question}
+            text={pollQuestion || t.forum.poll_question}
             size="14|14"
             className="font-black mb-1 md:text-[16|16]"
           />
