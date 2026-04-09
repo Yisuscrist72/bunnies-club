@@ -73,13 +73,17 @@ export default function ForumPage() {
               scrollRef={forum.scrollRef}
               user={forum.user}
               logout={forum.logout}
+              isUploading={forum.isUploading}
+              handleImageUpload={forum.handleImageUpload}
             />
           </div>
 
           {/* COLUMNA DERECHA: POLL */}
           <ForumPoll
+            pollQuestion={forum.pollQuestion}
             pollOptions={forum.pollOptions}
             hasVoted={forum.hasVoted}
+            timeLeft={forum.timeLeft}
             handleVote={forum.handleVote}
             user={forum.user}
           />
